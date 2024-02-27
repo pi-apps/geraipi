@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+<div class=" mt-3 mb-4 h-screen mx-5">
+    {% if user.is_authenticated %}
+    <div class="flex flex-col border border-solid border-inherit min-h-10 flex-column p-2 rounded">
+        <div class="flex flex-row my-5">
+            <div class="w-10 h-10 bg-slate-300 rounded-full"></div>
+            <div class="flex flex-col px-2">
+                <p id="nama" class="">@{{ user.username }}</p>
+                <div class="flex flex-row justify-between">
+                    <div class="flex flex-wrap flex-row justify-between w-full">
+                        <p id="pendapatan" class="text-center">Pendapatan Toko : 10 Pi</p>
+                        <a href="/user/withdrawl" class="bg-orange-400 uppercase text-sm mx-3 rounded-full px-2">Withdraw</a>
+                    </div>
+                    {% comment %} <div>
+                        <p id="pendapatan" class="text-center"></p>
+                    </div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-2">
+            <a href="/profile/{{ user.username }}" class="no-underline p-2 rounded color-black bg-slate-100">Profil</a>
+            <a href="/toko/{{ user.pk }}" class="no-underline p-2 rounded color-black bg-slate-100">Toko</a>
+            <a href="" class="no-underline p-2 rounded color-black bg-slate-100">Transaksi</a>
+            <a href="/admin/logout" class="no-underline p-2 rounded color-black bg-slate-100">Logout</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="flex flex-col">
+        <button id="loginn" class="bg-violet-700 text-white py-3 rounded-full" onclick="actionlogin()">Login</button>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    const scopes = ['username','payments','wallet_address'];
+
+    // Read more about this callback in the SDK reference:
+    function onIncompletePaymentFound(payment) { /* ... */ };
+    function actionlogin(){
+        try{
+            Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
+                console.log(`Hi there! You're ready to make payments!`);
+                window.localStorage.setItem("authdata",JSON.stringify(auth))
+                alert("sukses login")
+                window.location.href = '/login_user/?username='+auth.user?.username
+            }).catch(function(error) {
+                alert("ada kesalahan sistem ")
+                console.error(error);
+            });
+        }catch(err){
+            alert("maaf mohon install pi browser untuk mengakses halaman login")
+        }
+    }
+
+    $(function(){
+        const datas = JSON.parse(window.localStorage.getItem("authdata"))
+
+        {% comment %} 
+        $.ajax({
+            url:"/balance",
+            method:"get",
+            success: function(res){
+                console.log(res)
+            }
+        }) 
+        {% endcomment %}
+        $.ajax({
+            url:'https://api.minepi.com/v2/me',
+            method:"get",
+            headers: {
+                "Authorization": "Bearer "+datas.accessToken
+            },
+            success: function(res){
+                $('button[id="loginn"]').hide()
+                $('p[id="nama"]').text(res.username)
+                console.log("{{ request.user }}")
+                {% if not user.is_authenticated %}
+                window.location.href = '/login_user/?username='+res.username
+                console.log("hello", "{{ request.user }}")
+                {% endif %}
+            }
+        })
+        {% comment %} 
+        $.ajax({
+            url:'https://api.minepi.com/v2/payments',
+            headers: {
+                "Authorization": "Bearer "+window.localStorage.getItem("accessToken")
+            },
+            method:"post",
+            data:{
+                "payment": {
+                  "amount": 10,
+                  "memo": "From app to user test",
+                  "metadata": {"test": "test metadata"},
+                  "uid": "a1111111-aaaa-bbbb-2222-ccccccc3333d"
+                }
+            },
+            success: function(res){
+                console.log(res)
+            }
+        }) 
+        {% endcomment %}
+    })
+</script>
+{% endblock %}

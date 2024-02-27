@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="h-screen">
+    <div class="flex justify-center">
+        <div class="mt-4 border w-80 rounded-lg flex justify-center flex-col px-5">
+            <div class="text-center text-2xl my-2">
+                Masuk
+            </div>
+            <form method="post" >
+                <div class="flex gap-6 flex-col mb-5">
+                    {% csrf_token %}
+                    <div class="flex flex-col">
+                        <label>Username</label>
+                        <input type="text" class="rounded-full" placeholder="Username" name="username"/>
+                    </div>
+                    <div class="flex flex-col">
+                        <label>Password</label>
+                        <input type="password" class="rounded-full" placeholder="Password" name="password"/>
+                    </div>
+                    <div>
+                        <button class="bg-green-500 w-full py-2 rounded-full">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

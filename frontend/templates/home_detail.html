@@ -1,0 +1,297 @@
+{% extends 'layout.html' %} 
+{% load static translater %} 
+{% block header %}
+<nav class="sticky top-0 flex bg-white px-2 py-2 z-50">
+    <a href="/home" class="flex gap-2 items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.825 13l4.9 4.9q.3.3.288.7t-.313.7q-.3.275-.7.288t-.7-.288l-6.6-6.6q-.15-.15-.213-.325T4.425 12q0-.2.063-.375T4.7 11.3l6.6-6.6q.275-.275.688-.275t.712.275q.3.3.3.713t-.3.712L7.825 11H19q.425 0 .713.288T20 12q0 .425-.288.713T19 13H7.825Z" /></svg>
+        <h2 class="text-xl font-bold">Back</h2>
+    </a>
+</nav>
+{% endblock %} 
+{% block content %}
+<div class="px-3 mt-3 mb-4">
+    <div>
+        <section class="splide" aria-label="Splide Basic HTML Example">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    {% if gambar %}
+                        {% for g in gambar %}
+                        <li class="splide__slide">
+                            <img src="/media/{{ g.gambar }}" alt="" class="image-fluid w-100" />
+                        </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="splide__slide">
+                            <img src="{% static 'sample.png' %}" alt="" class="image-fluid w-100" />
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </section>
+    </div>
+    <div class="flex flex-col gap-3">
+        <div class="shadow-lg rounded-lg border">
+            <div class="flex flex-col items-center my-5">
+                <strong class="">
+                    <h4 class="text-sm text-center">{% translater user.languages.code produk.nama produk.nama %}</h4>
+                    <h4 class="text-lg text-center">{{ produk.harga }} 𝛑</h4>
+                </strong>
+            </div>
+        </div>
+        <div class="shadow-lg rounded-lg p-2 border">
+            <div class="flex items-center gap-2">
+                <span class="w-10 h-10 rounded-full bg-slate-500"></span>
+                <div class="flex justify-between grow">
+                    <p class="text-slate-600 flex flex-col justify-center">{% translater user.languages.code produk.store.nama produk.store.nama %}</p>
+                    <a class="text-slate-600 bg-orange-400 rounded-full px-4 py-1" href="/koleksi/{{produk.store.pk}}">{% translater user.languanges.code "Lihat Koleksi" "Lihat Koleksi" %}</a>
+                </div>
+            </div>
+        </div>
+        <div class="shadow-lg rounded-lg p-2 border">
+            <div class="py-4">
+                <h3 class="text-xl my-2 font-bold">{% translater user.languages.code "Deskripsi Detail" "Deskripsi Detail" %}</h3>
+                <div class="my-3">
+                    <table class="table-auto w-full">
+                        <tbody>
+                            <tr>
+                                <td>{% translater user.languages.code "Type" "Type"%}</td>
+                                <td>:</td>
+                                <td class="flex flex-wrap gap-2 flex-row">
+                                    <span class=" py-[2px] px-2 w-full">
+                                        {% for a in produk.tipe.all %}
+                                            {% translater user.languages.code a.nama a.nama %}
+                                        {% endfor %}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Warna</td>
+                                <td>:</td>
+                                <td class="flex flex-wrap gap-2 flex-row">
+                                    <span class=" py-[2px] px-2 w-full">
+                                        {% for a in produk.warna.all %}
+                                            {% translater user.languages.code a.nama a.nama %}, 
+                                        {% endfor %}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Stok</td>
+                                <td>:</td>
+                                <td class="flex flex-wrap gap-2 flex-row">
+                                    <span class=" py-[2px] px-2 w-full">{{ produk.stok_produk }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Lintas Negara ?</td>
+                                <td>:</td>
+                                <td class="flex flex-wrap gap-2 flex-row">
+                                    <span class=" py-[2px] px-2 w-full">
+                                        {% if produk.cross_boarder %}
+                                        YA
+                                        {% else %}
+                                        TIDAK
+                                        {% endif %}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Keterangan</td>
+                                <td>:</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-justify p-4 border rounded-lg">{% translater user.languages.code produk.detail produk.detail as safertext %} {{safertext|safe}}</div>
+            </div>
+        </div>
+        <div class="shadow-lg w-full rounded-lg p-2 border">
+            <h2 class="font-bold">Review</h2>
+            <div class="p-0 flex flex-col reviews">
+                <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
+                    <p class="font-bold">Not found</p>
+                </div>
+            </div>
+            <div class="flex flex-row justify-between">
+                <button id="prev" onclick="getComment()" class="btn btn-neutral btn-disabled btn-sm">Prev</button>
+                <button id="next" onclick="getComment()" class="btn btn-neutral btn-disabled btn-sm">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+{% block bottom_nav %}
+<div class="flex flex-row justify-evenly sticky bottom-0 bg-white opacity-95">
+    <div class="w-1/2 flex justify-center">
+        <button type="button" class="bg-green-500 px-8 py-1 my-2 rounded-full h-8 text-white" data-id="{{ produk.pk }}">Coming Soon</button>
+    </div>
+    {% if produk.stok_produk > 0 %}
+    <div class="w-1/2 flex justify-center">
+        <a class="bg-red-600 px-8 py-1 my-2 rounded-full h-8 text-white" href="/keranjang/{{ produk.id }}"> Beli Langsung </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 
+{% block script %}
+<script>
+    $(function () {
+        var splide = new Splide(".splide");
+        splide.mount();
+        $("#back-navigation").on("click", function () {
+            window.history.back();
+        });
+        getComment()
+    });
+    function getComment(next, prev){
+        if(next){
+            $.ajax({
+                url: next,
+                method:"get",
+                data:{},
+                success:function(res){
+                    
+                    let html = ''
+                    if(res.count > 0){
+                        $.each(res.results, function(index, datas){
+                            html += `
+                            <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
+                                <p class="font-bold">${datas.user}</p>
+                                <p>${datas.catatan}</p>
+                                <div>
+                                    <div class="rating">
+                                        <input type="radio" value="1" name="rating-1" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="1" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="2" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="3" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="4" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="5" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                    </div>
+                                </div>
+                            </div>
+                            `
+                        })
+                        $('.reviews').html('')
+                        $('.reviews').html(html)
+                    }
+                    if(res.next){
+                        $('#next').removeClass("btn-disabled")
+                        $('#next').addClass("btn-active")
+                        $('#next').attr("onclick",`getComment('${res.next}','')`)
+                    }
+                    if(res.prev){
+                        $('#prev').removeClass("btn-disabled")
+                        $('#prev').addClass("btn-active")
+                        $('#prev').attr("onclick",`getComment('','${res.previous}')`)
+                    }
+                }
+            })
+        }else if(prev){
+            $.ajax({
+                url: prev,
+                method:"get",
+                data:{},
+                success:function(res){
+                    
+                    let html = ''
+                    if(res.count > 0){
+                        $.each(res.results, function(index, datas){
+                            html += `
+                            <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
+                                <p class="font-bold">${datas.user}</p>
+                                <p>${datas.catatan}</p>
+                                <div>
+                                    <div class="rating">
+                                        <input type="radio" value="1" name="rating-1" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="1" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="2" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="3" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="4" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="5" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                    </div>
+                                </div>
+                            </div>
+                            `
+                        })
+                        $('.reviews').html('')
+                        $('.reviews').html(html)
+                    }
+                    if(res.next){
+                        $('#next').removeClass("btn-disabled")
+                        $('#next').addClass("btn-active")
+                        $('#next').attr("onclick",`getComment('${res.next}','')`)
+                    }
+                    if(res.prev){
+                        $('#prev').removeClass("btn-disabled")
+                        $('#prev').addClass("btn-active")
+                        $('#prev').attr("onclick",`getComment('','${res.previous}')`)
+                    }
+                }
+            })
+        }else{
+            $.ajax({
+                url: '{% url "ulasancart-list" %}',
+                method:"get",
+                data:{ produk:"{{ produk.id }}" },
+                success:function(res){
+                    
+                    let html = ''
+                    if(res.count > 0){
+                        $.each(res.results, function(index, datas){
+                            html += `
+                            <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
+                                <p class="font-bold">${datas.user}</p>
+                                <p>${datas.catatan}</p>
+                                <div>
+                                    <div class="rating">
+                                        <input type="radio" value="1" name="rating-1" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="1" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="2" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="3" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="4" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                        <input type="radio" value="5" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
+                                    </div>
+                                </div>
+                            </div>
+                            `
+                        })
+                        $('.reviews').html('')
+                        $('.reviews').html(html)
+                    }
+                    if(res.next){
+                        $('#next').removeClass("btn-disabled")
+                        $('#next').addClass("btn-active")
+                        $('#next').attr("onclick",`getComment('${res.next ?? ''}','')`)
+                    }
+                    if(res.prev){
+                        $('#prev').removeClass("btn-disabled")
+                        $('#prev').addClass("btn-active")
+                        $('#prev').attr("onclick",`getComment('','${res.previous ?? ''}')`)
+                    }
+                }
+            })
+        }
+        
+    }
+
+    function clickadd(ini) {
+        $(ini).prop("disabled", true);
+        $.ajax({
+            url: "/keranjang/add/" + $(ini).data("id"),
+            method: "post",
+            data: {},
+            success: function (sc) {
+                $(ini).prop("disabled", false);
+                alert("sukses menambahkan ke keranjang");
+            },
+            error: function () {
+                alert("gagal menambahkan");
+                $(ini).prop("disabled", false);
+            },
+        });
+    }
+    function href_click(res) {
+        window.location.href = "/produk/detail/" + res;
+    }
+</script>
+{% endblock %}

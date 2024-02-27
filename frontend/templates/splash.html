@@ -1,0 +1,39 @@
+{% extends 'layout.html' %} {% load static %} {% block header %} {% endblock %} {% block bottom_nav %} {% endblock %} {% block content %}
+<style>
+    .zoom-in-out-box {
+        margin: 24px;
+        width: 100px;
+        height: 100px;
+        animation: zoom-in-zoom-out 1s ease infinite;
+    }
+
+    @keyframes zoom-in-zoom-out {
+        0% {
+            transform: scale(1, 1);
+        }
+        50% {
+            transform: scale(1.5, 1.5);
+        }
+        100% {
+            transform: scale(1, 1);
+        }
+    }
+</style>
+<div class="justify-center flex-1 justify-items-center h-screen flex items-center">
+    <img src="{% static 'logo_tunggal.png' %}" class="w-24 h-24 mt-auto mb-auto zoom-in-out-box" />
+</div>
+{% endblock %} {% block script %}
+<script>
+        total = 2
+        timeinterval = setInterval(function () {
+
+            total = --total;
+
+            if (total <= 0) {
+                clearInterval(timeinterval);
+                window.location = '/home';
+            }
+        }, 1000);
+    
+</script>
+{% endblock %}

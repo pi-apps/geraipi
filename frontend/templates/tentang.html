@@ -1,0 +1,29 @@
+{% extends 'layout.html' %} 
+{% load static %} 
+{% block content %}
+<div class="container-fluid mt-3 mb-4">
+    <div class="border rounded m-2 p-2">
+        <div class="flex justify-center">
+            <h4>Tentang GeraiPi</h4>
+        </div>
+        <div class="flex justify-center">
+            <img src="{% static 'sample.png' %}" alt="" class="image-fluid w-40 h-40 rounded-full" />
+        </div>
+        <div class="my-3">
+            <strong class="">{{ slug }}</strong>
+        </div>
+        <p>
+            {% lorem 3 b random %}
+        </p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    function href_click(res){
+        window.location.href = "/produk/detail/"+res
+    }
+</script>
+{% endblock %}

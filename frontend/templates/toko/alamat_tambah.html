@@ -1,0 +1,266 @@
+{% extends 'layout.html' %} 
+{% load static %} 
+{% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+<div class="mt-3 mb-4 h-100 mx-5">
+    {% if user.is_authenticated %}
+    <div class="shadow-sm border-lg border p-2 rounded-lg my-2">
+        <a href="{% url 'alamat_toko' id=toko_id %}" class="font-bold">< Back </a>
+    </div>
+    <div class="flex flex-col justify-around p-1 gap-6 shadow-sm border rounded-lg">
+        
+        <div class="grid grid-cols-2">
+            <div class="p-2">
+                <a class="w-full text-center cursor-pointer h-100 bg-slate-600 text-white rounded-lg block" href="{% url 'tambah_alamat_toko' user.id %}">Indonesia</a>
+            </div>
+            <div class="p-2">
+                <a class="w-full text-center cursor-pointer h-100 bg-slate-600 text-white rounded-lg block" href="{% url 'tambah_alamat_toko' user.id %}?local=false"> Other Country</a>
+            </div>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="flex flex-col text-sm gap-2 border shadow-lg rounded-lg p-4">
+                <p class="font-bold text-center">
+                    {% if local %}
+                        Indonesia
+                    {% else %}
+                        Other Country 
+                    {% endif %}
+                </p>
+                {% if local == 1 %}
+                <div class="flex flex-col">
+                    <label>Provinsi</label>
+                    <select name="province" class="select2 rounded-lg provinsi">
+                        <option value="">-- Pilih Provinsi --</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label>Kota</label>
+                    <select name="regency" class="select2 rounded-lg kecamatan">
+                        <option value="">-- Pilih Kota --</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label>Kecamatan</label>
+                    <select name="distric" class="select2 rounded-lg desa">
+                        <option value="">-- Pilih Kecamatan --</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label>RT</label>
+                    <input name="rt" type="text" class="rounded-lg h-10"/>
+                </div>
+                <div class="flex flex-col">
+                    <label>RW</label>
+                    <input name="rw" type="text" class="rounded-lg h-10"/>
+                </div>
+                {% endif %}
+                <div class="flex flex-col">
+                    <label>
+                        ZIP
+                    </label>
+                    <input name="zipcode" type="text" class="rounded-lg" />
+                </div>
+                <div class="flex flex-col">
+                    <label>Address</label>
+                    <textarea class="rounded-lg" name="address"></textarea>
+                </div>
+                <div class="grid-cols-1">
+                    <Button class="block w-full h-full bg-orange-400 rounded-lg text-white p-1" type="submit">Simpan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% else %}
+    <div class="flex flex-col">
+        <button id="loginn" class="bg-violet-700 text-white py-3 rounded-full" onclick="actionlogin()">Login {{ user }}</button>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+
+    $(function(){
+        async function ini(){
+            let jsonurl = await JSON.parse(window.localStorage.getItem('url_data'))
+            console.log("coba",jsonurl)
+        }
+        
+        let desaselect = $('.desa').select2({
+            disabled: true
+        });
+        let kecamatanselect = $('.kecamatan').select2({
+            disabled: true
+        });
+        async function select2(classname, url){
+            let event = $(classname).select2({
+                ajax: {
+                    url: url,
+                    dataType: 'json',
+                    data: function(params){
+                        var query = {
+                            search: params.term || params.q
+                        }
+                        return query
+                    },
+                    processResults: function(data, params){
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results.map(function(e){
+                                return {
+                                    id:e.id,
+                                    text: e.code + " - " + e.nama
+                                }
+                            }),
+                            pagination: {
+                                more: (params.page * 10) < data.count_filtered
+                            }
+                        }
+                    }
+                }
+            })
+            event.on('change', function(res){
+                let value_provinsi = event.val()
+                if(value_provinsi){
+                    kecamatanselect.select2({
+                        disabled:false,
+                        ajax:{
+                            url: '/api/v1/regencys/?province_code='+value_provinsi,
+                            dataType: 'json',
+                            data: function(params){
+                                var query = {
+                                    search: params.term || params.q
+                                }
+                                return query
+                            },
+                            processResults: function(data, params){
+                                params.page = params.page || 1;
+                                return {
+                                    results: data.results.map(function(e){
+                                        return {
+                                            id:e.id,
+                                            text: e.code + " - " + e.name
+                                        }
+                                    }),
+                                    pagination: {
+                                        more: (params.page * 10) < data.count_filtered
+                                    }
+                                }
+                            }
+
+                        }
+                    })
+                    kecamatanselect.on("change", function(){
+                        let kecamatanvalue=kecamatanselect.val()
+                        if(kecamatanvalue){
+                            desaselect.select2({
+                                disabled:false,
+                                ajax:{
+                                    url: '/api/v1/districs/?regency_code='+kecamatanvalue,
+                                    dataType: 'json',
+                                    data: function(params){
+                                        var query = {
+                                            search: params.term || params.q
+                                        }
+                                        return query
+                                    },
+                                    processResults: function(data, params){
+                                        params.page = params.page || 1;
+                                        return {
+                                            results: data.results.map(function(e){
+                                                return {
+                                                    id:e.id,
+                                                    text: e.code + " - " + e.name
+                                                }
+                                            }),
+                                            pagination: {
+                                                more: (params.page * 10) < data.count_filtered
+                                            }
+                                        }
+                                    }
+        
+                                }
+                            })
+                        }
+                    })
+                }else{
+                    kecamatanselect.select2({
+                        disabled: false
+                    })
+                }
+            })
+        }
+        select2('.provinsi',"/api/v1/provinsis/")
+
+    })
+    {% comment %} {% comment %} const scopes = ['username','payments','wallet_address'];
+
+    // Read more about this callback in the SDK reference:
+    function onIncompletePaymentFound(payment) { /* ... */ };
+    function actionlogin(){
+        try{
+            Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
+                console.log(`Hi there! You're ready to make payments!`);
+                window.localStorage.setItem("authdata",JSON.stringify(auth))
+                alert("sukses login")
+                window.location.href = '/login_user/?username='+auth.user?.username
+            }).catch(function(error) {
+                alert("ada kesalahan sistem ")
+                console.error(error);
+            });
+        }catch(err){
+            alert("maaf mohon install pi browser untuk mengakses halaman login")
+        }
+    } {% endcomment %}
+
+    {% comment %} $(function(){
+        const datas = JSON.parse(window.localStorage.getItem("authdata"))
+
+        $.ajax({
+            url:"/balance",
+            method:"get",
+            success: function(res){
+                console.log(res)
+            }
+        })
+        $.ajax({
+            url:'https://api.minepi.com/v2/me',
+            method:"get",
+            headers: {
+                "Authorization": "Bearer "+datas.accessToken
+            },
+            success: function(res){
+                $('button[id="loginn"]').hide()
+                $('p[id="nama"]').text(res.username)
+                console.log("{{ request.user }}")
+                {% if not user.is_authenticated %}
+                window.location.href = '/login_user/?username='+res.username
+                console.log("hello", "{{ request.user }}")
+                {% endif %}
+            }
+        })
+        $.ajax({
+            url:'https://api.minepi.com/v2/payments',
+            headers: {
+                "Authorization": "Bearer "+window.localStorage.getItem("accessToken")
+            },
+            method:"post",
+            data:{
+                "payment": {
+                  "amount": 10,
+                  "memo": "From app to user test",
+                  "metadata": {"test": "test metadata"},
+                  "uid": "a1111111-aaaa-bbbb-2222-ccccccc3333d"
+                }
+            },
+            success: function(res){
+                console.log(res)
+            }
+        })
+    }) {% endcomment %}
+</script>
+{% endblock %}

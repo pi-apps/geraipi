@@ -1,0 +1,208 @@
+{% extends 'layout.html' %} 
+{% load static %} 
+{% block content %}
+<div class="mt-3 mb-4">
+    <form action="" method="post">
+        <div class="h-screen mx-3">
+            {% if messages %}
+            <div class="bg-red-300 my-3 rounded-lg px-2 py-3">
+                {% for ms in messages %}
+                    {{ ms }}
+                {% endfor %}
+            </div>
+            {% endif %}
+            <div class="flex justify-center mx-3">
+                <h4> Checkout {{ cart_item.produk.nama }}</h4>
+            </div>
+            <div id="checkout-id">
+                <div class="my-3 border rounded-lg p-3 shadow-lg">
+                    <div class="border rounded flex flex-row my-2 bg-slate-200">
+                        <div class="p-3">
+                            Alamat : <br />
+                            {{ alamat.address }} - {{ alamat.zipcode }} - RT {{ alamat.rt }} - RW {{ alamat.rw }} - {{ alamat.province.nama }} - {{ alamat.regency.name }} - {{ alamat.distric.name }}
+                        </div>
+                    </div>
+                    <div class="border rounded flex flex-row">
+                        <div class="w-24 h-30 ">
+                            {% if produk.gambarutama %}
+                                <img src="/media/{{ produk.gambarutama.gambar }}" />
+                            {% else %}
+                                {{ produk.nama }}
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-col px-2">
+                            <strong class="">{{ produk.nama }}</strong>
+                            <strong>
+                                <h4 class="">{{ produk.harga }} 𝛑</h4>
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-3">
+                <div class="border rounded bg-slate-200 flex justify-between px-3 flex-col shadow-lg">
+                    <div class="text-center text-sm font-bold">TOTAL PEMBAYARAN</div>
+                    <div class="flex flex-col gap-0">
+                        <div class="flex flex-row justify-between">
+                            <span>
+                                Harga
+                            </span>
+                            <span>
+                                {{ produk.harga }} Pi
+                            </span>
+                        </div>
+                        <div class="flex flex-row justify-between">
+                            <span class="text-red-600">
+                                Fee ({{ prosentase }}%)
+                            </span>
+                            <span class="text-red-600">
+                                {{ jumlah_pajak }}
+                            </span>
+                        </div>
+                        <div class="flex flex-row justify-between">
+                            <span>
+                                Jumlah Total
+                            </span>
+                            <span class="jumlah_ppn">
+                                {{ total_pajak }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full flex gap-2">
+                {% if produk.stok_produk != 0 %}
+                <button type="submit" class="p-2 text-center w-screen bg-slate-200 rounded no-underline text-black">Checkout</button>
+                {% endif %}
+            </div>
+            <p class="my-3"><strong>Note:</strong> Barang yang sudah dibeli Tidak Bisa dikembalikan lagi</p>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block bottom_nav %}
+{% endblock%}
+
+{% block script %}
+<!-- <script>
+    function clickIncrement(){
+        $.ajax({
+            url:"{% url 'minus_plus' %}",
+            data:{ type_request:"plus" },
+            success: function(res){
+                const data = res.data
+                let harga_total = data?.jumlah * data?.harga
+                let ppn = 0.01 * harga_total
+                let total = harga_total + ppn
+                $('.jumlah').text(harga_total)
+                $('.valuejumlah').val(data?.jumlah)
+                $('.ppn').text(ppn)
+                $('.jumlah_ppn').text(total)
+            }
+        })
+    }
+    function clickDecrement(){
+        $.ajax({
+            url:"{% url 'minus_plus' %}",
+            data:{ type_request:"minus" },
+            success: function(res){
+                const data = res.data
+                let harga_total = data?.jumlah * data?.harga
+                let ppn = 0.01 * harga_total
+                let total = harga_total + ppn
+                $('.jumlah').text(harga_total)
+                $('.valuejumlah').val(data?.jumlah)
+                $('.ppn').text(ppn)
+                $('.jumlah_ppn').text(total)
+            }
+        })
+    }
+    function onIncompletePaymentFound(payment) {
+        let transactionid = payment.transaction.txid
+        $.ajax({
+            url:'/setcomplete/'+payment.identifier,
+            data:{
+                txid: payment.transaction.txid,
+                cart: "{{ cart_item.id }}"
+            },
+            method:'get',
+            success: function(res){
+                console.log(res)
+            }
+        })
+    };
+
+    function checkout_click(){
+        $.ajax({
+            url:"/cart_json/{{ cart_item.id }}",
+            method:"",
+            success: function(response){
+                const scopes = ['username','payments','wallet_address'];
+                console.log(response)
+                Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
+                    const data = {
+                        "amount": response.harga_total,
+                        "memo": "Pembelian {{ cart_item.produk.nama }}",
+                        "metadata": {"nama": "pembelian_{{ slug }}"},
+                        "uid": auth.uid
+                    }
+                    let txid = null 
+                    Pi.createPayment(data, {
+                        onReadyForServerApproval(params){
+                            $.ajax({
+                                url:'/approve/'+params,
+                                method:'get',
+                                success: function(res){
+                                    txid = res
+                                    // alert(JSON.stringify(res))
+                                }
+                            })
+                        },
+                        onReadyForServerCompletion(params){
+                            $.ajax({
+                                url: '/paymentchart/'+params,
+                                data: { cart_id: "{{ cart.id }}" },
+                                method: "GET",
+                                success: function(res){
+                                    console.log(res)
+                                    window.location.href = '/home'
+                                }
+                            })
+                            {% comment %} $.ajax({
+                                url:'https://api.minepi.com/v2/payments/'+params,
+                                headers:{
+                                    "Authorization": "Key x4deuuj49oibf4qt1fy5dbwrnnd42bfjsvto5gzvboyykx4g8hccrr6cgcgqctdq"
+                                },
+                                success: function(res){
+                                    console.log("rrr",res)
+                                    $.ajax({
+                                        url:'/setcomplete/'+params,
+                                        data:{
+                                            txid: res.transaction.txid,
+                                            id: "{{ cart.id }}"
+                                        },
+                                        method:'get',
+                                        success: function(res){
+                                            console.log(res)
+                                            window.location.reload()
+                                        }
+                                    })
+                                }
+                            }) {% endcomment %}
+                        },
+                        onError(param){
+                            console.log(param)
+                        }
+                    }) 
+                }).catch(function(error) {
+                    alert("ada kesalahan sistem ")
+                    console.error(error);
+                });
+            }
+        })
+        
+    }
+</script> -->
+{% endblock %}

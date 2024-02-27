@@ -1,0 +1,198 @@
+{% extends 'layout.html' %} {% load static %} {% block header %}
+<nav class="sticky top-0 flex bg-white px-2 py-2 z-50">
+    <a href="/home" class="flex gap-1 items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.825 13l4.9 4.9q.3.3.288.7t-.313.7q-.3.275-.7.288t-.7-.288l-6.6-6.6q-.15-.15-.213-.325T4.425 12q0-.2.063-.375T4.7 11.3l6.6-6.6q.275-.275.688-.275t.712.275q.3.3.3.713t-.3.712L7.825 11H19q.425 0 .713.288T20 12q0 .425-.288.713T19 13H7.825Z" /></svg>
+        <h2 class="text-xl font-bold">Back</h2>
+    </a>
+</nav>
+{% endblock %} 
+{% block styles %}
+<link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{% static 'select2/css/select2.min.css' %}" />
+{% endblock %} 
+
+{% block content %}
+<div class="px-3 mt-3 mb-[60px] flex flex-col gap-2">
+    {% if messages %}
+    <div class="bg-green-400 px-1 rounded-lg">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <!-- <div class="mb-6">
+            <label class="block mb-2 font-medium text-slate-900">Bahasa yang digunakan ?</label>
+            <select name="lang_product" id="" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 ">
+                <option value="">-</option>
+            </select>
+        </div> -->
+        <div class="mb-6">
+            <label class="block mb-2 font-medium text-slate-900">Nama</label>
+            <input type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="nama" />
+        </div>
+        <div class="mb-6">
+            <label class="block mb-2 font-medium text-slate-900">Deskripsi</label>
+            <textarea type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 django_ckeditor" name="deskripsi" id="editor1"></textarea>
+        </div>
+        <div class="mb-6">
+            <label class="block mb-2 font-medium text-slate-900">Stok</label>
+            <input type="number" required class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="stok" />
+        </div>
+        <p class="block mb-2 font-medium text-slate-900" for="gambar">Upload Gambar</p>
+        <div class="mb-6 flex gap-1 justify-between">
+            <div>
+                <input type="file" class="hidden" name="gambar" id="img1" onchange="readURL(this, 'image1');" />
+                <label for="img1"><img id="image1" class="rounded-lg overflow-hidden w-[120px] h-[120px] object-cover" mimetype="image/jpeg, image/png" src="http://placehold.it/180" alt="your image" /></label>
+            </div>
+            <div>
+                <input type="file" class="hidden" name="gambar" id="img2" onchange="readURL(this, 'image2');" />
+                <label for="img2"><img id="image2" class="rounded-lg overflow-hidden w-[120px] h-[120px] object-cover" mimetype="image/jpeg, image/png" src="http://placehold.it/180" alt="your image" /></label>
+            </div>
+            <div>
+                <input type="file" class="hidden" name="gambar" id="img3" onchange="readURL(this, 'image3');" />
+                <label for="img3"><img id="image3" class="rounded-lg overflow-hidden w-[120px] h-[120px] object-cover" mimetype="image/jpeg, image/png" src="http://placehold.it/180" alt="your image" /></label>
+            </div>
+        </div>
+        <div class="mb-6">
+            <label class="block mb-2 font-medium text-slate-900" for="harga">Harga</label>
+            <div class="relative w-full">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                    <span class="text-slate-500 font-medium">𝛑</span>
+                </div>
+                <input name="harga" type="text" id="email-address-icon" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full focus:ring-blue-500 focus:border-blue-500 block pl-10 p-1" placeholder="Masukkan harga produk" />
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label class="block mb-2 font-medium text-slate-900">Kategori</label>
+            <select multiple="multiple" id="kategori" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="kategori" required>
+                {% for k in kategori %}
+                <option value="{{ k.pk }}">{{ k.nama }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="mb-6">
+            <p class="font-bold text-[12px]">Lintas Negara ?</p>
+            <label for="">
+                <input type="checkbox" value="1" name="lintas_negara">
+                Apakah Lintas Negara
+            </label>
+        </div>
+
+        <div class="mb-6">
+            <label class="block mb-2 font-medium text-slate-900">Tipe</label>
+            <div class="flex flex-row gap-3">
+                {% for tp in typeproduk %}
+                <div class="flex items-start mb-6">
+                    <div class="flex items-center h-5">
+                        <input id="baru" type="radio" name="tipe" value="{{ tp.pk }}" class="w-4 h-4 border border-slate-300 cursor-pointer rounded bg-slate-50 focus:ring-3 focus:ring-blue-300" required />
+                    </div>
+                    <label for="baru" class="ml-2 font-medium text-slate-900">{{ tp.nama }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="flex flex-col mb-6">
+            <label class="block mb-2 font-medium text-slate-900">Spesifikasi</label>
+            <div class="shadow-sm flex gap-1 border py-4 items-center border-slate-300 text-slate-900 text-sm rounded-lg w-full p-1 grid-cols-3">
+                <div class="w-48">
+                    <label for="warna" class="block mb-2 1text-sm font-medium text-slate-900">Warna</label>
+                    <div class="relative">
+                        <select name="warna" id="warna" class="select2 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1" multiple>
+                            {% for a in warnaproduk %}
+                            <option value="{{ a.pk }}">{{ a.nama }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="w-48">
+                    <label for="berat" class="block mb-2 1text-sm font-medium text-slate-900">Berat</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-slate-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    fill="currentColor"
+                                    d="M12 3a4 4 0 0 1 4 4c0 .73-.19 1.41-.54 2H18c.95 0 1.75.67 1.95 1.56C21.96 18.57 22 18.78 22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2c0-.22.04-.43 2.05-8.44C4.25 9.67 5.05 9 6 9h2.54A3.89 3.89 0 0 1 8 7a4 4 0 0 1 4-4m0 2a2 2 0 0 0-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2m-6 6v8h2v-2.5l1 1V19h2v-2l-2-2l2-2v-2H9v1.5l-1 1V11H6m9 0c-1.11 0-2 .89-2 2v4c0 1.11.89 2 2 2h3v-5h-2v3h-1v-4h3v-2h-3Z" />
+                            </svg>
+                        </div>
+
+                        <input type="number" name="berat" id="berat" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1" placeholder="KG" />
+                    </div>
+                </div>
+                <div class="w-48">
+                    <label for="lebar" class="block mb-2 1text-sm font-medium text-slate-900">Lebar</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m7 16l-4-4l4-4l1.425 1.4l-1.6 1.6h10.35L15.6 9.4L17 8l4 4l-4 4l-1.4-1.4l1.575-1.6H6.825L8.4 14.6L7 16Z" /></svg>
+                        </div>
+
+                        <input type="number" name="lebar" id="lebar" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1" placeholder="CM" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex">
+            <button class="bg-orange-600 w-full text-white hover:bg-orange-700 py-2 rounded-lg" type="submit">Simpan</button>
+        </div>
+    </form>
+</div>
+{% endblock %} 
+
+{% block script %}
+<script src="{% static 'select2/js/select2.full.min.js' %}"></script>
+<script>
+    $('select[name="kategori"]').select2()
+    $('select[name="warna"]').select2({
+        tags: true,
+        tokenSeparators: [',', ' ']
+    })
+</script>
+<script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+
+<script>
+    const dzone = new Dropzone("#dropzonedata", {
+        url: "/file/post",
+    });
+    dzone.on("complete", function (file) {
+        console.log("ff", file);
+    });
+    dzone.on("addedfile", function (file) {
+        //console.log(file)
+    });
+    dzone.on("sending", function (file, xhr, formData) {
+        formData.append("uuid", file.upload.uuid); //name and value
+    });
+    $("#kategori").select2();
+    $(function () {
+        $("#back-navigation").on("click", function () {
+            window.history.back();
+        });
+    });
+    function href_click(res) {
+        window.location.href = "/produk/detail/" + res;
+    }
+    console.log(input.files);
+    function readURL(input, imageId) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $("#" + imageId).attr("src", e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+<script>
+    $(function(){
+        if($('#editor1')){
+            CKEDITOR.replace( 'editor1' );
+        }
+    })
+</script>
+{% endblock %}

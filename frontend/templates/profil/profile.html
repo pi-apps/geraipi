@@ -1,0 +1,171 @@
+{% extends 'layout.html' %} 
+{% load static translater %} 
+{% block content %}
+<div class="mt-3 mb-4 h-screen mx-5">
+    {% if user.is_authenticated %}
+    <div class="flex flex-col justify-around p-1 gap-6">
+        <div class="flex justify-between items-center gap-2 my-5 border shadow-lg rounded-lg px-2 py-4">
+            <div class="w-10 h-10 bg-slate-300 rounded-full"></div>
+            <div class="flex flex-col px-2">
+                <p id="nama" class="text-lg font-medium">@{{ user.username }}</p>
+                <div class="flex flex-row justify-between">
+                    <div class="flex flex-wrap items-center gap-2 flex-row w-full">
+                        <p id="pendapatan" class="text-slate-600 text-sm">{% translater user.languages.code "profile" "Pendapatan User:" %} {{profile.coin}} Pi</p>
+                        <a href="/user/withdrawl" class="bg-orange-400 flex items-center uppercase font-bold hover:bg-orange-600 hover:shadow-sm text-white text-xs rounded-full py-1 px-2"><span>{% translater user.languages.code "profile_withdraw" "Withdraw" %}</span></a>
+                    </div>
+                    {% comment %}
+                    <div>
+                        <p id="pendapatan" class="text-center"></p>
+                    </div>
+                    {% endcomment %}
+                </div>
+            </div>
+        </div>
+        <!-- <div class="bg-white gap-2 grid grid-cols-4 shadow-lg border text-slate-500">
+            <div class="py-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
+                    <g fill="none" fill-rule="evenodd">
+                        <path
+                            d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z" />
+                        <path fill="currentColor" d="M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4Zm14 0H6v16h12V4ZM8 9a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm1 4a1 1 0 1 0 0 2h3a1 1 0 1 0 0-2H9Z" />
+                    </g>
+                </svg>
+                <p class="text-center">Pesanan {{ status_pesanan.pesanan }}</p>
+            </div>
+            <div class="py-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
+                    <path
+                        fill="currentColor"
+                        d="M22 8a.76.76 0 0 0 0-.21v-.08a.77.77 0 0 0-.07-.16a.35.35 0 0 0-.05-.08l-.1-.13l-.08-.06l-.12-.09l-9-5a1 1 0 0 0-1 0l-9 5l-.09.07l-.11.08a.41.41 0 0 0-.07.11a.39.39 0 0 0-.08.1a.59.59 0 0 0-.06.14a.3.3 0 0 0 0 .1A.76.76 0 0 0 2 8v8a1 1 0 0 0 .52.87l9 5a.75.75 0 0 0 .13.06h.1a1.06 1.06 0 0 0 .5 0h.1l.14-.06l9-5A1 1 0 0 0 22 16V8zm-10 3.87L5.06 8l2.76-1.52l6.83 3.9zm0-7.72L18.94 8L16.7 9.25L9.87 5.34zM4 9.7l7 3.92v5.68l-7-3.89zm9 9.6v-5.68l3-1.68V15l2-1v-3.18l2-1.11v5.7z" />
+                </svg>
+                <p class="text-center">Diproses {{ status_pesanan.diproses }}</p>
+            </div>
+            <div class="py-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0-4 0m10 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0" />
+                        <path d="M5 17H3v-4M2 5h11v12m-4 0h6m4 0h2v-6h-8m0-5h5l3 5M3 9h4" />
+                    </g>
+                </svg>
+                <p class="text-center">Dikirim {{ status_pesanan.dikirim }}</p>
+            </div>
+            <div class="py-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
+                    <path
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m17.8 19.817l-2.172 1.138a.392.392 0 0 1-.568-.41l.415-2.411l-1.757-1.707a.389.389 0 0 1 .217-.665l2.428-.352l1.086-2.193a.392.392 0 0 1 .702 0l1.086 2.193l2.428.352a.39.39 0 0 1 .217.665l-1.757 1.707l.414 2.41a.39.39 0 0 1-.567.411L17.8 19.817zm-11.6 0l-2.172 1.138a.392.392 0 0 1-.568-.41l.415-2.411l-1.757-1.707a.389.389 0 0 1 .217-.665l2.428-.352l1.086-2.193a.392.392 0 0 1 .702 0l1.086 2.193l2.428.352a.39.39 0 0 1 .217.665l-1.757 1.707l.414 2.41a.39.39 0 0 1-.567.411L6.2 19.817zm5.8-10l-2.172 1.138a.392.392 0 0 1-.568-.41l.415-2.411l-1.757-1.707a.389.389 0 0 1 .217-.665l2.428-.352l1.086-2.193a.392.392 0 0 1 .702 0l1.086 2.193l2.428.352a.39.39 0 0 1 .217.665l-1.757 1.707l.414 2.41a.39.39 0 0 1-.567.411L12 9.817z" />
+                </svg>
+                <p class="text-center">Ulasan</p>
+            </div>
+        </div> -->
+        <div class="text-sm gap-2 border shadow-lg rounded-lg p-4 grid">
+            <h6 class="font-bold">{% translater user.languages.code "profile_setting_title" "Setting User" %}</h6>
+            <a href="/profiles/edit" class="no-underline p-2 hover:bg-slate-200 rounded color-black bg-slate-100">{% translater user.languages.code "profile_menu_profile" "Profil" %}</a>
+            <a href="/profile/alamat" class="no-underline p-2 hover:bg-slate-200 rounded color-black bg-slate-100">{% translater user.languages.code "profile_menu_alamat_saya" "Alamat Saya" %}</a>
+            <a href="{% url 'transaksi_users' %}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "profile_menu_transaksi_saya" "Transaksi" %}</a>
+            <a href="/faq/" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">FAQ</a>
+        </div>
+        
+        <div class="text-sm gap-2 border shadow-lg rounded-lg p-4 grid">
+            <h6 class="font-bold">{% translater user.languages.code "toko_title_setting" "Setting Toko" %}</h6>
+            <a href="/toko/{{ user.pk }}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "toko_menu_toko_saya" "Toko Saya" %}</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="flex flex-col justify-center gap-6">
+        <span class="bg-red-400/20 text-red-800 text-sm p-2 font-light">Anda belum login silahkan Login terlebih Dahulu</span>
+        <button id="loginn" class="bg-orange-400 text-white py-3 rounded-full" onclick="actionlogin()">Login {{ user }}</button>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 
+{% block script %}
+{% if user.is_authenticated %}
+<script>
+
+    $(function(){
+        async function ini(){
+            let jsonurl = await JSON.parse(window.localStorage.getItem('url_data'))
+            console.log("coba",jsonurl)
+        }
+    })
+    {% comment %} {% comment %} const scopes = ['username','payments','wallet_address'];
+
+    // Read more about this callback in the SDK reference:
+    function onIncompletePaymentFound(payment) { /* ... */ };
+    function actionlogin(){
+        try{
+            Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
+                console.log(`Hi there! You're ready to make payments!`);
+                window.localStorage.setItem("authdata",JSON.stringify(auth))
+                alert("sukses login")
+                window.location.href = '/login_user/?username='+auth.user?.username
+            }).catch(function(error) {
+                alert("ada kesalahan sistem ")
+                console.error(error);
+            });
+        }catch(err){
+            alert("maaf mohon install pi browser untuk mengakses halaman login")
+        }
+    } {% endcomment %}
+
+    {% comment %} $(function(){
+        const datas = JSON.parse(window.localStorage.getItem("authdata"))
+
+        $.ajax({
+            url:"/balance",
+            method:"get",
+            success: function(res){
+                console.log(res)
+            }
+        })
+        $.ajax({
+            url:'https://api.minepi.com/v2/me',
+            method:"get",
+            headers: {
+                "Authorization": "Bearer "+datas.accessToken
+            },
+            success: function(res){
+                $('button[id="loginn"]').hide()
+                $('p[id="nama"]').text(res.username)
+                console.log("{{ request.user }}")
+                {% if not user.is_authenticated %}
+                window.location.href = '/login_user/?username='+res.username
+                console.log("hello", "{{ request.user }}")
+                {% endif %}
+            }
+        })
+        $.ajax({
+            url:'https://api.minepi.com/v2/payments',
+            headers: {
+                "Authorization": "Bearer "+window.localStorage.getItem("accessToken")
+            },
+            method:"post",
+            data:{
+                "payment": {
+                  "amount": 10,
+                  "memo": "From app to user test",
+                  "metadata": {"test": "test metadata"},
+                  "uid": "a1111111-aaaa-bbbb-2222-ccccccc3333d"
+                }
+            },
+            success: function(res){
+                console.log(res)
+            }
+        })
+    }) {% endcomment %}
+</script>
+{% else %}
+    {{ block.super }}
+    <script>
+        async function startWindow() {
+            await getAuth();
+        }
+        startWindow();
+    </script>
+{% endif %}
+{% endblock %}
