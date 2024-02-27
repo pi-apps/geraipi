@@ -14,19 +14,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include, re_path
+
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path, re_path
 
 urlpatterns = [
-    path('grappelli/', include('grappelli.urls')),
-    path('admin/', include('loginas.urls')),
-    path('admin/', admin.site.urls),
-    path('', include('frontend.urls')),
-    
+    path("grappelli/", include("grappelli.urls")),
+    path("admin/", include("loginas.urls")),
+    path("admin/", admin.site.urls),
+    path("", include("frontend.urls")),
     # path('api/auth/', include('rest_framework.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
-    path('api/',include('apidata.urls')),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
-]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("api/", include("apidata.urls")),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

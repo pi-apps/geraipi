@@ -7,20 +7,30 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Banner',
+            name="Banner",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, max_length=255, null=True)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='image_banner/')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(blank=True, max_length=255, null=True)),
+                (
+                    "image",
+                    models.ImageField(blank=True, null=True, upload_to="image_banner/"),
+                ),
             ],
             options={
-                'verbose_name': 'Banner',
-                'verbose_name_plural': 'Banners',
+                "verbose_name": "Banner",
+                "verbose_name_plural": "Banners",
             },
         ),
     ]

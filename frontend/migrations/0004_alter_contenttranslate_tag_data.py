@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('frontend', '0003_contenttranslate_lang'),
+        ("frontend", "0003_contenttranslate_lang"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='contenttranslate',
-            name='tag_data',
+            model_name="contenttranslate",
+            name="tag_data",
             field=models.TextField(blank=True, null=True),
         ),
     ]

@@ -1,10 +1,13 @@
-from .base_view import FrontPage
 from django.http import JsonResponse
-from profiles.models import UserWithdrawlTransaction
-from projekpi.pi_network import PiNetwork
-from master.models import HistoriTampung
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+
+from master.models import HistoriTampung
+from profiles.models import UserWithdrawlTransaction
+from projekpi.pi_network import PiNetwork
+
+from .base_view import FrontPage
+
 
 class WithdrawlProcess(FrontPage):
     def get(self, request):
@@ -30,13 +33,15 @@ class WithdrawlProcess(FrontPage):
                         "amount": jumlah,
                         "memo": "Pembayaran - Greetings from Geraipi",
                         "metadata": {"product_id": "apple-pie-1"},
-                        "uid": user_uid
+                        "uid": user_uid,
                     }
                     payment_id = pi.create_payment(payment_data)
                     txid = pi.submit_payment(payment_id, False)
                     payment = pi.complete_payment(payment_id, txid)
 
-                    transaction = UserWithdrawlTransaction.objects.create(user=request.user, jumlah=jumlah)
+                    transaction = UserWithdrawlTransaction.objects.create(
+                        user=request.user, jumlah=jumlah
+                    )
 
                     pajaks = HistoriTampung(jumlah=jumlah)
                     pajaks.save()

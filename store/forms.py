@@ -1,5 +1,7 @@
-from .models import UserStore
 from django import forms
+
+from .models import UserStore
+
 
 class UserStoreForm(forms.ModelForm):
     # coin = forms.CharField(widget=forms.NumberInput(attrs={"readonly":"readonly", "required":False}), initial=0)
@@ -7,4 +9,3 @@ class UserStoreForm(forms.ModelForm):
     class Meta:
         model = UserStore
         fields = "__all__"
-
