@@ -1,0 +1,89 @@
+.container-mobile {
+    max-width: 450px;
+}
+
+.item-width {
+    width: 56px;
+}
+
+.col-3 {
+    width: 20%;
+}
+
+.bottom-nav {
+    position: sticky;
+    border-top: 1px solid #dede;
+    bottom: 0;
+    background-color: #fff;
+    left: 0;
+    right: 0;
+}
+
+.bottom-nav ul {
+    padding: 10px;
+    margin: auto;
+    list-style: none;
+    display: flex;
+    gap: 4px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: small;
+    justify-content: space-between;
+    min-width: 44px;
+    min-height: 44px;
+    cursor: pointer;
+}
+
+.bottom-nav svg {
+    width: 22px;
+    fill: currentColor;
+}
+
+.card {
+    min-width: 150px;
+    border-radius: 10px;
+    border: 1px solid #d3d3d3;
+    max-width: 200px;
+    height: 100%;
+}
+
+.card img {
+    width: 100%;
+}
+
+.card span {
+    width: fit-content;
+    border-radius: 0 50px 50px 0;
+    padding: 5px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #b50795
+}
+
+.moving-text:hover {
+    animation-play-state: paused;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* media query to enable animation for only those who want it */
+@media (prefers-reduced-motion: no-preference) {
+    .moving-text {
+        animation: marquee 15s linear infinite;
+    }
+}

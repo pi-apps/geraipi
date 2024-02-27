@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block bottom_nav %}
+{% endblock %}
+
+{% block content %}
+<div class="h-screen px-3">
+    <div class="bg-white gap-2 flex flex-row shadow-lg my-2 p-2 rounded-lg border">
+        <a class="px-2 cursor-pointer font-bold" href="{% url 'toko' id=user.id %}">< {% trans 'Back' %}</a>
+    </div>
+    
+    <div class="bg-white gap-2 flex flex-col shadow-lg my-2 p-2 rounded-lg">
+        <div class="py-4 flex flex-row justify-between w-full">
+            <span class="font-bold text-lg">{% trans 'Product' %}</span>
+            <span class="cursor-pointer" onclick="reload()">{% trans 'Reload' %}</span>
+        </div>
+        {% for produks in produk %}
+        <div class="border p-2 my-2">
+            <span class="font-medium">{{ produks.nama }}</span>
+            <div class="flex flex-row justify-between">
+                <span>
+                    Harga: {{ produks.harga }}
+                </span>
+                <span class="flex flex-row gap-2">
+                    <form class="w-fit" action="{% url 'delete_barang' id=user.id produk_id=produks.id  %}" method="post">
+                        <button type="submit" class="p-1 px-3 rounded-lg text-white bg-red-600">{% trans 'Delete' %}</button>
+                    </form>
+                    <a class="p-1 px-3 rounded-lg text-white bg-yellow-500" href="{% url 'edit_barang' id=user.id produk_id=produks.id  %}">{% trans 'Change' %}</a>
+                </span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    function reload(){
+        window.location.reload()
+    }
+</script>
+{% endblock %}

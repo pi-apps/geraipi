@@ -1,0 +1,163 @@
+{% extends 'layout.html' %} 
+{% load i18n translater %}
+{% load static %}
+{% block content %}
+    <div class="container p-4">
+        <section class="splide" aria-label="Splide Basic HTML Example">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    {% for b in banner %}
+                    <li class="splide__slide rounded h-40 overflow-hidden">
+                        <img src="/media/{{ b.image }}" alt="" class="image-fluid w-100 rounded" />
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </div>
+    <section class="bg-orange-500 w-full gap-1 flex items-center relative px-2 py-1">
+        <span class="inset-y-0 bg-orange-500"
+            ><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 32 32">
+                <path
+                    fill="currentColor"
+                    d="M21 6.07C21 4.37 22.38 3 24.07 3s3.06 1.37 3.07 3.07v6.225a3.722 3.722 0 0 1 0 7.19v6.235a3.07 3.07 0 0 1-6.14 0v-.232l-5.93-2.918a7.725 7.725 0 0 0-1.931-.648a8.166 8.166 0 0 0-1.459-.132l-.004-.01H10v6.018c0 .67-.54 1.21-1.21 1.21H6.216c-.67 0-1.21-.54-1.21-1.21V21.78h-1.28C2.772 21.78 2 21.03 2 20.11v-8.43c0-.93.77-1.68 1.727-1.68h8.045a7.844 7.844 0 0 0 3.3-.78L21 6.303V6.07ZM7.006 21.78v5.228H8V21.78h-.994ZM19.55 9.303l-3.384 1.665l-.007.004c-.992.478-2.06.798-3.159.942v7.719l.098.257c1.066.15 2.106.47 3.074.945l3.378 1.662V9.303Z" /></svg
+        ></span>
+        <article class="overflow-hidden w-full">
+            <p class="text-xs text-white moving-text w-full">
+                {% translater user.languages.code "Sedang banyak promo disini" "Sedang banyak promo disini" %}
+            </p>
+        </article>
+    </section>
+
+    <div class="container p-4">
+        <div class="my-3">
+            <strong class="">
+                {% translater user.languages.code "text_product_category" "Product Category" %}
+            </strong>
+        </div>
+        <div class="flex flex-col gap-5 overflow-y-hidden flex-wrap overflow-x-scroll h-[250px]" style="height: 280px;">
+            {% for ktg in kategori %}
+
+            <div class="flex justify-between flex-col items-center my-2 cursor-pointer h-[90px] w-[100px]" onclick="redirect_kategori('{{ ktg.pk }}')">
+                <img src="/media/{{ ktg.icon }}" alt="{{ ktg.nama }}" class="w-13 h-[6rem]" />
+                <span style="" class="text-[12px] font-bold text-center">
+                    {% translater user.languages.code ktg.nama ktg.nama %}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container p-4">
+        <div class="container my-3">
+            <div class="flex justify-between my-4 items-baseline">
+                <h1 class="font-bold">{% trans 'Product' %}</h1>
+                <a href="/promo" class="text-sm underline text-slate-400">Selengkapnya</a>
+            </div>
+            <div class="grid grid-cols-2 flex-wrap gap-6 overflow-auto" id="produks-list">
+                
+            </div>
+        </div>
+
+        
+
+        
+    </div>
+{% endblock %} 
+{% block script %}
+    <script>
+        async function translate(obj, id){
+            $.ajax({
+                url:"{% url 'translated_json' %}",
+                method: "POST",
+                data:{ text_translate:obj, to:"{{ user.languages.code }}" },
+                success: function(res){
+                    $(`${id}`).text(res.data)
+                }
+            })
+        }
+        function loopdata(obj, i=0){
+            if(obj[i]){
+                let index_res = i
+                let data_res = obj[i]
+                let html = `
+                    <div class="min-w-[112px] rounded-xl">
+                        <a href='${data_res.produk_detail_url}'>
+                            ${data_res.gambar ? 
+                                    (data_res.gambar.length > 0 ?
+                                        `<img src="${data_res.gambar[0].gambar}" class="object-cover max-h-40 w-full" alt="" />`
+                                    :
+                                        `<img src="{% static 'sample.png' %}" class="image-fluid" alt="" />`
+                                    )
+                                :
+                                `<img src="{% static 'sample.png' %}" class="image-fluid" alt="" />`
+                            }
+                            <span class="text-xs bg-fuchsia-700 px-2 rounded-r-full p-1 font-semibold text-white ktg-translate" id="ktg-${index_res}">
+                                ${data_res.tipe.length > 0 ? 
+                                    data_res.tipe[0].nama : "Untype"
+                                }
+                            </span>
+                            <div class="flex flex-col p-2 w-full gap-1">
+                                <p class="text-xs text-slate-600 text-[9px] toko-r" id="toko-r-${index_res}">Toko <strong>
+                                    ${data_res.store.nama}
+                                </strong></p>
+                                <h4 class="text-sm produk-nama" id="produk-nama-${index_res}">${data_res.nama}</h4>
+                                <p class="font-bold text-xs text-orange-400 produk-coin" id="produk-coin-${index_res}">Coin: ${data_res.harga} π</p>
+                                <hr />
+                                <p class="text-xs text-slate-600 produk-stok" id="produk-stok-${index_res}">Stock :${data_res.stok_produk}</p>
+                                <div class="rating">
+                                    <input type="radio" value="1" name="rating-1" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 0 ? "checked" : "" } />
+                                    <input type="radio" value="1" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 1 ? "checked" : "" } />
+                                    <input type="radio" value="2" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 2 ? "checked" : "" } />
+                                    <input type="radio" value="3" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 3 ? "checked" : "" } />
+                                    <input type="radio" value="4" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 4 ? "checked" : "" } />
+                                    <input type="radio" value="5" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 5 ? "checked" : "" } />
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                `
+                $('#produks-list').append(html)
+                i = i + 1
+                loopdata(obj, i)
+            }else{
+                let r = $('.ktg-translate')
+                $.each(r, function(ids, vs){
+                    translate($(vs).text(), "#ktg-"+ids)
+                })
+
+                let toko_r = $('.toko-r')
+                $.each(toko_r, function(ids, vs){
+                    translate($(vs).text(), "#toko-r-"+ids)
+                })
+
+                let produk_nama_r = $('.produk-nama')
+                $.each(produk_nama_r, function(ids, vs){
+                    translate($(vs).text(), "#produk-nama-"+ids)
+                })
+            }
+        }
+        async function getProduk(){
+            $.ajax({
+                url: '{% url "produk-list" %}',
+                method:"get",
+                success: function(res){
+                    if(res.count > 0){
+                        loopdata(res.results)
+                    }
+                }
+            })
+        }
+        var splide = new Splide(".splide");
+        $(function () {
+            getProduk()
+            splide.mount();
+        });
+
+        const redirect_kategori = (kategori) => {
+            window.location.href = "/produk/?kategori=" + kategori;
+        };
+        function href_click(res) {
+            window.location.href = "/produk/detail/" + res;
+        }
+    </script>
+{% endblock %}

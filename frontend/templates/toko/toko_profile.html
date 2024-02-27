@@ -1,0 +1,59 @@
+{% extends 'layout.html' %} 
+{% load static translater%} 
+{% load i18n %}
+{% block content %}
+<div class="mt-3 mb-4 h-screen mx-5">
+    {% if user_toko.aggrement and user_toko.is_active_store %}
+    <div class="flex flex-col justify-around p-1 gap-6">
+        <div class="flex justify-between items-center gap-2 my-5 border shadow-lg rounded-lg px-2 py-4">
+            <div class="w-10 h-10 bg-slate-300 rounded-full"></div>
+            <div class="flex flex-col px-2">
+                <p id="nama" class="text-lg font-medium">{{ user_toko.nama }}</p>
+                <div class="flex flex-row justify-between">
+                    <div class="flex flex-wrap items-center gap-2 flex-row w-full">
+                        <p id="pendapatan" class="text-slate-600 text-sm">{% translater user.languages.code "toko_pendapatan_toko" "Pendapatan Toko :" %} {{ user_toko.coin }} Pi</p>
+                        <a href="{% url 'withdrawl_toko' user.id %}" class="bg-orange-400 flex items-center uppercase font-bold hover:bg-orange-600 hover:shadow-sm text-white text-xs rounded-full py-1 px-2"><span>{% translater user.languages.code "toko_withdrawl" "Withdrawl" %}</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex flex-col text-sm gap-2 border shadow-lg rounded-lg p-4">
+            <a href="{% url 'list_produk_toko' id=user.id %}" class="no-underline p-2 hover:bg-slate-200 rounded color-black bg-slate-100">{% translater user.languages.code "toko_produk_toko" "Produk Toko" %}</a>
+            <a href="{% url 'alamat_toko' id=user.id %}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "toko_alamat_toko" "Alamat Toko" %}</a>
+            <a href="{% url 'transaksi_toko' id=user.pk %}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "toko_transaksi_toko" "Transaksi Toko" %}</a>
+            <a href="/faq/" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">FAQ</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="flex flex-col">
+        {% if not user_toko.aggrement %}
+        <p>
+            {% translater user.languages.code "toko_aggrement_user" "Aggrement User" %}
+        </p>
+        <form method="post" >
+            {% csrf_token %}
+            <div class="flex flex-row">
+                <label>
+                    <input type="checkbox" value="1" name="setuju"/>
+                    {% translater user.languages.code "toko_aggrement_setuju" "Saya setuju dengan perjanjian diatas" %}
+                </label>
+            </div>
+            <button class="text-center border rounded-full w-full bg-orange-500" type="submit">
+                {% translater user.languages.code "toko_aggrement_ajukan" "Ajukan" %}
+            </button>
+        </form>
+        {% elif not user_toko.is_active_store %}
+        <div class="shadow-lg p-2 flex flex-col">
+            <p>
+                {% translater user.languages.code "toko_aggrement_proses" "Pengajuan toko masih dalam proses review" %}
+            </p>
+            <a href="/profile" class="w-full bg-orange-400 rounded-full text-center py-2">
+                {% translater user.languages.code "toko_aggrement_back_profile" "Kembali ke profile" %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

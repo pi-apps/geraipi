@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+<div class=" mt-3 mb-4 h-screen mx-5">
+    <div class="flex flex-col border border-solid border-inherit min-h-10 flex-column p-2 rounded">
+        
+        <div class="flex flex-col gap-2">
+            <div class="flex flex-col">
+                <a href="/tambah/alamat/{{ user.username }}" class="no-underline p-2 rounded-full color-black bg-green-600 text-center text-white"> + Tambah Alamat</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    const scopes = ['username','payments','wallet_address'];
+
+    // Read more about this callback in the SDK reference:
+    function onIncompletePaymentFound(payment) { /* ... */ };
+    function actionlogin(){
+        try{
+            Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
+                console.log(`Hi there! You're ready to make payments!`);
+                window.localStorage.setItem("authdata",JSON.stringify(auth))
+                alert("sukses login")
+                window.location.href = '/login_user/?username='+auth.user?.username
+            }).catch(function(error) {
+                alert("ada kesalahan sistem ")
+                console.error(error);
+            });
+        }catch(err){
+            alert("maaf mohon install pi browser untuk mengakses halaman login")
+        }
+    }
+
+    $(function(){
+        const datas = JSON.parse(window.localStorage.getItem("authdata"))
+
+        {% comment %} 
+        $.ajax({
+            url:"/balance",
+            method:"get",
+            success: function(res){
+                console.log(res)
+            }
+        }) 
+        {% endcomment %}
+        $.ajax({
+            url:'https://api.minepi.com/v2/me',
+            method:"get",
+            headers: {
+                "Authorization": "Bearer "+datas.accessToken
+            },
+            success: function(res){
+                $('button[id="loginn"]').hide()
+                $('p[id="nama"]').text(res.username)
+                console.log("{{ request.user }}")
+                {% if not user.is_authenticated %}
+                window.location.href = '/login_user/?username='+res.username
+                console.log("hello", "{{ request.user }}")
+                {% endif %}
+            }
+        })
+        {% comment %} 
+        $.ajax({
+            url:'https://api.minepi.com/v2/payments',
+            headers: {
+                "Authorization": "Bearer "+window.localStorage.getItem("accessToken")
+            },
+            method:"post",
+            data:{
+                "payment": {
+                  "amount": 10,
+                  "memo": "From app to user test",
+                  "metadata": {"test": "test metadata"},
+                  "uid": "a1111111-aaaa-bbbb-2222-ccccccc3333d"
+                }
+            },
+            success: function(res){
+                console.log(res)
+            }
+        }) 
+        {% endcomment %}
+    })
+</script>
+{% endblock %}

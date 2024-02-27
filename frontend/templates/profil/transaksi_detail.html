@@ -1,0 +1,60 @@
+{% extends 'layout.html' %} {% load static %} {% block content %}
+<div class="mt-3 mb-4 h-screen mx-5" id="body-screen">
+    {% if user.is_authenticated %}
+    <div class="flex flex-col justify-around p-1 gap-3">
+        <div class="flex justify-between items-center gap-2 my-5 border shadow-lg rounded-lg px-2">
+            <a href="{% url 'transaksi_users' %}" class="bg-red-600 cursor-pointer px-2 my-2 rounded-full text-white" >Kembali</a>
+        </div>
+        <div class="text-sm gap-2 border shadow-lg rounded-lg p-4 grid list-transaksi">
+            <div class="bg-slate-100 p-1 rounded-lg">
+                Nomor Transaksi: {{ transaksi }}
+            </div>
+            <div class=" bg-slate-100 rounded-lg p-2 flex flex-col">
+                <div>
+                    Nomor Transaksi: {{ transaksi.cart.kode }}
+                </div>
+                <div>
+                    Nomor Resi: {% if transaksi.nomor_resi %} {{ transaksi.nomor_resi }}{% endif %}
+                </div>
+                <div>
+                    Nama Barang: {{ transaksi.cartitem_set.first.produk_chart.nama }}
+                </div>
+                <div>
+                    Jumlah Barang: {{ transaksi.cartitem_set.first.jumlah }}
+                </div>
+                <div>
+                    Harga Barang: {{ transaksi.cartitem_set.first.produk_chart.harga }} Pi
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="flex flex-col justify-center gap-6">
+        <span class="bg-red-400/20 text-red-800 text-sm p-2 font-light">Anda belum login silahkan Login terlebih Dahulu</span>
+        <button id="loginn" class="bg-orange-400 text-white py-3 rounded-full" onclick="actionlogin()">Login {{ user }}</button>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} {% block script %}
+<script>
+    function ajax_get(status=1){
+        $.ajax({
+            url:"{% url 'detail_transaksi_user_json' %}?detail={{ request.GET.detail }}",
+            success: function(res){
+                let data = res.data
+                if(res.success){
+                    $("#nomor-transaksi").text(data.cart)
+                    $('#jumlah-barang').text(data.jumlah)
+                    $('#harga-barang').text(data.produk.harga)
+                    $('#nama-barang').text(data.produk.nama_produk)
+                }
+            }
+        })
+    }
+    $(function(){
+        ajax_get()
+        
+    })
+    
+</script>
+{% endblock %}

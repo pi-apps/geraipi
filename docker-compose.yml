@@ -1,0 +1,54 @@
+version: '3.7'
+
+x-app: &default-app
+  build:
+    context: "."
+  volumes:
+    - .:/geraipiapps
+  restart: "unless-stopped"
+  depends_on:
+    - db
+  env_file:
+    - .env
+  networks:
+    geraipinetwork:
+
+services:
+  db:
+    image: mariadb:latest
+    container_name: geraipi_db
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - geraipi_sql_data:/var/lib/postgresql/data
+    environment:
+      - MARIADB_USER=${DB_USER}
+      - MARIADB_DATABASE=${DB_NAME}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
+    networks:
+      geraipinetwork:
+
+  apps:
+    <<: *default-app
+    command: >
+      sh -c "sh wait-for-mysql.sh && python manage.py makemigrations && python manage.py migrate && python manage.py tailwind install && python manage.py runserver 0.0.0.0:4000"
+    ports:
+      - 4000:4000
+
+  tailwind:
+    <<: *default-app
+    command: "python manage.py tailwind start"
+    # Without tty, no stdin, and tailwind watcher aborts
+    # https://github.com/tailwindlabs/tailwindcss/issues/5324
+    tty: true
+
+volumes:
+  geraipi_static_volume:
+  geraipi_media_volume:
+  geraipi_sql_data:
+
+networks:
+  geraipinetwork:
+
+
+  
