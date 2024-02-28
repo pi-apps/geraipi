@@ -172,7 +172,7 @@ class AlamatToko(FrontPage):
         for p in userprofileaddress:
             p.is_primary = False
             p.save()
-        return redirect("/toko/{}/alamat".format(id))
+        return redirect(reverse("alamat_toko", id))
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -518,7 +518,9 @@ class Approve(FrontPage):
         settingweb = self.configuration.api_key_pi
         header = {"Authorization": "Key " + settingweb}
         postdata = requests.post(
-            "https://api.minepi.com/v2/payments/" + id + "/approve", headers=header
+            "https://api.minepi.com/v2/payments/" + id + "/approve",
+            headers=header,
+            timeout=5000
         )
         if postdata.status_code == 200:
             return JsonResponse(postdata.json())
@@ -553,6 +555,7 @@ class SetComplete(FrontPage):
             "https://api.minepi.com/v2/payments/" + id + "/complete",
             data=datas,
             headers={"Authorization": "Key " + api_key},
+            timeout=5000
         )
         if postdata.status_code == 200:
             cart = Cart.objects.get(pk=request.GET.get("id"))
@@ -577,6 +580,7 @@ class Cancel(FrontPage):
         cancel = requests.get(
             "https://api.minepi.com/payments/" + id + "/cancel",
             headers={"Authorization": "Key " + api_key},
+            timeout=5000
         )
         print(cancel.json())
         return JsonResponse(cancel, safe=False)
@@ -633,6 +637,7 @@ class PaymentsCart(FrontPage):
             "https://api.minepi.com/v2/payments/" + identifier + "/complete",
             data=datas,
             headers={"Authorization": "Key " + api_key},
+            timeout=5000
         )
 
         if postdata.status_code == 200:
@@ -659,7 +664,8 @@ class PaymentsCart(FrontPage):
 
         data_url = "https://api.minepi.com/v2/payments/" + param
         requestdata = requests.get(
-            data_url, headers={"Authorization": "Key " + api_key}
+            data_url, headers={"Authorization": "Key " + api_key},
+            timeout=5000
         )
 
         cart_id = request.GET.get("cart_id")

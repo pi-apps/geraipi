@@ -49,7 +49,7 @@ class PiNetwork:
 
     def get_payment(self, payment_id):
         url = self.base_url + "/v2/payments/" + payment_id
-        re = requests.get(url, headers=self.get_http_headers())
+        re = requests.get(url, headers=self.get_http_headers(), timeout=10000)
         self.handle_http_response(re)
 
     def create_payment(self, payment_data):
@@ -82,7 +82,7 @@ class PiNetwork:
 
             obj = json.dumps(obj)
             url = self.base_url + "/v2/payments"
-            re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers())
+            re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers(), timeout=10000)
             parsed_response = self.handle_http_response(re)
 
             identifier = parsed_response["identifier"]
@@ -138,7 +138,7 @@ class PiNetwork:
 
     def approved_payment(self, identifier):
         url = self.base_url + "/v2/payments/" + identifier + "/approve"
-        re = requests.post(url, headers=self.get_http_headers())
+        re = requests.post(url, headers=self.get_http_headers(), timeout=10000)
         self.handle_http_response(re)
 
     def complete_payment(self, identifier, txid):
@@ -149,24 +149,24 @@ class PiNetwork:
 
         obj = json.dumps(obj)
         url = self.base_url + "/v2/payments/" + identifier + "/complete"
-        re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers())
+        re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers(), timeout=10000)
         self.handle_http_response(re)
 
     def cancel_payment(self, identifier):
         obj = {}
         obj = json.dumps(obj)
         url = self.base_url + "/v2/payments/" + identifier + "/cancel"
-        re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers())
+        re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers(), timeout=10000)
         self.handle_http_response(re)
 
     def cancel_payment_user(self, identifier):
         url = self.base_url + "/v2/payments/" + identifier + "/cancel"
-        re = requests.post(url, headers=self.get_http_headers())
+        re = requests.post(url, headers=self.get_http_headers(), timeout=10000)
         self.handle_http_response(re)
 
     def get_incomplete_server_payments(self):
         url = self.base_url + "/v2/payments/incomplete_server_payments"
-        re = requests.get(url, headers=self.get_http_headers())
+        re = requests.get(url, headers=self.get_http_headers(), timeout=10000)
         res = self.handle_http_response(re)
         return res["incomplete_server_payments"]
 

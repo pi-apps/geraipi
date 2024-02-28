@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-k=#8wq*kz%tackrz%qsxybf155lf6kkg!5at6&x%yn5h086xms"
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -201,19 +201,14 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = "profiles.UserProfile"
 
-# EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS',False)
-# EMAIL_HOST = os.getenv("EMAIL_HOST",'geraipi')
-# EMAIL_PORT = os.getenv("EMAIL_PORT",465)
-# EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER",'email@testnet.geraipi.id')
-# EMAIL_HOST_PASSWORD = ("EMAIL_HOST_PASSWORD",'geraipi')
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "testnet.geraipi.id"
-EMAIL_USE_TLS = False
-EMAIL_PORT = 465
+
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS',False)
+EMAIL_HOST = os.getenv("EMAIL_HOST",'geraipi')
+EMAIL_PORT = os.getenv("EMAIL_PORT",465)
 EMAIL_USE_SSL = True
-EMAIL_HOST_USER = "email@testnet.geraipi.id"
-EMAIL_HOST_PASSWORD = "Ahmadi123@"
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER",'email@testnet.geraipi.id')
+EMAIL_HOST_PASSWORD = ("EMAIL_HOST_PASSWORD",'geraipi')
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_FILENAME_GENERATOR = "utils.get_filename"

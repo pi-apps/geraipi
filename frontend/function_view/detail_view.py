@@ -11,8 +11,8 @@ class Detail(FrontPage):
         gambar = None
         try:
             gambar = GambarProduk.objects.filter(produk_id=produk.id)
-        except Exception:
-            pass
+        except Exception as e:
+            print(e)
         return render(
             request,
             "home_detail.html",
