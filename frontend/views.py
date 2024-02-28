@@ -520,7 +520,7 @@ class Approve(FrontPage):
         postdata = requests.post(
             "https://api.minepi.com/v2/payments/" + id + "/approve",
             headers=header,
-            timeout=5000
+            timeout=5000,
         )
         if postdata.status_code == 200:
             return JsonResponse(postdata.json())
@@ -555,7 +555,7 @@ class SetComplete(FrontPage):
             "https://api.minepi.com/v2/payments/" + id + "/complete",
             data=datas,
             headers={"Authorization": "Key " + api_key},
-            timeout=5000
+            timeout=5000,
         )
         if postdata.status_code == 200:
             cart = Cart.objects.get(pk=request.GET.get("id"))
@@ -580,7 +580,7 @@ class Cancel(FrontPage):
         cancel = requests.get(
             "https://api.minepi.com/payments/" + id + "/cancel",
             headers={"Authorization": "Key " + api_key},
-            timeout=5000
+            timeout=5000,
         )
         print(cancel.json())
         return JsonResponse(cancel, safe=False)
@@ -637,7 +637,7 @@ class PaymentsCart(FrontPage):
             "https://api.minepi.com/v2/payments/" + identifier + "/complete",
             data=datas,
             headers={"Authorization": "Key " + api_key},
-            timeout=5000
+            timeout=5000,
         )
 
         if postdata.status_code == 200:
@@ -664,8 +664,7 @@ class PaymentsCart(FrontPage):
 
         data_url = "https://api.minepi.com/v2/payments/" + param
         requestdata = requests.get(
-            data_url, headers={"Authorization": "Key " + api_key},
-            timeout=5000
+            data_url, headers={"Authorization": "Key " + api_key}, timeout=5000
         )
 
         cart_id = request.GET.get("cart_id")
