@@ -1,9 +1,10 @@
-import requests
 import json
+
+import requests
 import stellar_sdk as s_sdk
 
-class PiNetwork:    
-     
+
+class PiNetwork:
     api_key = ""
     client = ""
     account = ""
@@ -22,28 +23,33 @@ class PiNetwork:
             self.api_key = api_key
             self.load_account(wallet_private_key, network)
             self.base_url = "https://api.minepi.com"
-            self.open_payments = {}        
+            self.open_payments = {}
             self.network = network
             self.fee = self.server.fetch_base_fee()
-            #self.fee = fee
-        except:
+            # self.fee = fee
+        except Exception as e:
+            print(e)
             return False
 
     def get_balance(self):
         try:
-            balances = self.server.accounts().account_id(self.keypair.public_key).call()["balances"]
-            balance_found = False
+            balances = (
+                self.server.accounts()
+                .account_id(self.keypair.public_key)
+                .call()["balances"]
+            )
+            # balance_found = False
             for i in balances:
                 if i["asset_type"] == "native":
                     return float(i["balance"])
-                
             return 0
-        except:
+        except Exception as e:
+            print(e)
             return 0
 
     def get_payment(self, payment_id):
         url = self.base_url + "/v2/payments/" + payment_id
-        re = requests.get(url,headers=self.get_http_headers())
+        re = requests.get(url, headers=self.get_http_headers())
         self.handle_http_response(re)
 
     def create_payment(self, payment_data):
@@ -51,66 +57,77 @@ class PiNetwork:
             if not self.validate_payment_data(payment_data):
                 if __debug__:
                     print("No valid payments found. Creating a new one...")
-            
-            balances = self.server.accounts().account_id(self.keypair.public_key).call()["balances"]
+            balances = (
+                self.server.accounts()
+                .account_id(self.keypair.public_key)
+                .call()["balances"]
+            )
             balance_found = False
             for i in balances:
                 if i["asset_type"] == "native":
                     balance_found = True
-                    if (float(payment_data["amount"]) + (float(self.fee)/10000000)) > float(i["balance"]):
+                    payment_data_float = float(payment_data["amount"])
+                    if (payment_data_float + (float(self.fee) / 10000000)) > float(
+                        i["balance"]
+                    ):
                         return ""
                     break
-                    
-            if balance_found == False:
+
+            if not balance_found:
                 return ""
 
             obj = {
-              'payment': payment_data,
+                "payment": payment_data,
             }
-            
-            obj = json.dumps(obj)            
+
+            obj = json.dumps(obj)
             url = self.base_url + "/v2/payments"
-            re = requests.post(url,data=obj,json=obj,headers=self.get_http_headers())
+            re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers())
             parsed_response = self.handle_http_response(re)
 
             identifier = parsed_response["identifier"]
             self.open_payments[identifier] = parsed_response
 
             return identifier
-        except:
+        except BaseException:
             return ""
 
     def submit_payment(self, payment_id, pending_payment):
         if payment_id not in self.open_payments:
             return False
-        if pending_payment == False or payment_id in self.open_payments:
+        if pending_payment is False or payment_id in self.open_payments:
             payment = self.open_payments[payment_id]
         else:
             payment = pending_payment
-        
-        balances = self.server.accounts().account_id(self.keypair.public_key).call()["balances"]
+
+        balances = (
+            self.server.accounts()
+            .account_id(self.keypair.public_key)
+            .call()["balances"]
+        )
         balance_found = False
         for i in balances:
             if i["asset_type"] == "native":
                 balance_found = True
-                if (float(payment["amount"]) + (float(self.fee)/10000000)) > float(i["balance"]):
+                payment_float = float(payment["amount"])
+                if (payment_float + (float(self.fee) / 10000000)) > float(i["balance"]):
                     return ""
                 break
-                
-        if balance_found == False:
+
+        if not balance_found:
             return ""
-        
+
         if __debug__:
             print("Debug_Data: Payment information\n" + str(payment))
 
         self.set_horizon_client(payment["network"])
-        from_address = payment["from_address"]
+        # from_address = payment["from_address"]
 
-        transaction_data = {
-          "amount": payment["amount"],
-          "identifier": payment["identifier"],
-          "recipient": payment["to_address"]
-        }
+        # transaction_data = {
+        #     "amount": payment["amount"],
+        #     "identifier": payment["identifier"],
+        #     "recipient": payment["to_address"],
+        # }
 
         transaction = self.build_a2u_transaction(payment)
         txid = self.submit_transaction(transaction)
@@ -118,10 +135,10 @@ class PiNetwork:
             del self.open_payments[payment_id]
 
         return txid
-    
+
     def approved_payment(self, identifier):
         url = self.base_url + "/v2/payments/" + identifier + "/approve"
-        re = requests.post(url,headers=self.get_http_headers())
+        re = requests.post(url, headers=self.get_http_headers())
         self.handle_http_response(re)
 
     def complete_payment(self, identifier, txid):
@@ -129,44 +146,46 @@ class PiNetwork:
             obj = {}
         else:
             obj = {"txid": txid}
-        
+
         obj = json.dumps(obj)
         url = self.base_url + "/v2/payments/" + identifier + "/complete"
-        re = requests.post(url,data=obj,json=obj,headers=self.get_http_headers())
+        re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers())
         self.handle_http_response(re)
 
     def cancel_payment(self, identifier):
         obj = {}
         obj = json.dumps(obj)
         url = self.base_url + "/v2/payments/" + identifier + "/cancel"
-        re = requests.post(url,data=obj,json=obj,headers=self.get_http_headers())
+        re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers())
         self.handle_http_response(re)
 
     def cancel_payment_user(self, identifier):
         url = self.base_url + "/v2/payments/" + identifier + "/cancel"
-        re = requests.post(url,headers=self.get_http_headers())
+        re = requests.post(url, headers=self.get_http_headers())
         self.handle_http_response(re)
 
     def get_incomplete_server_payments(self):
         url = self.base_url + "/v2/payments/incomplete_server_payments"
-        re = requests.get(url,headers=self.get_http_headers())
+        re = requests.get(url, headers=self.get_http_headers())
         res = self.handle_http_response(re)
         return res["incomplete_server_payments"]
 
     def get_http_headers(self):
-        return {'Authorization': "Key " + self.api_key, "Content-Type": "application/json"}
+        return {
+            "Authorization": "Key " + self.api_key,
+            "Content-Type": "application/json",
+        }
 
     def handle_http_response(self, re):
         try:
-           
             result = re.json()
-            
             result_dict = json.loads(str(json.dumps(result)))
             if __debug__:
                 print("HTTP-Response: " + str(re))
                 print("HTTP-Response Data: " + str(result_dict))
             return result_dict
-        except:
+        except Exception as e:
+            print(e)
             return False
 
     def set_horizon_client(self, network):
@@ -176,31 +195,29 @@ class PiNetwork:
     def load_account(self, private_seed, network):
         self.keypair = s_sdk.Keypair.from_secret(private_seed)
         if network == "Pi Network":
-            host = "api.mainnet.minepi.com"
+            # host = "api.mainnet.minepi.com"
             horizon = "https://api.mainnet.minepi.com"
         else:
-            host = "api.testnet.minepi.com"
+            # host = "api.testnet.minepi.com"
             horizon = "https://api.testnet.minepi.com"
-        
+
         self.server = s_sdk.Server(horizon)
         self.account = self.server.load_account(self.keypair.public_key)
-
 
     def build_a2u_transaction(self, transaction_data):
         if not self.validate_payment_data(transaction_data):
             print("No valid transaction!")
-            
+
         amount = str(transaction_data["amount"])
-        
+
         # TODO: get this from horizon
-        fee = self.fee # 100000 # 0.01π
+        fee = self.fee  # 100000 # 0.01π
         to_address = transaction_data["to_address"]
         memo = transaction_data["identifier"]
-        
+
         if __debug__:
             print("MEMO " + str(memo))
-        
-        from_address = transaction_data["from_address"]
+
         transaction = (
             s_sdk.TransactionBuilder(
                 source_account=self.account,
@@ -212,7 +229,7 @@ class PiNetwork:
             .set_timeout(30)
             .build()
         )
-        
+
         return transaction
 
     def submit_transaction(self, transaction):

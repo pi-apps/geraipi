@@ -6,20 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('profiles', '0003_userwithdrawltransactionrequest'),
+        ("profiles", "0003_userwithdrawltransactionrequest"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='LangSupport',
+            name="LangSupport",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(blank=True, max_length=255, null=True)),
-                ('alias', models.CharField(blank=True, max_length=255, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(blank=True, max_length=255, null=True)),
+                ("alias", models.CharField(blank=True, max_length=255, null=True)),
             ],
             options={
-                'verbose_name': 'Language',
-                'verbose_name_plural': 'Language',
+                "verbose_name": "Language",
+                "verbose_name_plural": "Language",
             },
         ),
     ]

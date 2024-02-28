@@ -1,13 +1,15 @@
-from .base_view import FrontPage
-from django.shortcuts import render, redirect
-from store.models import UserStore
+from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
+from store.models import UserStore
 
-@method_decorator(csrf_exempt, name='dispatch')
+from .base_view import FrontPage
+
+
+@method_decorator(csrf_exempt, name="dispatch")
 class Toko(FrontPage):
-    def get(self,request,id):
+    def get(self, request, id):
         user = UserStore.objects.filter(users_id=id).first()
         if request.method == "POST":
             if user is None:
@@ -17,8 +19,8 @@ class Toko(FrontPage):
             else:
                 user.aggrement = False
             user.save()
-        return render(request, 'toko/toko_profile.html',{"user_toko": user })
-    
+        return render(request, "toko/toko_profile.html", {"user_toko": user})
+
     def post(self, request, id):
         user = UserStore.objects.filter(users_id=id).first()
         if user is None:
@@ -28,4 +30,4 @@ class Toko(FrontPage):
         else:
             user.aggrement = False
         user.save()
-        return redirect('/toko/'+str(id))
+        return redirect("/toko/" + str(id))

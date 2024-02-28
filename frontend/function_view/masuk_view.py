@@ -1,11 +1,13 @@
-from .base_view import FrontPage
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect, render
+
+from .base_view import FrontPage
+
 
 class Masuk(FrontPage):
     def get(self, request):
-        return render(request, 'login.html', {})
-    
+        return render(request, "login.html", {})
+
     def post(self, request):
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -15,7 +17,7 @@ class Masuk(FrontPage):
                 login(request, user)
             except Exception as e:
                 print(e)
-            return redirect('/home')
-        
+            return redirect("/home")
+
         else:
-            return redirect('/masuk')
+            return redirect("/masuk")

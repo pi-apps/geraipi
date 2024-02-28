@@ -1,7 +1,10 @@
-from .base_view import FrontPage
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
+
 from profiles.models import UserProfile
+
+from .base_view import FrontPage
+
 
 class LoginUser(FrontPage):
     def get(self, request):
@@ -11,16 +14,16 @@ class LoginUser(FrontPage):
         if user is not None and user.is_active:
             try:
                 login(request, user)
-                print("userss",user.is_authenticated)
+                print("userss", user.is_authenticated)
             except Exception as e:
                 print(e)
-            return redirect('/home')
+            return redirect("/home")
         else:
             print("masuks")
             user = UserProfile.objects.create_user(username=username, password=password)
             user.is_staff = True
             user.set_password(password)
             user.save()
-            user = authenticate(username=username,password=password)
+            user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('/home')
+            return redirect("/home")

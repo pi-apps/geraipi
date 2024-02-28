@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,85 +23,81 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k=#8wq*kz%tackrz%qsxybf155lf6kkg!5at6&x%yn5h086xms'
+SECRET_KEY = "django-insecure-k=#8wq*kz%tackrz%qsxybf155lf6kkg!5at6&x%yn5h086xms"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
+    "jazzmin",
     # 'jobicadmin',
     # 'customadmin',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.forms',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.forms",
     "corsheaders",
-    'django_htmx',
-    'django_filters',
-    'import_export',
-    'widget_tweaks',
-    'loginas',
-    'profiles',
-    'master',
-    'frontend',
-    'store',
-    'produk',
-    'rest_framework',
-    'tailwind',
-    'theme',
-    'django_browser_reload',
-    'rest_framework.authtoken',
-    'ckeditor',
-    'apidata',
-    'django_extensions',
+    "django_htmx",
+    "django_filters",
+    "import_export",
+    "widget_tweaks",
+    "loginas",
+    "profiles",
+    "master",
+    "frontend",
+    "store",
+    "produk",
+    "rest_framework",
+    "tailwind",
+    "theme",
+    "django_browser_reload",
+    "rest_framework.authtoken",
+    "ckeditor",
+    "apidata",
+    "django_extensions",
     # 'passkeys'
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_htmx.middleware.HtmxMiddleware',
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000"
-]
+CORS_ALLOWED_ORIGINS = ["http://localhost:8000"]
 # CORS_ALLOWED_ORIGIN_REGEXES = [
 #     "http://localhost:4000"
 # ]
-ROOT_URLCONF = 'projekpi.urls'
+ROOT_URLCONF = "projekpi.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR,'templates')
-        ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
@@ -107,12 +105,12 @@ TEMPLATES = [
 
 NPM_BIN_PATH = "/usr/bin/npm"
 
-TAILWIND_APP_NAME = 'theme'
+TAILWIND_APP_NAME = "theme"
 
-WSGI_APPLICATION = 'projekpi.wsgi.application'
+WSGI_APPLICATION = "projekpi.wsgi.application"
 
-USE_TZ = True 
-TIME_ZONE = 'Asia/Jakarta'
+USE_TZ = True
+TIME_ZONE = "Asia/Jakarta"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -126,10 +124,10 @@ TIME_ZONE = 'Asia/Jakarta'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": os.getenv("DB_NAME","geraipi"),
-        "USER": os.getenv("DB_USER","root"),
-        "PASSWORD": os.getenv("DB_PASSWORD",""),
-        "HOST": os.getenv("DB_HOST","localhost"),
+        "NAME": os.getenv("DB_NAME", "geraipi"),
+        "USER": os.getenv("DB_USER", "root"),
+        "PASSWORD": os.getenv("DB_PASSWORD", ""),
+        "HOST": os.getenv("DB_HOST", "localhost"),
         "PORT": "3306",
     }
 }
@@ -140,16 +138,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -165,9 +163,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 USE_TZ = True
 
-SESSION_COOKIE_SAMESITE = 'None'  # As a string
+SESSION_COOKIE_SAMESITE = "None"  # As a string
 SESSION_COOKIE_SECURE = True
-X_FRAME_OPTIONS = 'ALLOWALL'
+X_FRAME_OPTIONS = "ALLOWALL"
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
@@ -178,7 +176,7 @@ X_FRAME_OPTIONS = 'ALLOWALL'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "media/"
@@ -186,19 +184,19 @@ MEDIA_URL = "media/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 NPM_BIN_PATH = "/usr/bin/npm"
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 10,
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 10,
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
 }
 
 AUTH_USER_MODEL = "profiles.UserProfile"
@@ -209,8 +207,8 @@ AUTH_USER_MODEL = "profiles.UserProfile"
 # EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER",'email@testnet.geraipi.id')
 # EMAIL_HOST_PASSWORD = ("EMAIL_HOST_PASSWORD",'geraipi')
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'testnet.geraipi.id'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "testnet.geraipi.id"
 EMAIL_USE_TLS = False
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
@@ -218,22 +216,33 @@ EMAIL_HOST_USER = "email@testnet.geraipi.id"
 EMAIL_HOST_PASSWORD = "Ahmadi123@"
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
-CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
+CKEDITOR_FILENAME_GENERATOR = "utils.get_filename"
 
 CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['RemoveFormat', 'Source']
-        ]
+    "default": {
+        "toolbar": "Custom",
+        "toolbar_Custom": [
+            ["Bold", "Italic", "Underline"],
+            [
+                "NumberedList",
+                "BulletedList",
+                "-",
+                "Outdent",
+                "Indent",
+                "-",
+                "JustifyLeft",
+                "JustifyCenter",
+                "JustifyRight",
+                "JustifyBlock",
+            ],
+            ["Link", "Unlink"],
+            ["RemoveFormat", "Source"],
+        ],
     }
 }
-LOCALE_PATHS = ( os.path.join(BASE_DIR, 'locale'), )
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = "en"
 
 USE_I18N = True
 
@@ -246,12 +255,15 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 # CELERY_IMPORTS = ("tasks",)
 
-FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
-CAN_LOGIN_AS = lambda request, target_user: request.user.is_superuser
+FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 
-from django.urls import reverse_lazy
-LOGINAS_LOGOUT_REDIRECT_URL = reverse_lazy('admin:index')
-LOGINAS_REDIRECT_URL = '/admin'
+
+def CAN_LOGIN_AS(request, target_user):
+    return request.user.is_superuser
+
+
+LOGINAS_LOGOUT_REDIRECT_URL = reverse_lazy("admin:index")
+LOGINAS_REDIRECT_URL = "/admin"
 
 # AUTHENTICATION_BACKENDS = ['passkeys.backend.PasskeyModelBackend'] # Change your authentication backend
 # FIDO_SERVER_ID=os.environ.get("FIDO_SERVER_ID")      # Server rp id for FIDO2, it the full domain of your project
