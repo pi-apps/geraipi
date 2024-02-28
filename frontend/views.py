@@ -180,7 +180,7 @@ class DeleteAlamatToko(FrontPage):
     def post(self, request, id, id_alamat):
         userprofileaddress = UserStoreAddress.objects.get(pk=id_alamat)
         userprofileaddress.delete()
-        return redirect("/toko/{}/alamat".format(id))
+        return redirect(reverse("alamat_toko", id))
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -891,7 +891,7 @@ class EditBarang(FrontPage):
                 gproduk.nama = nama
                 gproduk.gambar = filess3
                 gproduk.save()
-        return redirect("/toko/{}/list_produk/".format(str(id)))
+        return redirect(reverse("list_produk_toko", str(id)))
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -901,7 +901,7 @@ class ArchiveBarang(FrontPage):
         produk = Produk.objects.get(pk=produk_id)
         produk.is_archive = True
         produk.save()
-        return redirect("/toko/{}/list_produk/".format(str(id)))
+        return redirect(reverse("list_produk_toko", str(id)))
 
 
 @method_decorator(csrf_exempt, name="dispatch")
