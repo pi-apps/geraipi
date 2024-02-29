@@ -52,6 +52,8 @@ from .function_view.translated_view import TranslatedApi
 from .function_view.withdrawl_proccess_view import WithdrawlProcess
 from .function_view.withdrawl_request_json_view import WithdrawlRequestJson
 from .function_view.withdrawl_view import Withdrawl
+from .function_view.jual_view import Jual
+from .function_view.dropzone_upload_view import UploadDropzone
 from .views import (
     AboutApp,
     AddToCart,
@@ -75,7 +77,6 @@ from .views import (
     EditBarang,
     Faq,
     GetData,
-    Jual,
     MinusPluss,
     PaymentsCart,
     PrivacyAndPolicy,
@@ -88,7 +89,6 @@ from .views import (
     TransaksiToko,
     TransaksiUserSelesaiJson,
     Tutorial,
-    UploadDropzone,
     WithdrawlToko,
     WithdrawlTokoJson,
 )
