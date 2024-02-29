@@ -1,108 +1,66 @@
-"""
-URL configuration for projekpi project.
+from cProfile import Profile
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+from django.urls import path
 
-from django.urls import include, path
-from rest_framework import routers
-
-from frontend.viewsets import (
-    DistricViewset,
-    KategoriViewSet,
-    ProdukViewSet,
-    ProvinsiViewset,
-    RegencyViewset,
-    UserAddressViewset,
-    UserProfileViewset,
-    UserViewSet,
-    VillagerViewset,
-)
-
-from .function_view.detail_view import Detail
-from .function_view.fcm_save_token import FcmSaveTokenView
-from .function_view.home import Home
-from .function_view.keranjang_add_view import KeranjangAdd
-from .function_view.koleksi_view import Koleksi
-from .function_view.list_produk_toko_view import ListProdukToko
-from .function_view.login_user_view import LoginUser
-from .function_view.masuk_view import Masuk
-from .function_view.produk_view import Produks
-from .function_view.profile_edit_view import ProfileEdit
-from .function_view.save_token_views import SaveToken
-from .function_view.search_produk_view import SearchProduct
-from .function_view.service_worker import ServiceWorkerView
-from .function_view.splash import Splash
-from .function_view.toko_view import Toko
-from .function_view.transaksi_user_count_json_view import TransaksiUserCountJson
-from .function_view.transaksi_user_json_view import TransaksiUserJson
-from .function_view.transaksi_user_view import TransaksiUsers
-from .function_view.translated_view import TranslatedApi
-from .function_view.withdrawl_proccess_view import WithdrawlProcess
-from .function_view.withdrawl_request_json_view import WithdrawlRequestJson
-from .function_view.withdrawl_view import Withdrawl
-from .function_view.jual_view import Jual
-from .function_view.dropzone_upload_view import UploadDropzone
-from .views import (
-    AboutApp,
-    AddToCart,
-    AlamatToko,
-    AlamatTokoTambah,
-    AlamatUser,
-    Approve,
-    ArchiveBarang,
-    Beli,
-    Cancel,
-    CartJson,
-    CompletePayment,
-    CoreTeam,
-    DeleteAlamatToko,
-    DeleteDetailProfile,
-    DetailProfile,
-    DetailProfileAddressMain,
-    DetailTransaksi,
-    DetailTransaksiJson,
-    DetailTransaksiUlasan,
-    EditBarang,
-    Faq,
-    GetData,
-    MinusPluss,
-    PaymentsCart,
-    PrivacyAndPolicy,
-    Profile,
-    Promo,
-    SetComplete,
-    Settings,
-    Tentang,
-    TermOfService,
-    TransaksiToko,
-    TransaksiUserSelesaiJson,
-    Tutorial,
-    WithdrawlToko,
-    WithdrawlTokoJson,
-)
-
-router = routers.DefaultRouter()
-router.register(r"users", UserViewSet)
-router.register(r"produks", ProdukViewSet)
-router.register(r"kategoris", KategoriViewSet)
-router.register(r"provinsis", ProvinsiViewset)
-router.register(r"districs", DistricViewset)
-router.register(r"regencys", RegencyViewset)
-router.register(r"villages", VillagerViewset)
-router.register(r"user-profiles", UserProfileViewset)
-router.register(r"user-address", UserAddressViewset)
+from frontend.views.aboutapp_view import AboutApp
+from frontend.views.add_to_cart_view import AddToCart
+from frontend.views.alamat_toko_delete_view import DeleteAlamatToko
+from frontend.views.alamat_toko_view import AlamatToko
+from frontend.views.alamat_user_view import AlamatUser
+from frontend.views.alamt_toko_tambah_view import AlamatTokoTambah
+from frontend.views.approve_view import Approve
+from frontend.views.archive_barang_view import ArchiveBarang
+from frontend.views.beli_view import Beli
+from frontend.views.cancel_view import Cancel
+from frontend.views.cart_json_view import CartJson
+from frontend.views.completepayment_view import CompletePayment
+from frontend.views.coreteam_view import CoreTeam
+from frontend.views.detail_transaksi_json_view import DetailTransaksiJson
+from frontend.views.detail_transaksi_usulan_view import DetailTransaksiUlasan
+from frontend.views.detail_transaksi_view import DetailTransaksi
+from frontend.views.detail_view import Detail
+from frontend.views.dropzone_upload_view import UploadDropzone
+from frontend.views.edit_barang_view import EditBarang
+from frontend.views.faq_view import Faq
+from frontend.views.fcm_save_token import FcmSaveTokenView
+from frontend.views.getdata_view import GetData
+from frontend.views.home import Home
+from frontend.views.jual_view import Jual
+from frontend.views.keranjang_add_view import KeranjangAdd
+from frontend.views.koleksi_view import Koleksi
+from frontend.views.list_produk_toko_view import ListProdukToko
+from frontend.views.login_user_view import LoginUser
+from frontend.views.masuk_view import Masuk
+from frontend.views.minus_plus_view import MinusPluss
+from frontend.views.payments_cart_view import PaymentsCart
+from frontend.views.privacyandpolicy_view import PrivacyAndPolicy
+from frontend.views.produk_view import Produks
+from frontend.views.profile_delete_detail_view import DeleteDetailProfile
+from frontend.views.profile_detail_address_view import DetailProfileAddressMain
+from frontend.views.profile_detail_view import DetailProfile
+from frontend.views.profile_edit_view import ProfileEdit
+from frontend.views.promo_view import Promo
+from frontend.views.save_token_views import SaveToken
+from frontend.views.search_produk_view import SearchProduct
+from frontend.views.service_worker import ServiceWorkerView
+from frontend.views.setcomplete_view import SetComplete
+from frontend.views.settings_view import Settings
+from frontend.views.splash import Splash
+from frontend.views.tentang_view import Tentang
+from frontend.views.termofservice_view import TermOfService
+from frontend.views.toko_transaksi_view import TransaksiToko
+from frontend.views.toko_view import Toko
+from frontend.views.transaksi_selesai_view import TransaksiUserSelesaiJson
+from frontend.views.transaksi_user_count_json_view import TransaksiUserCountJson
+from frontend.views.transaksi_user_json_view import TransaksiUserJson
+from frontend.views.transaksi_user_view import TransaksiUsers
+from frontend.views.translated_view import TranslatedApi
+from frontend.views.tutorial_view import Tutorial
+from frontend.views.withdrawl_proccess_view import WithdrawlProcess
+from frontend.views.withdrawl_request_json_view import WithdrawlRequestJson
+from frontend.views.withdrawl_toko_view import WithdrawlToko
+from frontend.views.withdrawl_view import Withdrawl
+from frontend.views.withdrawltokojson_view import WithdrawlTokoJson
 
 urlpatterns = [
     path("", Splash.as_view(), name="splash"),
@@ -209,7 +167,6 @@ urlpatterns = [
     path("cancel/<str:id>", Cancel.as_view(), name="cancel"),
     path("completing/<str:id>", CompletePayment.as_view(), name="completing"),
     path("faq/", Faq.as_view(), name="faq"),
-    path("api/v1/", include(router.urls)),
     path(
         "transaksi/users/list/json",
         TransaksiUserJson.as_view(),

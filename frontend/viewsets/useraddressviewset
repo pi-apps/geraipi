@@ -1,0 +1,8 @@
+from frontend.serializers import UserAddressSerializer
+from profiles.models import UserProfileAddress
+from rest_framework import viewsets
+
+
+class UserAddressViewset(viewsets.ModelViewSet):
+    queryset = UserProfileAddress.objects.all()
+    serializer_class = UserAddressSerializer
