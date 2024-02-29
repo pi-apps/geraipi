@@ -17,9 +17,9 @@ on:
   pull_request:
     branches: [ "main" ]
     paths-ignore:
+      - static
       - '**/*.md'
       - '**/*.txt'
-      - 'static'
   schedule:
     - cron: '26 12 * * 1'
 
