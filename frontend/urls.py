@@ -1,5 +1,3 @@
-from cProfile import Profile
-
 from django.urls import path
 
 from frontend.views.aboutapp_view import AboutApp
@@ -39,6 +37,7 @@ from frontend.views.profile_delete_detail_view import DeleteDetailProfile
 from frontend.views.profile_detail_address_view import DetailProfileAddressMain
 from frontend.views.profile_detail_view import DetailProfile
 from frontend.views.profile_edit_view import ProfileEdit
+from frontend.views.profile_view import Profile
 from frontend.views.promo_view import Promo
 from frontend.views.save_token_views import SaveToken
 from frontend.views.search_produk_view import SearchProduct

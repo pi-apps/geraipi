@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-from frontend.function_view.base_view import FrontPage
+from frontend.views.base_view import FrontPage
 from produk.models import Cart, CartItem, UlasanCart
 
 

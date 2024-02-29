@@ -5,7 +5,7 @@ import requests
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 
-from frontend.function_view.base_view import FrontPage
+from frontend.views.base_view import FrontPage
 from produk.models import Cart, CartItem, Produk
 from store.models import UserStore
 

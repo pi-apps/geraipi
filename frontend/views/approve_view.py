@@ -1,7 +1,7 @@
 import requests
 from django.http import JsonResponse
 
-from frontend.function_view.base_view import FrontPage
+from frontend.views.base_view import FrontPage
 
 
 class Approve(FrontPage):
