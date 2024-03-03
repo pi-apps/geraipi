@@ -13,8 +13,9 @@ from apidata.viewsets.produks_viewset import (
     KategoriViewset,
     ProdukViewSet,
     TipeProdukViewset,
-    WarnaProdukViewset,
+    WarnaProdukViewset
 )
+from apidata.viewsets.provinsi_viewset import ProvinsiViewSet
 from apidata.viewsets.slides_viewset import SlidesViewSet
 from apidata.viewsets.stores_viewset import UserStoreAddressViewset, UserStoreViewset
 from apidata.viewsets.ulasan_viewset import UlasanViewSet
@@ -31,6 +32,7 @@ router.register(r"gambarproduks", GambarProdukViewset)
 router.register(r"stores", UserStoreViewset)
 router.register(r"storeaddres", UserStoreAddressViewset)
 router.register(r"ulasanproduk", UlasanViewSet)
+router.register(r"provinsi", ProvinsiViewSet)
 
 produk_list = ProdukViewSet.as_view(
     {

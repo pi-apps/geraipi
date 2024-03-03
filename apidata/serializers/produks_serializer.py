@@ -25,7 +25,11 @@ class KategoriSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_nama(self, obj):
         user = self.context["users"]
-        languanges_code = user.languages.code if user.languages else "id"
+        languanges_code = "id"
+        if not user.is_authenticated:
+            user = None
+        else:
+            languanges_code = user.languages.code if user.languages else "id"
         translate_text = translater(
             translate_to=languanges_code, page=obj.nama, values=obj.nama
         )
@@ -41,7 +45,11 @@ class TipeProdukSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_nama(self, obj):
         user = self.context["users"]
-        languanges_code = user.languages.code if user.languages else "id"
+        languanges_code = "id"
+        if not user.is_authenticated:
+            user = None
+        else:
+            languanges_code = user.languages.code if user.languages else "id"
         translate_text = translater(
             translate_to=languanges_code, page=obj.nama, values=obj.nama
         )
@@ -57,7 +65,11 @@ class WarnaProdukSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_nama(self, obj):
         user = self.context["users"]
-        languanges_code = user.languages.code if user.languages else "id"
+        languanges_code = "id"
+        if not user.is_authenticated:
+            user = None
+        else:
+            languanges_code = user.languages.code if user.languages else "id"
         translate_text = translater(
             translate_to=languanges_code, page=obj.nama, values=obj.nama
         )
@@ -108,8 +120,11 @@ class ProdukSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_nama(self, obj):
         user = self.context["users"]
-        user_lang = user.languages.code if user.languages else "id"
-        print(translater(translate_to=user_lang, page=obj.nama, values=obj.nama))
+        user_lang = "id"
+        if not user.is_authenticated:
+            user = None
+        else:
+            user_lang = user.languages.code if user.languages else "id"
         return translater(translate_to=user_lang, page=obj.nama, values=obj.nama)
 
     def get_count_star(self, obj):

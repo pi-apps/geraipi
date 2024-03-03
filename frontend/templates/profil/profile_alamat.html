@@ -4,32 +4,15 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 {% endblock %}
 {% block content %}
-<div class="mt-3 mb-4 h-100 mx-5">
+<div class="mt-3 mb-4 h-100 mx-5 h-screen">
     {% if user.is_authenticated %}
     <div class="flex flex-col justify-around p-1 gap-6">
-        <div class="flex justify-between items-center gap-2 my-5 border shadow-lg rounded-lg px-2 py-4">
-            <div class="w-10 h-10 bg-slate-300 rounded-full"></div>
-            <div class="flex flex-col px-2">
-                <p id="nama" class="text-lg font-medium">@{{ user.username }}</p>
-                <div class="flex flex-row justify-between">
-                    <div class="flex flex-wrap items-center gap-2 flex-row w-full">
-                        <p id="pendapatan" class="text-slate-600 text-sm">Pendapatan Toko : 10 Pi</p>
-                        <a href="/user/withdrawl" class="bg-orange-400 flex items-center uppercase font-bold hover:bg-orange-600 hover:shadow-sm text-white text-xs rounded-full py-1 px-2"><span>Withdraw</span></a>
-                    </div>
-                    {% comment %}
-                    <div>
-                        <p id="pendapatan" class="text-center"></p>
-                    </div>
-                    {% endcomment %}
-                </div>
-            </div>
-        </div>
         <div class="grid grid-cols-2">
             <div class="p-2">
-                <a class="w-full text-center cursor-pointer h-100 bg-slate-600 text-white rounded-lg block" href="/tambah/alamat/{{ request.user.id }}/domestic">Indonesia</a>
+                <a class="w-full text-center cursor-pointer h-100 bg-slate-600 text-white rounded-lg block" href="javascript:void(0)"  onclick="shownegri()">Indonesia</a>
             </div>
             <div class="p-2">
-                <a class="w-full text-center cursor-pointer h-100 bg-slate-600 text-white rounded-lg block" href="/tambah/alamat/{{ request.user.id }}/nondomestic"> Other Country</a>
+                <a class="w-full text-center cursor-pointer h-100 bg-slate-600 text-white rounded-lg block" href="javascript:void(0)" onclick="hidenegri()"> Other Country</a>
             </div>
         </div>
         <form method="post">
@@ -42,34 +25,32 @@
                         Other Country 
                     {% endif %}
                 </p>
-                {% if typeid == 1 %}
-                <div class="flex flex-col">
+                <div class="flex flex-col dnegri">
                     <label>Provinsi</label>
                     <select name="province" class="select2 rounded-lg provinsi">
                         <option value="">-- Pilih Provinsi --</option>
                     </select>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col dnegri">
                     <label>Kota</label>
                     <select name="regency" class="select2 rounded-lg kecamatan">
                         <option value="">-- Pilih Kota --</option>
                     </select>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col dnegri">
                     <label>Kecamatan</label>
                     <select name="distric" class="select2 rounded-lg desa">
                         <option value="">-- Pilih Kecamatan --</option>
                     </select>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col dnegri">
                     <label>RT</label>
                     <input name="rt" type="text" class="rounded-lg h-10"/>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col dnegri">
                     <label>RW</label>
                     <input name="rw" type="text" class="rounded-lg h-10"/>
                 </div>
-                {% endif %}
                 <div class="flex flex-col">
                     <label>
                         ZIP
@@ -96,6 +77,18 @@
 {% block script %}
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+    {% if user.languange.code is "id" %} 
+        shownegri()
+    {% else %}
+        hidenegri()
+    {% endif %}
+
+    async function hidenegri(){
+        $('.dnegri').hide()
+    }
+    async function shownegri(){
+        $('.dnegri').show()
+    }
 
     $(function(){
         async function ini(){
