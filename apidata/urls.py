@@ -32,9 +32,11 @@ router.register(r"stores", UserStoreViewset)
 router.register(r"storeaddres", UserStoreAddressViewset)
 router.register(r"ulasanproduk", UlasanViewSet)
 
-produk_list = ProdukViewSet.as_view({
-    'get': 'list',
-})
+produk_list = ProdukViewSet.as_view(
+    {
+        "get": "list",
+    }
+)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

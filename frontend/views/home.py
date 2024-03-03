@@ -1,11 +1,11 @@
 from django.shortcuts import render
 
+from frontend.models import Pengumuman
 from produk.models import Kategori
+from profiles.models import LangSupport
 
 from ..models import Banner
 from .base_view import FrontPage
-from frontend.models import Pengumuman
-from profiles.models import LangSupport
 
 
 class Home(FrontPage):
@@ -34,6 +34,6 @@ class Home(FrontPage):
                 "banner": banner,
                 "range_value": range(1, 6),
                 "pengumuman": pengumuman,
-                "languages": languages
+                "languages": languages,
             },
         )

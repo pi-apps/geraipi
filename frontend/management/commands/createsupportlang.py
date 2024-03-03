@@ -1,5 +1,6 @@
+from deep_translator import GoogleTranslator
 from django.core.management.base import BaseCommand
-from deep_translator import (GoogleTranslator)
+
 from profiles.models import LangSupport
 
 

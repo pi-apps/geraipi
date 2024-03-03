@@ -2,9 +2,9 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 from django_resized import ResizedImageField
-from profiles.helper import get_random
 
 from master.models import Distric, Provinsi, Regency, Village
+from profiles.helper import get_random
 
 from .managers import UserManager
 

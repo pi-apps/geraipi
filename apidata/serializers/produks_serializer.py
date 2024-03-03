@@ -1,8 +1,8 @@
 from django.db.models import Avg
 from django.urls import reverse
 from rest_framework import serializers
-from frontend.view_helper import translater
 
+from frontend.view_helper import translater
 from produk.models import (
     GambarProduk,
     Kategori,
@@ -27,9 +27,7 @@ class KategoriSerializer(serializers.HyperlinkedModelSerializer):
         user = self.context["users"]
         languanges_code = user.languages.code if user.languages else "id"
         translate_text = translater(
-            translate_to=languanges_code,
-            page=obj.nama,
-            values=obj.nama
+            translate_to=languanges_code, page=obj.nama, values=obj.nama
         )
         return translate_text
 
@@ -45,9 +43,7 @@ class TipeProdukSerializer(serializers.HyperlinkedModelSerializer):
         user = self.context["users"]
         languanges_code = user.languages.code if user.languages else "id"
         translate_text = translater(
-            translate_to=languanges_code,
-            page=obj.nama,
-            values=obj.nama
+            translate_to=languanges_code, page=obj.nama, values=obj.nama
         )
         return translate_text
 
@@ -63,9 +59,7 @@ class WarnaProdukSerializer(serializers.HyperlinkedModelSerializer):
         user = self.context["users"]
         languanges_code = user.languages.code if user.languages else "id"
         translate_text = translater(
-            translate_to=languanges_code,
-            page=obj.nama,
-            values=obj.nama
+            translate_to=languanges_code, page=obj.nama, values=obj.nama
         )
         return translate_text
 
@@ -132,7 +126,9 @@ class ProdukSerializer(serializers.HyperlinkedModelSerializer):
         return urldetail
 
     def get_gambar(self, obj):
-        gambars = GambarProduk.objects.filter(produk__pk=obj.pk, gambar__isnull=False).order_by("-pk")
+        gambars = GambarProduk.objects.filter(
+            produk__pk=obj.pk, gambar__isnull=False
+        ).order_by("-pk")
         return GambarProdukSerializer(gambars, many=True).data
 
     def get_store(self, obj):

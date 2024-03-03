@@ -13,8 +13,8 @@ from produk.models import (
     TipeProduk,
     WarnaProduk,
 )
-from store.models import UserStore
 from profiles.models import LangSupport
+from store.models import UserStore
 
 from .base_view import FrontPage
 
@@ -41,7 +41,7 @@ class Jual(FrontPage):
                 "typeproduk": typeproduk,
                 "warnaproduk": warnaproduk,
                 "ekspedisi": expedisi,
-                "languages": languages
+                "languages": languages,
             },
         )
 
@@ -73,7 +73,7 @@ class Jual(FrontPage):
                 berat=refinput.get("berat"),
                 lebar=refinput.get("lebar"),
                 cross_boarder=refinput.get("lintas_negara", False),
-                negara=refinput.get("negara", None)
+                negara=refinput.get("negara", None),
             )
             for k in refinput.getlist("kategori"):
                 kateg = Kategori.objects.filter(pk=k).first()

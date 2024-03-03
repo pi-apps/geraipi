@@ -2,8 +2,8 @@ from django.core.paginator import Paginator
 from django.db.models import Avg
 from django.shortcuts import render
 
-from produk.models import Kategori, Produk
 from frontend.models import Pengumuman
+from produk.models import Kategori, Produk
 
 from .base_view import FrontPage
 
@@ -28,6 +28,6 @@ class Produks(FrontPage):
                 "produk": page_obj,
                 "kategori": kategori,
                 "range_value": range(1, 6),
-                "pengumuman": pengumuman
+                "pengumuman": pengumuman,
             },
         )
