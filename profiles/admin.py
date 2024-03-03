@@ -214,6 +214,7 @@ admin.site.register(UserwithdrawlTransactionRequest, UserWithdrawlRequestAdmin)
 
 
 class LangSupportAdmin(admin.ModelAdmin):
+    list_display = ["code", "alias", "is_active", "is_active_store"]
     search_fields = ["code", "alias"]
 
 

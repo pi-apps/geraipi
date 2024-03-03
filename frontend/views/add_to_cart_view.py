@@ -114,4 +114,4 @@ class AddToCart(FrontPage):
         )
         cart_item.save()
 
-        return redirect(reverse("beli", str(cart.id)))
+        return redirect(reverse("beli", kwargs={"id": cart.id}))
