@@ -58,6 +58,7 @@ class ConfigurationWebsite(SingletonModel):
     pajak_beli = models.FloatField(default=0)
     pajak_withdrawl = models.FloatField(default=0)
     koin_website = models.FloatField(default=0)
+    konfigurasi_firebase = models.FileField(blank=True, null=True, upload_to='konfigurasi/')
 
 
 class HistoriTampung(models.Model):

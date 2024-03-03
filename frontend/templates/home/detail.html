@@ -65,7 +65,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Warna</td>
+                                <td>{%translater user.languages.code "Warna" "Warna"%}</td>
                                 <td>:</td>
                                 <td class="flex flex-wrap gap-2 flex-row">
                                     <span class=" py-[2px] px-2 w-full">
@@ -76,27 +76,27 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Stok</td>
+                                <td>{%translater user.languages.code "Stok" "Stok"%}</td>
                                 <td>:</td>
                                 <td class="flex flex-wrap gap-2 flex-row">
                                     <span class=" py-[2px] px-2 w-full">{{ produk.stok_produk }}</span>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Lintas Negara ?</td>
+                                <td>{% translater user.languages.code "Lintas Negara ?" "Lintas Negara ?" %}</td>
                                 <td>:</td>
                                 <td class="flex flex-wrap gap-2 flex-row">
                                     <span class=" py-[2px] px-2 w-full">
                                         {% if produk.cross_boarder %}
-                                        YA
+                                            {%translater user.languages.code "YA" "YA"%}
                                         {% else %}
-                                        TIDAK
+                                            {%translater user.languages.code "TIDAK" "TIDAK"%}
                                         {% endif %}
                                     </span>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Keterangan</td>
+                                <td>{%translater user.languages.code "Keterangan" "Keterangan"%}</td>
                                 <td>:</td>
                                 <td></td>
                             </tr>
@@ -148,9 +148,10 @@
             $.ajax({
                 url: next,
                 method:"get",
-                data:{},
+                data:{
+                    produk: "{{produk.id}}"
+                },
                 success:function(res){
-                    
                     let html = ''
                     if(res.count > 0){
                         $.each(res.results, function(index, datas){

@@ -24,3 +24,15 @@ class ContentTranslate(models.Model):
 
     def __str__(self):
         return self.tag_data or "-"
+
+
+class Pengumuman(models.Model):
+    text_pengumuman = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Pengumuman Website"
+        verbose_name_plural = "Pengumuman Website"
+
+    def __str__(self):
+        return self.text_pengumuman

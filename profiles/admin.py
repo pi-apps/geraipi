@@ -133,13 +133,22 @@ admin.site.register(UserProfileAddress, UserProfileAddressAdmin)
 
 
 class UserWithdrawlRequestAdmin(admin.ModelAdmin):
-    list_display = ["kode", "user", "jumlah", "status", "list_action"]
+    list_display = ["kode", "user", "get_user_email", "get_user_wallet", "jumlah", "status", "list_action"]
+    search_fields = ["kode"]
 
     def get_code(self, obj):
         kode = obj.kode or "-"
         return kode
 
     get_code.short_description = "Kode Transaksi"
+
+    def get_user_email(self, obj):
+        return obj.user.email
+    get_user_email.short_description = "Email User"
+
+    def get_user_wallet(self, obj):
+        return obj.user.wallet
+    get_user_wallet.short_description = "Wallet User"
 
     def list_action(self, obj):
         objs = "Selesai"
@@ -193,4 +202,9 @@ class UserWithdrawlRequestAdmin(admin.ModelAdmin):
 
 admin.site.register(UserwithdrawlTransactionRequest, UserWithdrawlRequestAdmin)
 
-admin.site.register(LangSupport)
+
+class LangSupportAdmin(admin.ModelAdmin):
+    search_fields = ["code", "alias"]
+
+
+admin.site.register(LangSupport, LangSupportAdmin)

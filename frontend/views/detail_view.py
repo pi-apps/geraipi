@@ -15,6 +15,6 @@ class Detail(FrontPage):
             print(e)
         return render(
             request,
-            "home_detail.html",
+            "home/detail.html",
             {"slug": slug, "produk": produk, "gambar": gambar},
         )

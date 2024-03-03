@@ -1,8 +1,10 @@
-{% extends 'layout.html' %} {% load static %} {% block header %}
+{% extends 'layout.html' %} 
+{% load static translater %} 
+{% block header %}
 <nav class="sticky top-0 flex bg-white px-2 py-2 z-50">
     <a href="/home" class="flex gap-1 items-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m7.825 13l4.9 4.9q.3.3.288.7t-.313.7q-.3.275-.7.288t-.7-.288l-6.6-6.6q-.15-.15-.213-.325T4.425 12q0-.2.063-.375T4.7 11.3l6.6-6.6q.275-.275.688-.275t.712.275q.3.3.3.713t-.3.712L7.825 11H19q.425 0 .713.288T20 12q0 .425-.288.713T19 13H7.825Z" /></svg>
-        <h2 class="text-xl font-bold">Back</h2>
+        <h2 class="text-xl font-bold">{% translater user.languages.code "Back" "Back" %}</h2>
     </a>
 </nav>
 {% endblock %} 
@@ -29,18 +31,18 @@
             </select>
         </div> -->
         <div class="mb-6">
-            <label class="block mb-2 font-medium text-slate-900">Nama</label>
+            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Nama" "Nama" %}</label>
             <input type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="nama" />
         </div>
         <div class="mb-6">
-            <label class="block mb-2 font-medium text-slate-900">Deskripsi</label>
+            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Deskripsi" "Deskripsi" %}</label>
             <textarea type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 django_ckeditor" name="deskripsi" id="editor1"></textarea>
         </div>
         <div class="mb-6">
-            <label class="block mb-2 font-medium text-slate-900">Stok</label>
+            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Stok" "Stok" %}</label>
             <input type="number" required class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="stok" />
         </div>
-        <p class="block mb-2 font-medium text-slate-900" for="gambar">Upload Gambar</p>
+        <p class="block mb-2 font-medium text-slate-900" for="gambar">{% translater user.languages.code "Upload Gambar" "Upload Gambar" %}</p>
         <div class="mb-6 flex gap-1 justify-between">
             <div>
                 <input type="file" class="hidden" name="gambar" id="img1" onchange="readURL(this, 'image1');" />
@@ -56,7 +58,7 @@
             </div>
         </div>
         <div class="mb-6">
-            <label class="block mb-2 font-medium text-slate-900" for="harga">Harga</label>
+            <label class="block mb-2 font-medium text-slate-900" for="harga">{% translater user.languages.code "Harga" "Harge" %}</label>
             <div class="relative w-full">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                     <span class="text-slate-500 font-medium">𝛑</span>
@@ -66,40 +68,51 @@
         </div>
 
         <div class="mb-6">
-            <label class="block mb-2 font-medium text-slate-900">Kategori</label>
+            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Kategori" "Kategori" %}</label>
             <select multiple="multiple" id="kategori" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="kategori" required>
                 {% for k in kategori %}
                 <option value="{{ k.pk }}">{{ k.nama }}</option>
                 {% endfor %}
             </select>
         </div>
+
+        <div class="mb-6">
+            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Negara" "Negara" %}</label>
+            <select id="negara" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="negara" required>
+                {% for k in languages %}
+                <option value="{{ k.id }}">{{ k.alias }}</option>
+                {% endfor %}
+            </select>
+        </div>
         
         <div class="mb-6">
-            <p class="font-bold text-[12px]">Lintas Negara ?</p>
+            <p class="font-bold text-[12px]">{% translater user.languages.code "Lintas Negara ?" "Lintas Negara ?" %}</p>
             <label for="">
                 <input type="checkbox" value="1" name="lintas_negara">
-                Apakah Lintas Negara
+                {% translater user.languages.code "Apakah Lintas Negara" "Apakah Lintas Negara" %}
             </label>
         </div>
 
         <div class="mb-6">
-            <label class="block mb-2 font-medium text-slate-900">Tipe</label>
+            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Tipe" "Tipe" %}</label>
             <div class="flex flex-row gap-3">
                 {% for tp in typeproduk %}
                 <div class="flex items-start mb-6">
                     <div class="flex items-center h-5">
                         <input id="baru" type="radio" name="tipe" value="{{ tp.pk }}" class="w-4 h-4 border border-slate-300 cursor-pointer rounded bg-slate-50 focus:ring-3 focus:ring-blue-300" required />
                     </div>
-                    <label for="baru" class="ml-2 font-medium text-slate-900">{{ tp.nama }}</label>
+                    <label for="baru" class="ml-2 font-medium text-slate-900">
+                        {% translater user.languages.code tp.nama tp.nama %}
+                    </label>
                 </div>
                 {% endfor %}
             </div>
         </div>
         <div class="flex flex-col mb-6">
-            <label class="block mb-2 font-medium text-slate-900">Spesifikasi</label>
+            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Spesifikasi" "Spesifikasi" %}</label>
             <div class="shadow-sm flex gap-1 border py-4 items-center border-slate-300 text-slate-900 text-sm rounded-lg w-full p-1 grid-cols-3">
                 <div class="w-48">
-                    <label for="warna" class="block mb-2 1text-sm font-medium text-slate-900">Warna</label>
+                    <label for="warna" class="block mb-2 1text-sm font-medium text-slate-900">{% translater user.languages.code "Warna" "Warna" %}</label>
                     <div class="relative">
                         <select name="warna" id="warna" class="select2 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1" multiple>
                             {% for a in warnaproduk %}
@@ -109,7 +122,7 @@
                     </div>
                 </div>
                 <div class="w-48">
-                    <label for="berat" class="block mb-2 1text-sm font-medium text-slate-900">Berat</label>
+                    <label for="berat" class="block mb-2 1text-sm font-medium text-slate-900">{% translater user.languages.code "Berat" "Berat" %}</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg class="w-4 h-4 text-slate-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
@@ -123,7 +136,7 @@
                     </div>
                 </div>
                 <div class="w-48">
-                    <label for="lebar" class="block mb-2 1text-sm font-medium text-slate-900">Lebar</label>
+                    <label for="lebar" class="block mb-2 1text-sm font-medium text-slate-900">{% translater user.languages.code "Lebar" "Lebar" %}</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg class="w-4 h-4 text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m7 16l-4-4l4-4l1.425 1.4l-1.6 1.6h10.35L15.6 9.4L17 8l4 4l-4 4l-1.4-1.4l1.575-1.6H6.825L8.4 14.6L7 16Z" /></svg>
@@ -135,7 +148,7 @@
             </div>
         </div>
         <div class="flex">
-            <button class="bg-orange-600 w-full text-white hover:bg-orange-700 py-2 rounded-lg" type="submit">Simpan</button>
+            <button class="bg-orange-600 w-full text-white hover:bg-orange-700 py-2 rounded-lg" type="submit">{% translater user.languages.code "Simpan" "Simpan" %}</button>
         </div>
     </form>
 </div>
@@ -156,6 +169,7 @@
     const dzone = new Dropzone("#dropzonedata", {
         url: "/file/post",
     });
+    
     dzone.on("complete", function (file) {
         console.log("ff", file);
     });
@@ -192,6 +206,12 @@
     $(function(){
         if($('#editor1')){
             CKEDITOR.replace( 'editor1' );
+        }
+    })
+
+    $("[name='lintas_negara']").on("change", function(){
+        if($(this).is(":checked")){
+
         }
     })
 </script>

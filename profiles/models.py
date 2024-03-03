@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 from django_resized import ResizedImageField
+from profiles.helper import get_random
 
 from master.models import Distric, Provinsi, Regency, Village
 
@@ -17,6 +18,7 @@ class LangSupport(models.Model):
     code = models.CharField(blank=True, null=True, max_length=255)
     alias = models.CharField(blank=True, null=True, max_length=255)
     is_active = models.BooleanField(default=True)
+    is_active_store = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = "Language"
@@ -102,7 +104,7 @@ class UserWithdrawlTransaction(models.Model):
 
 class UserwithdrawlTransactionRequest(models.Model):
     REQUEST_STATUS = ((1, "Request User"), (2, "Selesai Diproses"))
-    kode = models.CharField(blank=True, null=True, max_length=255)
+    kode = models.CharField(max_length=255, default=get_random())
     user = models.ForeignKey(
         UserProfile, on_delete=models.SET_NULL, blank=True, null=True
     )

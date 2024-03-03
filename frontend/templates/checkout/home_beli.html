@@ -1,5 +1,5 @@
 {% extends 'layout.html' %} 
-{% load static %} 
+{% load static translater %} 
 {% block content %}
 <div class="mt-3 mb-4">
     <form action="" method="post">
@@ -12,13 +12,13 @@
             </div>
             {% endif %}
             <div class="flex justify-center mx-3">
-                <h4> Checkout {{ cart_item.produk.nama }}</h4>
+                <h4> {% translater user.languages.code "Checkout" "Checkout" %} {{ cart_item.produk.nama }}</h4>
             </div>
             <div id="checkout-id">
                 <div class="my-3 border rounded-lg p-3 shadow-lg">
                     <div class="border rounded flex flex-row my-2 bg-slate-200">
                         <div class="p-3">
-                            Alamat : <br />
+                            {% translater user.languages.code "Alamat" "Alamat" %} : <br />
                             {{ alamat.address }} - {{ alamat.zipcode }} - RT {{ alamat.rt }} - RW {{ alamat.rw }} - {{ alamat.province.nama }} - {{ alamat.regency.name }} - {{ alamat.distric.name }}
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                             {% endif %}
                         </div>
                         <div class="flex flex-col px-2">
-                            <strong class="">{{ produk.nama }}</strong>
+                            <strong class="">{% translater user.languages.code produk.nama produk.nama %}</strong>
                             <strong>
                                 <h4 class="">{{ produk.harga }} 𝛑</h4>
                             </strong>
@@ -41,11 +41,11 @@
             </div>
             <div class="my-3">
                 <div class="border rounded bg-slate-200 flex justify-between px-3 flex-col shadow-lg">
-                    <div class="text-center text-sm font-bold">TOTAL PEMBAYARAN</div>
+                    <div class="text-center text-sm font-bold">{% translater user.languages.code "TOTAL PEMBAYARAN" "TOTAL PEMBAYARAN" %}</div>
                     <div class="flex flex-col gap-0">
                         <div class="flex flex-row justify-between">
                             <span>
-                                Harga
+                                {% translater user.languages.code "Harga" "Harga" %}
                             </span>
                             <span>
                                 {{ produk.harga }} Pi
@@ -61,7 +61,7 @@
                         </div>
                         <div class="flex flex-row justify-between">
                             <span>
-                                Jumlah Total
+                                {% translater user.languages.code "Jumlah Total" "Jumlah Total" %}
                             </span>
                             <span class="jumlah_ppn">
                                 {{ total_pajak }}
@@ -75,7 +75,7 @@
                 <button type="submit" class="p-2 text-center w-screen bg-slate-200 rounded no-underline text-black">Checkout</button>
                 {% endif %}
             </div>
-            <p class="my-3"><strong>Note:</strong> Barang yang sudah dibeli Tidak Bisa dikembalikan lagi</p>
+            <p class="my-3"><strong>{% translater user.languages.code "Note" "Note" %}:</strong>{% translater user.languages.code "Barang yang sudah dibeli Tidak Bisa dikembalikan lagi" "Barang yang sudah dibeli Tidak Bisa dikembalikan lagi" %} </p>
         </div>
     </form>
 </div>

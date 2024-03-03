@@ -19,12 +19,12 @@
     <div class="grid grid-cols-2 gap-1 " id="produks-list">
         
     </div>
-    <div class="flex justify-between">
+    <div class="flex justify-between bg-slate-400 rounded-full my-3">
         <div>
-            <a href="#" class="px-3 py-3" id="prev-button">Prev</a>
+            <a href="#" class="px-3 py-3 my-2" id="prev-button">Prev</a>
         </div>
         <div>
-            <a href="#" class="px-3 py-3" id="next-button">Next</a>
+            <a href="#" class="px-3 py-3" id="next-button" aria-disabled="true">Next</a>
         </div>
     </div>
 </div>
@@ -32,16 +32,6 @@
 {% block script %} 
 {% comment %} <script src="{% static 'star-rating-master/jquery.rating.js' %}"></script> {% endcomment %}
 <script>
-    async function translate(obj, id){
-        $.ajax({
-            url:"{% url 'translated_json' %}",
-            method: "POST",
-            data:{ text_translate:obj, to:"{{ user.languages.code }}" },
-            success: function(res){
-                $(`${id}`).text(res.data)
-            }
-        })
-    }
     function loopdata(obj, i=0){
         if(obj[i]){
             let index_res = i
@@ -87,20 +77,6 @@
             i = i + 1
             loopdata(obj, i)
         }else{
-            let r = $('.ktg-translate')
-            $.each(r, function(ids, vs){
-                translate($(vs).text(), "#ktg-"+ids)
-            })
-
-            // let toko_r = $('.toko-r')
-            // $.each(toko_r, function(ids, vs){
-            //     translate($(vs).text(), "#toko-r-"+ids)
-            // })
-
-            let produk_nama_r = $('.produk-nama')
-            $.each(produk_nama_r, function(ids, vs){
-                translate($(vs).text(), "#produk-nama-"+ids)
-            })
         }
     }
     async function getProduk(next=null, prev=null){

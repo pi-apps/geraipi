@@ -16,7 +16,7 @@ class ProfileEdit(FrontPage):
         data.nama = data.nama or ""
         data.no_telepon = data.no_telepon or ""
         data.email = data.email or ""
-        languages = LangSupport.objects.all()
+        languages = LangSupport.objects.filter(is_active=True)
         return render(
             request, "profil/profiles_edit.html", {"data": data, "languages": languages}
         )

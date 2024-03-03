@@ -3,6 +3,7 @@ from django.db.models import Avg
 from django.shortcuts import render
 
 from produk.models import Kategori, Produk
+from frontend.models import Pengumuman
 
 from .base_view import FrontPage
 
@@ -10,6 +11,9 @@ from .base_view import FrontPage
 class Produks(FrontPage):
     def get(self, request):
         produk = Produk.objects.annotate(count_star=Avg("ulasancart__produk"))
+        pengumuman = Pengumuman.objects.filter(is_active=True)
+        pengumuman = pengumuman.first()
+
         kategori = None
         if request.GET.get("kategori"):
             kategori = Kategori.objects.filter(pk=request.GET.get("kategori")).first()
@@ -19,6 +23,11 @@ class Produks(FrontPage):
         page_obj = produk_paginator.get_page(page_number)
         return render(
             request,
-            "produk.html",
-            {"produk": page_obj, "kategori": kategori, "range_value": range(1, 6)},
+            "home/produk.html",
+            {
+                "produk": page_obj,
+                "kategori": kategori,
+                "range_value": range(1, 6),
+                "pengumuman": pengumuman
+            },
         )

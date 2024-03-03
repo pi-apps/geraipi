@@ -1,29 +1,24 @@
-from django.db.models import Avg
 from django.shortcuts import render
 
-from produk.models import Kategori, Produk
+from produk.models import Kategori
 
 from ..models import Banner
 from .base_view import FrontPage
+from frontend.models import Pengumuman
+from profiles.models import LangSupport
 
 
 class Home(FrontPage):
     def get(self, request):
-        kategori_param = None
-        if request.GET.get("kategori"):
-            kategori_param = request.GET.get("kategori")
+        # Pengumuman data
+        pengumuman = Pengumuman.objects.filter(is_active=True)
+        pengumuman = pengumuman.first()
+
+        # Languange list
+        languages = LangSupport.objects.filter(is_active_store=True)
+
         kategori = []
-        produk = []
         banner = Banner.objects.all()
-        try:
-            produk = Produk.objects.annotate(count_star=Avg("ulasancart__produk"))
-            produk = produk.filter(is_archive=False)
-            if kategori_param:
-                produk = produk.filter(kategori_id=request.GET.get("kategori"))
-            produk = produk.order_by("-pk")
-        except Exception as e:
-            print(e)
-            produk = []
 
         try:
             kategori = Kategori.objects.all()
@@ -33,11 +28,12 @@ class Home(FrontPage):
 
         return render(
             request,
-            "home/product.html",
+            "home/index.html",
             {
-                "produk": produk,
                 "kategori": kategori,
                 "banner": banner,
                 "range_value": range(1, 6),
+                "pengumuman": pengumuman,
+                "languages": languages
             },
         )
