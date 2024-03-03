@@ -35,8 +35,6 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     "jazzmin",
-    # 'jobicadmin',
-    # 'customadmin',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -45,10 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.forms",
     "corsheaders",
-    "django_htmx",
     "django_filters",
     "import_export",
-    "widget_tweaks",
     "loginas",
     "profiles",
     "master",
@@ -58,12 +54,11 @@ INSTALLED_APPS = [
     "rest_framework",
     "tailwind",
     "theme",
-    "django_browser_reload",
+    # "django_browser_reload",
     "rest_framework.authtoken",
     "ckeditor",
     "apidata",
     "django_extensions",
-    # 'passkeys'
 ]
 
 MIDDLEWARE = [
@@ -76,7 +71,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    # "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
@@ -163,9 +158,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 USE_TZ = True
 
-SESSION_COOKIE_SAMESITE = "None"  # As a string
-SESSION_COOKIE_SECURE = True
-X_FRAME_OPTIONS = "ALLOWALL"
+# SESSION_COOKIE_SAMESITE = "None"  # As a string
+# SESSION_COOKIE_SECURE = True
+# X_FRAME_OPTIONS = "ALLOWALL"
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
@@ -248,20 +243,12 @@ USE_TZ = True
 CELERY_TIMEZONE = "Asia/Jakarta"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+
 # CELERY_IMPORTS = ("tasks",)
-
-FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
-
-
 def CAN_LOGIN_AS(request, target_user):
     return request.user.is_superuser
 
 
 LOGINAS_LOGOUT_REDIRECT_URL = reverse_lazy("admin:index")
 LOGINAS_REDIRECT_URL = "/admin"
-
-# AUTHENTICATION_BACKENDS = ['passkeys.backend.PasskeyModelBackend'] # Change your authentication backend
-# FIDO_SERVER_ID=os.environ.get("FIDO_SERVER_ID")      # Server rp id for FIDO2, it the full domain of your project
-# FIDO_SERVER_NAME=os.environ.get("FIDO_SERVER_NAME")
-# import passkeys
-# KEY_ATTACHMENT = passkeys.Attachment.CROSS_PLATFORM
