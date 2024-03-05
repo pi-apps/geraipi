@@ -1,7 +1,7 @@
-from rest_framework import viewsets, filters
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, viewsets
 
 from apidata.serializers.provinsi_serializer import ProvinsiSerializer
-from django_filters.rest_framework import DjangoFilterBackend
 from master.models import Provinsi
 
 

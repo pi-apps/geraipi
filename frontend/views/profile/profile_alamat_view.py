@@ -4,9 +4,8 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-from profiles.models import UserProfile, UserProfileAddress
-
 from frontend.views.base_view import FrontPage
+from profiles.models import UserProfile, UserProfileAddress
 
 
 @method_decorator(csrf_exempt, name="dispatch")

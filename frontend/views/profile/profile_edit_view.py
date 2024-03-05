@@ -1,13 +1,12 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib import messages
+
 from frontend.view_helper import translater
-
-from profiles.models import LangSupport
-
 from frontend.views.base_view import FrontPage
+from profiles.models import LangSupport
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -33,6 +32,8 @@ class ProfileEdit(FrontPage):
         models.image_profile = request.FILES.get("gambars")
         models.save()
         languagescode = request.user.languages.code if request.user.languages else "en"
-        message = translater(languagescode, "Sukses Menyimpan Profil", "Sukses Menyimpan Profil")
+        message = translater(
+            languagescode, "Sukses Menyimpan Profil", "Sukses Menyimpan Profil"
+        )
         messages.success(request, message)
         return redirect("/profiles/edit")

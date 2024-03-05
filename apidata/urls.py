@@ -8,16 +8,16 @@ from apidata.viewsets.auth_viewset import (
     UserAuthToken,
     UserViewSet,
 )
+from apidata.viewsets.distric_viewset import DistricViewSet
 from apidata.viewsets.produks_viewset import (
     GambarProdukViewset,
     KategoriViewset,
     ProdukViewSet,
     TipeProdukViewset,
-    WarnaProdukViewset
+    WarnaProdukViewset,
 )
 from apidata.viewsets.provinsi_viewset import ProvinsiViewSet
 from apidata.viewsets.regency_viewset import RegencyViewSet
-from apidata.viewsets.distric_viewset import DistricViewSet
 from apidata.viewsets.slides_viewset import SlidesViewSet
 from apidata.viewsets.stores_viewset import UserStoreAddressViewset, UserStoreViewset
 from apidata.viewsets.ulasan_viewset import UlasanViewSet
