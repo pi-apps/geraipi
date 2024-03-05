@@ -4,7 +4,7 @@ from frontend.views.aboutapp_view import AboutApp
 from frontend.views.add_to_cart_view import AddToCart
 from frontend.views.alamat_toko_delete_view import DeleteAlamatToko
 from frontend.views.alamat_toko_view import AlamatToko
-from frontend.views.alamat_user_view import AlamatUser
+from frontend.views.profile.alamat_user_view import AlamatUser
 from frontend.views.alamt_toko_tambah_view import AlamatTokoTambah
 from frontend.views.approve_view import Approve
 from frontend.views.archive_barang_view import ArchiveBarang
@@ -35,8 +35,8 @@ from frontend.views.privacyandpolicy_view import PrivacyAndPolicy
 from frontend.views.produk_view import Produks
 from frontend.views.profile_delete_detail_view import DeleteDetailProfile
 from frontend.views.profile_detail_address_view import DetailProfileAddressMain
-from frontend.views.profile_detail_view import DetailProfile
-from frontend.views.profile_edit_view import ProfileEdit
+from frontend.views.profile.profile_alamat_view import ProfileAlamat
+from frontend.views.profile.profile_edit_view import ProfileEdit
 from frontend.views.profile_view import Profile
 from frontend.views.promo_view import Promo
 from frontend.views.save_token_views import SaveToken
@@ -71,7 +71,7 @@ urlpatterns = [
     # profile
     path("profile", Profile.as_view(), name="profile"),
     path("profiles/edit", ProfileEdit.as_view(), name="profiles_edit"),
-    path("profile/alamat", DetailProfile.as_view(), name="profile_detail"),
+    path("profile/alamat", ProfileAlamat.as_view(), name="profile_detail"),
     path(
         "profile/alamat/<int:id_alamat>/delete",
         DeleteDetailProfile.as_view(),
@@ -133,7 +133,7 @@ urlpatterns = [
         name="widrawl_request_process",
     ),
     path(
-        "tambah/alamat/<int:id>/<str:type>",
+        "tambah/alamat",
         AlamatUser.as_view(),
         name="tambah_alamat_user",
     ),

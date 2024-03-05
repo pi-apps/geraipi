@@ -6,12 +6,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 from profiles.models import UserProfile, UserProfileAddress
 
-from .base_view import FrontPage
+from frontend.views.base_view import FrontPage
 
 
 @method_decorator(csrf_exempt, name="dispatch")
 @method_decorator(login_required, name="dispatch")
-class DetailProfile(FrontPage):
+class ProfileAlamat(FrontPage):
     def get(self, request):
         profile = request.user
         try:
@@ -21,7 +21,7 @@ class DetailProfile(FrontPage):
         datas = {
             "address": useraddress,
         }
-        return render(request, "profil/detail_profile.html", datas)
+        return render(request, "profil/profile_alamat_.html", datas)
 
     def post(self, request):
         userss = request.user

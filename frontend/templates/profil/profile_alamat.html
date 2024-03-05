@@ -17,6 +17,7 @@
         </div>
         <form method="post">
             {% csrf_token %}
+            <input type="hidden" value="{% if indo %}1{% endif %}" name="origin">
             <div class="flex flex-col text-sm gap-2 border shadow-lg rounded-lg p-4">
                 <p class="font-bold text-center">
                     {% if type|lower == "domestic" %}
@@ -85,15 +86,16 @@
 
     async function hidenegri(){
         $('.dnegri').hide()
+        $(`input[name="origin"]`).val('2')
     }
     async function shownegri(){
         $('.dnegri').show()
+        $(`input[name="origin"]`).val('1')
     }
 
     $(function(){
         async function ini(){
             let jsonurl = await JSON.parse(window.localStorage.getItem('url_data'))
-            console.log("coba",jsonurl)
         }
         
         let desaselect = $('.desa').select2({
@@ -135,7 +137,7 @@
                     kecamatanselect.select2({
                         disabled:false,
                         ajax:{
-                            url: '/api/v1/regencys/?province_code='+value_provinsi,
+                            url: '{% url "regency-list" %}?province_code='+value_provinsi,
                             dataType: 'json',
                             data: function(params){
                                 var query = {
@@ -166,7 +168,7 @@
                             desaselect.select2({
                                 disabled:false,
                                 ajax:{
-                                    url: '/api/v1/districs/?regency_code='+kecamatanvalue,
+                                    url: '{% url "distric-list" %}?regency_code='+kecamatanvalue,
                                     dataType: 'json',
                                     data: function(params){
                                         var query = {
@@ -200,7 +202,7 @@
                 }
             })
         }
-        select2('.provinsi',"/api/v1/provinsis/")
+        select2('.provinsi',"{% url 'provinsi-list' %}")
 
     })
     {% comment %} {% comment %} const scopes = ['username','payments','wallet_address'];

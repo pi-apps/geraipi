@@ -4,15 +4,26 @@
 <div class="mt-3 mb-4 mx-5">
     {% if user.is_authenticated %}
     <div class="flex flex-col justify-around p-1 gap-6">
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             <div class="p-3 shadow-sm border rounded-lg my-3">
                 <a href="{% url 'profile' %}" class="">< {% translater user.languages.code "Back" "Back" %}</a>
             </div>
             <div class="flex flex-col gap-3 shadow-lg p-3 border rounded-lg">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li  {% if message.tags %} class="bg-green-400 px-2 rounded-sm {{ message.tags }} " {% endif %}> {{ message }} </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                 <div class="flex flex-row justify-center">
                     <div class="w-[100px] flex flex-col">
-                        <img src="{% static 'logo_atas.jpg' %}" alt="" class="w-full h-[100px] rounded-full">
-                        <input type="file" name="gambars" id="" class="w-full h-[10px] hidden">
+                        {% if user.image_profile %}
+                        <img src="/media/{{ user.image_profile }}" alt="" class="w-full h-[100px] rounded-full" id="profile-image">
+                        {% else %}
+                        <img src="{% static 'logo_atas.jpg' %}" alt="" class="w-full h-[100px] rounded-full" id="profile-image">
+                        {% endif %}
+                        <input type="file" name="gambars" accept="image/png, image/jpeg, image/jpg" id="" class="w-full h-[10px] hidden">
                         <label for="" class="w-full text-center py-3 cursor-pointer" onclick="changeImage()">{% translater user.languages.code "UBAH FOTO" "UBAH FOTO"%}</label>
                     </div>
                 </div>
@@ -100,7 +111,10 @@
     function changeImage(ini){
         $('input[name="gambars"]').click()
         $('input[name="gambars"]').on("change", function(e){
-            console.log(e)
+            let [file] = $(this)[0].files
+            if(file){
+                $('#profile-image').attr('src', URL.createObjectURL(file))
+            }
         })
     }
     // {% comment %} {% comment %} const scopes = ['username','payments','wallet_address'];

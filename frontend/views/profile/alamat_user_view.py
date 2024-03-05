@@ -6,13 +6,13 @@ from django.views.decorators.csrf import csrf_exempt
 
 from profiles.models import UserProfileAddress
 
-from .base_view import FrontPage
+from ..base_view import FrontPage
 
 
 @method_decorator(csrf_exempt, name="dispatch")
 @method_decorator(login_required, name="dispatch")
 class AlamatUser(FrontPage):
-    def post(self, request, id, type):
+    def post(self, request):
         userprofile = request.user
         userdetail = UserProfileAddress()
         userdetail.address = request.POST.get("address", None)
@@ -23,24 +23,22 @@ class AlamatUser(FrontPage):
         userdetail.regency_id = request.POST.get("regency", None)
         userdetail.distric_id = request.POST.get("distric", None)
         userdetail.userprofile_id = userprofile.pk
+        userdetail.typeaddress = request.POST.get("origin")
         userdetail.save()
         return redirect(reverse("profile_detail"))
 
-    def get(self, request, id, type):
-        types = None
-        typeid = None
-        if type == "domestic":
-            types = "Domestic"
-            typeid = 1
-        else:
-            types = "Non Domestic"
-            typeid = 2
-        # userprofile = request.user
+    def get(self, request):
+        userprofile = request.user
+        indo = True
+        if userprofile.languages:
+            if userprofile.languages.code != "id":
+                indo = False
+
         userprofileaddress = UserProfileAddress.objects.filter(
             userprofile_id=request.user.id
         )
         return render(
             request,
             "profil/profile_alamat.html",
-            {"type": types, "typeid": typeid, "address": userprofileaddress},
+            {"address": userprofileaddress, "indo": indo},
         )
