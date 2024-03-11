@@ -4,7 +4,6 @@ body {
 .layoutmobile {
     max-width: 450px;
     background-color: white;
-    height: 100vh;
     margin-right: auto;
     margin-left: auto;
 }

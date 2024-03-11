@@ -36,3 +36,20 @@ class Pengumuman(models.Model):
 
     def __str__(self):
         return self.text_pengumuman
+
+
+class Page(models.Model):
+    COICHE_PAGE = [
+        (1, "Aggrement"),
+        (2, "Privacy and Policy"),
+    ]
+    page_for = models.IntegerField(choices=COICHE_PAGE, default=1, unique=True)
+    content = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Page"
+        verbose_name_plural = "Page"
+    
+    def __str__(self):
+        return self.COICHE_PAGE

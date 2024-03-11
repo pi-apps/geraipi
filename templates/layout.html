@@ -54,6 +54,11 @@
             }
             body{
                 top:0 !important;
+                -ms-overflow-style: none;  /* IE and Edge */
+                scrollbar-width: none;
+            }
+            ::-webkit-scrollbar {
+                display: none;
             }
         </style>
         {% block styles %}{% endblock %}
@@ -63,18 +68,17 @@
     </head>
 
     <body style="background-color: aliceblue">
-        <div class="container-mobile mx-auto bg-white">
+        <div class="container-mobile mx-auto bg-white overflow-y-scroll scroll-smooth h-screen">
             {% block header %} 
                 {% include 'component/header_home.html' %} 
-            {% endblock %} 
-            
+            {% endblock %}
+
             {% block content %} 
-            {% endblock %} 
+            {% endblock %}
 
             {% block bottom_nav %} 
                 {% include 'component/bottom_home.html' %} 
-            {% endblock %} {% comment %} {% block header %} {% include 'component/header_home.html' %} {% endblock %} {% block content %} {% endblock %} {% block bottom_nav %} {% include 'component/bottom_home.html' %} {%
-            endblock %} {% endcomment %}
+            {% endblock %}
         </div>
         <!-- <div class="mybar w-full h-screen hidden" data-preset="bubble" data-pattern-size="10"></div> -->
         <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>

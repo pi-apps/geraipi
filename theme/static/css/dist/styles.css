@@ -2761,14 +2761,6 @@ html {
   margin-top: auto;
 }
 
-.mt-2 {
-  margin-top: 0.5rem;
-}
-
-.mt-10 {
-  margin-top: 2.5rem;
-}
-
 .block {
   display: block;
 }
@@ -2799,10 +2791,6 @@ html {
 
 .h-10 {
   height: 2.5rem;
-}
-
-.h-20 {
-  height: 5rem;
 }
 
 .h-24 {
@@ -2881,10 +2869,6 @@ html {
   width: 2.5rem;
 }
 
-.w-20 {
-  width: 5rem;
-}
-
 .w-24 {
   width: 6rem;
 }
@@ -2915,6 +2899,10 @@ html {
 
 .w-\[120px\] {
   width: 120px;
+}
+
+.w-\[450px\] {
+  width: 450px;
 }
 
 .w-fit {
@@ -3068,10 +3056,6 @@ html {
   overflow: hidden;
 }
 
-.overflow-y-auto {
-  overflow-y: auto;
-}
-
 .overflow-y-hidden {
   overflow-y: hidden;
 }
@@ -3082,6 +3066,10 @@ html {
 
 .overflow-y-scroll {
   overflow-y: scroll;
+}
+
+.scroll-smooth {
+  scroll-behavior: smooth;
 }
 
 .whitespace-nowrap {
@@ -3102,6 +3090,10 @@ html {
 
 .rounded-lg {
   border-radius: 0.5rem;
+}
+
+.rounded-sm {
+  border-radius: 0.125rem;
 }
 
 .rounded-xl {
@@ -3514,6 +3506,10 @@ html {
 
 .font-medium {
   font-weight: 500;
+}
+
+.font-normal {
+  font-weight: 400;
 }
 
 .font-semibold {

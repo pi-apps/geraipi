@@ -10,7 +10,7 @@ def translater(translate_to, page, values):
             content = content.filter(lang=translate_to, tag_data=page)
     content = content.first()
     if not content:
-        translator = GoogleTranslator("auto", translate_to).translate(values)
+        translator = GoogleTranslator("id", translate_to).translate(values)
         content = ContentTranslate()
         content.lang = translate_to
         content.tag_data = page
