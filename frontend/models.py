@@ -50,6 +50,6 @@ class Page(models.Model):
     class Meta:
         verbose_name = "Page"
         verbose_name_plural = "Page"
-    
+
     def __str__(self):
         return self.COICHE_PAGE
