@@ -252,6 +252,6 @@ def CAN_LOGIN_AS(request, target_user):
 
 LOGINAS_LOGOUT_REDIRECT_URL = reverse_lazy("admin:index")
 LOGINAS_REDIRECT_URL = "/admin"
-X_FRAME_OPTIONS = 'ALLOW-FROM *'
-SESSION_COOKIE_SAMESITE = 'None'  # As a string
+X_FRAME_OPTIONS = "ALLOW-FROM *"
+SESSION_COOKIE_SAMESITE = "None"  # As a string
 SESSION_COOKIE_SECURE = True
