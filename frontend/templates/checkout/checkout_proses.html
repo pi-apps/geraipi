@@ -51,9 +51,10 @@
                                 method:'get',
                                 success: function(res){
                                     txid = res
-                                    // alert(JSON.stringify(res))
+                                    alert(JSON.stringify(res))
                                 },
                                 error: function(e){
+                                    alert(e)
                                     window.location.href = '/home'
                                 }
                             })
@@ -68,22 +69,25 @@
                                     window.location.href = '/home'
                                 },
                                 error: function(e){
+                                    alert(e)
                                     window.location.href = '/home'
                                 }
                             })
                             
                         },
                         onCancle(){
+                            alert("cancel")
+
                             window.location.href = '/'
                         },
                         onError(param){
+                            alert("errrrr")
                             window.location.href = '/'
                         }
                     }) 
                 }).catch(function(error) {
                     alert("ada kesalahan sistem ")
                     window.location.href = '/home'
-                    console.error(error);
                 });
             }
         })
