@@ -74,6 +74,14 @@
                 alert("Error occurred: " + error.message);
                 return false;
             };
+            window.addEventListener("unhandledrejection", (event) => {
+                event.preventDefault(); // This will not print the error in the console });
+
+                console.log("Unhandled promise rejection"); 
+                console.log(event.reason);
+                alert(event.reason)
+            });
+
         </script>
     </head>
 
