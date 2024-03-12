@@ -68,11 +68,11 @@ class AddToCart(FrontPage):
             berat=produk.berat,
             lebar=produk.lebar,
             slug=produk.slug,
+            tipe=produk.tipe,
             created_at=produk.created_at,
         )
         produk_cart.save()
         produk_cart.kategori.set(produk.kategori.all())
-        produk_cart.tipe.set(produk.tipe.all())
         produk_cart.warna.set(produk.warna.all())
 
         user_cart = UserCartItem()

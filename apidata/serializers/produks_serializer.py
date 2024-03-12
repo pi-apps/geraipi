@@ -85,7 +85,7 @@ class GambarProdukSerializer(serializers.HyperlinkedModelSerializer):
 
 class ProdukSerializer(serializers.HyperlinkedModelSerializer):
     kategori = KategoriSerializer(many=True)
-    tipe = TipeProdukSerializer(many=True)
+    tipe = TipeProdukSerializer()
     warna = WarnaProdukSerializer(many=True)
     store = serializers.SerializerMethodField()
     gambar = serializers.SerializerMethodField()
