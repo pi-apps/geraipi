@@ -60,7 +60,7 @@ class Produk(models.Model):
     berat = models.FloatField(default=0)
     lebar = models.FloatField(default=0)
 
-    slug = models.SlugField(blank=True, null=True)
+    slug = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now=True)
     cross_boarder = models.BooleanField(default=False)
 
