@@ -74,6 +74,7 @@ class Jual(FrontPage):
                 lebar=refinput.get("lebar"),
                 cross_boarder=refinput.get("lintas_negara", False),
                 negara_id=refinput.get("negara", None),
+                tipe_id=refinput.get("tipe")
             )
             for k in refinput.getlist("kategori"):
                 kateg = Kategori.objects.filter(pk=k).first()
@@ -91,8 +92,7 @@ class Jual(FrontPage):
                     warnaa = WarnaProduk.objects.create(nama=k)
                     produk.warna.add(warnaa)
 
-            tipes = TipeProduk.objects.filter(pk=refinput.get("tipe")).first()
-            produk.tipe.add(tipes)
+            # tipes = TipeProduk.objects.filter(pk=refinput.get("tipe")).first()
             # print(reffile.get("gambar"))
             for reffiles in reffile.getlist("gambar"):
                 GambarProduk.objects.create(
