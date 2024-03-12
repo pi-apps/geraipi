@@ -65,6 +65,16 @@
         <link rel="stylesheet" href="{% static 'loading/loading-bar.css' %}">
         
         {% tailwind_css %}
+        <script>
+            window.onerror = function (message, file, line, col, error) {
+                alert("Error occurred: " + error.message);
+                return false;
+            };
+            window.onerror = function (message, file, line, col, error) {
+                alert("Error occurred: " + error.message);
+                return false;
+            };
+        </script>
     </head>
 
     <body style="background-color: aliceblue">
@@ -265,15 +275,6 @@
             }
         </script>
         {% endblock %}
-        <script>
-            window.onerror = function (message, file, line, col, error) {
-                alert("Error occurred: " + error.message);
-                return false;
-            };
-            window.onerror = function (message, file, line, col, error) {
-                alert("Error occurred: " + error.message);
-                return false;
-            };
-        </script>
+        
     </body>
 </html>
