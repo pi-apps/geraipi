@@ -265,5 +265,14 @@
             }
         </script>
         {% endblock %}
+        <script>
+            window.addEventListener("error", (event) => {
+                event.preventDefault(); // This will not print the error in the console
+
+                console.log("Unhandled error encountered");
+                console.log(event.message);
+                alert(event.message)
+            });
+        </script>
     </body>
 </html>
