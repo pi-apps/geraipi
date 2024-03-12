@@ -74,7 +74,7 @@ class Jual(FrontPage):
                 lebar=refinput.get("lebar"),
                 cross_boarder=refinput.get("lintas_negara", False),
                 negara_id=refinput.get("negara", None),
-                tipe_id=refinput.get("tipe")
+                tipe_id=refinput.get("tipe"),
             )
             for k in refinput.getlist("kategori"):
                 kateg = Kategori.objects.filter(pk=k).first()
