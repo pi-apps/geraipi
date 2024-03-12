@@ -16,6 +16,7 @@
 {% block script %}
 <script>
     function onIncompletePaymentFound(payment) {
+        alert("to this")
         let transactionid = payment.transaction.txid
         $.ajax({
             url:'/setcomplete/'+payment.identifier,
@@ -25,6 +26,7 @@
             },
             method:'get',
             success: function(res){
+                alert("dones")
                 console.log(res)
             }
         })
@@ -35,6 +37,7 @@
             url:"/cart_json/{{ cart_item.id }}",
             method:"GET",
             success: function(response){
+                alert(response)
                 const scopes = ['username','payments','wallet_address'];
                 Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
                     const data = {
@@ -46,6 +49,7 @@
                     let txid = null 
                     Pi.createPayment(data, {
                         onReadyForServerApproval(params){
+                            alert("approve")
                             $.ajax({
                                 url:'/approve/'+params,
                                 method:'get',
@@ -60,6 +64,7 @@
                             })
                         },
                         onReadyForServerCompletion(params){
+                            alert("ready")
                             $.ajax({
                                 url: '/paymentchart/'+params,
                                 data: { cart_id: "{{ cart_item.id }}" },
