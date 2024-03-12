@@ -1,5 +1,5 @@
 {% load static tailwind_tags %}
-{% load i18n %}
+{% load i18n translater %}
 <!DOCTYPE html>
 <html data-theme="bumblebee" lang="en">
     <head>
@@ -68,7 +68,7 @@
     </head>
 
     <body style="background-color: aliceblue">
-        <div class="container-mobile mx-auto bg-white overflow-y-scroll scroll-smooth h-screen pb-[60px]">
+        <div class="container-mobile mx-auto bg-white overflow-y-scroll scroll-smooth h-screen ">
             {% block header %} 
                 {% include 'component/header_home.html' %} 
             {% endblock %}
@@ -89,7 +89,7 @@
         <script src="{% static 'splide/dist/js/splide.min.js' %}"></script>
         <script src="{% static 'loading/loading-bar.js' %}"></script>
         <script>
-            Pi.init({ version: "2.0", sandbox: true });
+            Pi.init({ version: "2.0", sandbox: {% env "SANDBOX" %} });
         </script>
 
         <!--Start of Tawk.to Script-->

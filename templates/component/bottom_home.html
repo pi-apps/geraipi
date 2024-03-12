@@ -1,5 +1,5 @@
 {% load static translater%}
-<nav class="h-auto bg-black bottom-0 pt-4 pb-1 shadow-md absolute w-[450px]">
+<nav class="h-auto bg-black bottom-0 pt-4 pb-1 shadow-md sticky max-w-[450px]">
     {% with request.resolver_match.url_name as url_name %}
     <ul class="flex items-center justify-evenly text-sm">
         <li>

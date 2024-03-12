@@ -36,7 +36,7 @@
         </div>
         <div class="mb-6">
             <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Deskripsi" "Deskripsi" %}</label>
-            <textarea type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 django_ckeditor" name="deskripsi" id="editor1"></textarea>
+            <textarea type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="deskripsi" id="editor1"></textarea>
         </div>
         <div class="mb-6">
             <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Stok" "Stok" %}</label>
@@ -203,16 +203,15 @@
 </script>
 
 <script>
-    $(function(){
-        if($('#editor1')){
-            CKEDITOR.replace( 'editor1' );
-        }
-    })
 
     $("[name='lintas_negara']").on("change", function(){
         if($(this).is(":checked")){
 
         }
     })
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.24.0/ckeditor.js" integrity="sha512-Vzo9BnO8qlWYp96AZsG6QtNm+csiTPp3mBn5KtAOUBdj9cqfjRTN7e418F92/pVx9SOOsYwNPV+vhsf+lU5lxg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    CKEDITOR.replace( 'editor1' );
 </script>
 {% endblock %}
