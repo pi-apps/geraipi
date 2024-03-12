@@ -49,8 +49,8 @@
                             `<img src="{% static 'sample.png' %}" class="image-fluid" alt="" />`
                         }
                         <span class="text-xs bg-fuchsia-700 px-2 rounded-r-full p-1 font-semibold text-white ktg-translate" id="ktg-${index_res}">
-                            ${data_res.tipe.length > 0 ? 
-                                data_res.tipe[0].nama : "Untype"
+                            ${data_res.tipe ? 
+                                data_res.tipe.nama : "Untype"
                             }
                         </span>
                         <div class="flex flex-col p-2 w-full gap-1">
