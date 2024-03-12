@@ -198,7 +198,7 @@ AUTH_USER_MODEL = "profiles.UserProfile"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", False)
+# EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", False)
 EMAIL_HOST = os.getenv("EMAIL_HOST", "geraipi")
 EMAIL_PORT = os.getenv("EMAIL_PORT", 465)
 EMAIL_USE_SSL = True

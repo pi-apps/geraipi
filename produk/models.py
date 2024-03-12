@@ -41,7 +41,9 @@ class Produk(models.Model):
     kategori = models.ManyToManyField(Kategori)
     detail = models.TextField(null=True, blank=True)
 
-    tipe = models.ManyToManyField(TipeProduk, blank=True)
+    tipe = models.ForeignKey(
+        TipeProduk, blank=True, null=True, on_delete=models.CASCADE
+    )
     warna = models.ManyToManyField(WarnaProduk, blank=True)
     stok_produk = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)

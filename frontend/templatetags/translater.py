@@ -1,5 +1,6 @@
-from django import template
 import os
+
+from django import template
 
 from frontend.view_helper import translater as tr
 

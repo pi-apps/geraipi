@@ -1,9 +1,9 @@
 import json
-from email.message import EmailMessage
 
 import requests
+# from django.core.mail import EmailMessage
 from django.http import JsonResponse
-from django.template.loader import render_to_string
+# from django.template.loader import render_to_string
 
 from frontend.views.base_view import FrontPage
 from produk.models import Cart, CartItem, Produk
@@ -23,6 +23,7 @@ class PaymentsCart(FrontPage):
         )
 
         if postdata.status_code == 200:
+            print(postdata, cart_id, identifier)
             cart = Cart.objects.get(pk=cart_id)
             cart.status_toko = 1
             cart.status_pembayaran = 2
@@ -57,20 +58,20 @@ class PaymentsCart(FrontPage):
             print(carts, cart_id)
             # cartitems = CartItem.objects.get(cart__id=carts.id)
             # print(carts, cartitems)
-            subject = "Payment Success GeraiPi"
-            html_message = render_to_string("mail_template.html", {"carts": carts})
-            # plain_message = strip_tags(html_message)
-            from_email = "From <payment@geraipi.id>"
-            to = request.user.email
-            # mail.send_mail(subject,
-            #     plain_message,
-            #     from_email,
-            #     [to],
-            #     html_message=html_message)
+            # subject = "Payment Success GeraiPi"
+            # html_message = render_to_string("mail_template.html", {"carts": carts})
+            # # plain_message = strip_tags(html_message)
+            # from_email = "From <payment@geraipi.id>"
+            # to = request.user.email
+            # # mail.send_mail(subject,
+            # #     plain_message,
+            # #     from_email,
+            # #     [to],
+            # #     html_message=html_message)
 
-            msg = EmailMessage(subject, html_message, from_email, [to])
-            msg.content_subtype = "html"
-            msg.send()
+            # msg = EmailMessage(subject, html_message, from_email, [to])
+            # msg.content_subtype = "html"
+            # msg.send()
 
         except CartItem.DoesNotExist or Exception as e:
             print(e)

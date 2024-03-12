@@ -36,7 +36,6 @@
             method:"",
             success: function(response){
                 const scopes = ['username','payments','wallet_address'];
-                console.log(response)
                 Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
                     const data = {
                         "amount": response.harga_total,
@@ -53,16 +52,22 @@
                                 success: function(res){
                                     txid = res
                                     // alert(JSON.stringify(res))
+                                },
+                                error: function(e){
+                                    window.location.href = '/home'
                                 }
                             })
                         },
                         onReadyForServerCompletion(params){
                             $.ajax({
                                 url: '/paymentchart/'+params,
-                                data: { cart_id: "{{ cart.id }}" },
+                                data: { cart_id: "{{ cart_item.id }}" },
                                 method: "GET",
                                 success: function(res){
                                     console.log(res)
+                                    window.location.href = '/home'
+                                },
+                                error: function(e){
                                     window.location.href = '/home'
                                 }
                             })
@@ -73,11 +78,11 @@
                         },
                         onError(param){
                             window.location.href = '/'
-                            console.log(param)
                         }
                     }) 
                 }).catch(function(error) {
                     alert("ada kesalahan sistem ")
+                    window.location.href = '/home'
                     console.error(error);
                 });
             }

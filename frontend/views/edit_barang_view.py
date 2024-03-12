@@ -47,7 +47,7 @@ class EditBarang(FrontPage):
         stok = request.POST.get("stok")
         harga = request.POST.get("harga")
         kategori_post = request.POST.getlist("kategori")
-        tipe_post = request.POST.getlist("tipe")
+        tipe_post = request.POST.get("tipe")
         warna_post = request.POST.getlist("warna")
         berat = request.POST.get("berat")
         lebar = request.POST.get("lebar")
@@ -58,10 +58,13 @@ class EditBarang(FrontPage):
         produk.harga = harga
         produk.berat = berat
         produk.lebar = lebar
+        produk.cross_boarder = (
+            True if request.POST.get("cross_boarder", None) else False
+        )
+        produk.tipe_id = tipe_post
         produk.save()
 
         produk.kategori.remove()
-        produk.tipe.remove()
         produk.warna.remove()
 
         for k in kategori_post:
@@ -80,8 +83,6 @@ class EditBarang(FrontPage):
             else:
                 warnaa = WarnaProduk.objects.create(nama=k)
                 produk.warna.add(warnaa)
-        tipes = TipeProduk.objects.filter(pk__in=tipe_post).first()
-        produk.tipe.add(tipes)
 
         filess1 = request.FILES.get("gambar1")
         filess2 = request.FILES.get("gambar2")
@@ -125,4 +126,4 @@ class EditBarang(FrontPage):
                 gproduk.nama = nama
                 gproduk.gambar = filess3
                 gproduk.save()
-        return redirect(reverse("list_produk_toko", str(id)))
+        return redirect(reverse("list_produk_toko", kwargs={"id": str(id)}))

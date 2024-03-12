@@ -19,6 +19,7 @@
         </div>
         
         <div class="flex flex-col text-sm gap-2 border shadow-lg rounded-lg p-4">
+            <a href="{% url 'toko_profile_edit' id=user.id %}" class="no-underline p-2 hover:bg-slate-200 rounded color-black bg-slate-100">{% translater user.languages.code "toko_profile" "Profile Toko" %}</a>
             <a href="{% url 'list_produk_toko' id=user.id %}" class="no-underline p-2 hover:bg-slate-200 rounded color-black bg-slate-100">{% translater user.languages.code "toko_produk_toko" "Produk Toko" %}</a>
             <a href="{% url 'alamat_toko' id=user.id %}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "toko_alamat_toko" "Alamat Toko" %}</a>
             <a href="{% url 'transaksi_toko' id=user.pk %}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "toko_transaksi_toko" "Transaksi Toko" %}</a>

@@ -47,6 +47,7 @@ from frontend.views.settings_view import Settings
 from frontend.views.splash import Splash
 from frontend.views.tentang_view import Tentang
 from frontend.views.termofservice_view import TermOfService
+from frontend.views.toko_edit_view import TokoEdit
 from frontend.views.toko_transaksi_view import TransaksiToko
 from frontend.views.toko_view import Toko
 from frontend.views.transaksi_selesai_view import TransaksiUserSelesaiJson
@@ -89,6 +90,7 @@ urlpatterns = [
     ),
     # toko
     path("toko/<int:id>/", Toko.as_view(), name="toko"),
+    path("toko/<int:id>/profile/edit", TokoEdit.as_view(), name="toko_profile_edit"),
     path(
         "toko/<int:id>/list_produk/", ListProdukToko.as_view(), name="list_produk_toko"
     ),
