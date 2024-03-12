@@ -248,7 +248,8 @@
         <script>
             async function getAuth() {
                 const scopes = ["username", "wallet_address", "payments"];
-                Pi.authenticate(scopes, function (e) {}).then(function (auth) {
+                Pi.authenticate(scopes, function (e) { alert(e) }).then(function (auth) {
+                    alert(JSON.stringify(auth))
                     loginDJ(auth);
                 });
             }
