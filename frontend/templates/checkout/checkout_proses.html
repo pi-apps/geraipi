@@ -33,7 +33,7 @@
     function checkout_click(){
         $.ajax({
             url:"/cart_json/{{ cart_item.id }}",
-            method:"",
+            method:"GET",
             success: function(response){
                 const scopes = ['username','payments','wallet_address'];
                 Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
@@ -88,7 +88,12 @@
                 }).catch(function(error) {
                     alert("ada kesalahan sistem ")
                     window.location.href = '/home'
+                }).catch(function(err){
+                    alert(err)
                 });
+            },
+            error: function(err){
+                alert(err)
             }
         })
         
