@@ -89,13 +89,13 @@
                             alert("errrrr")
                             window.location.href = '/'
                         }
-                    }) 
+                    }).catch(function(err){
+                        alert("err => ",err)
+                    });
                 }).catch(function(error) {
                     alert("ada kesalahan sistem ")
                     window.location.href = '/home'
-                }).catch(function(err){
-                    alert(err)
-                });
+                })
             },
             error: function(err){
                 alert(err)
