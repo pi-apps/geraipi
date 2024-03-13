@@ -63,7 +63,7 @@
                         onReadyForServerCompletion(params){
                             $.ajax({
                                 url: '/paymentchart/'+params,
-                                data: { cart_id: "{{ cart_item.id }}" },
+                                data: { cart_id: "{{ cart.id }}" },
                                 method: "GET",
                                 success: function(res){
                                     console.log(res)
