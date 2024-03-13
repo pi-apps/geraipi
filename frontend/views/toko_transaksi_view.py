@@ -38,8 +38,10 @@ class TransaksiToko(FrontPage):
                     return redirect(
                         reverse(
                             "transaksi_toko",
-                            kwargs={"status": 2, "id": str(request.user.id)},
+                            kwargs={"id": str(request.user.id)},
                         )
+                        + "?status="
+                        + str(status)
                     )
             elif cart.status_toko == 3:
                 cart.status = 3
