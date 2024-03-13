@@ -22,7 +22,7 @@ class SetComplete(FrontPage):
             "https://api.minepi.com/v2/payments/" + id + "/complete",
             data=datas,
             headers={"Authorization": "Key " + api_key},
-            timeout=5000,
+            timeout=500000,
         )
         if postdata.status_code == 200:
             cart = Cart.objects.get(pk=request.GET.get("id"))

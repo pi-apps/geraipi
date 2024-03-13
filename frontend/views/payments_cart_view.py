@@ -16,31 +16,34 @@ class PaymentsCart(FrontPage):
     def setcomplete(self, request, cart_id, identifier, param):
         api_key = self.configuration.api_key_pi
         datas = {"txid": param}
+        try:
+            postdata = requests.post(
+                "https://api.minepi.com/v2/payments/" + identifier + "/complete",
+                data=datas,
+                headers={"Authorization": "Key " + api_key},
+                timeout=500000,
+            )
 
-        postdata = requests.post(
-            "https://api.minepi.com/v2/payments/" + identifier + "/complete",
-            data=datas,
-            headers={"Authorization": "Key " + api_key},
-            timeout=5000,
-        )
+            if postdata.status_code == 200:
+                print(postdata, cart_id, identifier)
+                cart = Cart.objects.get(pk=cart_id)
+                cart.status_toko = 1
+                cart.status_pembayaran = 2
+                cart.save()
 
-        if postdata.status_code == 200:
-            print(postdata, cart_id, identifier)
-            cart = Cart.objects.get(pk=cart_id)
-            cart.status_toko = 1
-            cart.status_pembayaran = 2
-            cart.save()
+                cartitem = CartItem.objects.get(cart__id=cart.id)
+                produk = Produk.objects.get(pk=cartitem.produk.id)
+                produk.stok_produk = produk.stok_produk - 1
+                produk.save()
 
-            cartitem = CartItem.objects.get(cart__id=cart.id)
-            produk = Produk.objects.get(pk=cartitem.produk.id)
-            produk.stok_produk = produk.stok_produk - 1
-            produk.save()
-
-            users = UserStore.objects.get(pk=produk.store.pk)
-            # users.coin += produk.harga * cartitem.jumlah
-            users.save()
-            return {"status": True}
-        else:
+                users = UserStore.objects.get(pk=produk.store.pk)
+                # users.coin += produk.harga * cartitem.jumlah
+                users.save()
+                return {"status": True}
+            else:
+                return {"status": False}
+        except Exception as e:
+            print(e)
             return {"status": False}
 
     def get(self, request, param):
@@ -49,7 +52,7 @@ class PaymentsCart(FrontPage):
 
         data_url = "https://api.minepi.com/v2/payments/" + param
         requestdata = requests.get(
-            data_url, headers={"Authorization": "Key " + api_key}, timeout=5000
+            data_url, headers={"Authorization": "Key " + api_key}, timeout=500000
         )
 
         cart_id = request.GET.get("cart_id")
@@ -58,7 +61,7 @@ class PaymentsCart(FrontPage):
         try:
             carts = CartItem.objects.get(pk=cart_id)
             print(carts, cart_id)
-            # cartitems = CartItem.objects.get(cart__id=carts.id)
+            cartitems = CartItem.objects.get(cart__id=carts.id)
             # print(carts, cartitems)
             # subject = "Payment Success GeraiPi"
             # html_message = render_to_string("mail_template.html", {"carts": carts})

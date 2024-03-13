@@ -14,7 +14,7 @@ class Cancel(FrontPage):
         cancel = requests.get(
             "https://api.minepi.com/payments/" + id + "/cancel",
             headers={"Authorization": "Key " + api_key},
-            timeout=5000,
+            timeout=500000,
         )
         print(cancel.json())
         return JsonResponse(cancel, safe=False)

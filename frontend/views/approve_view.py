@@ -13,7 +13,7 @@ class Approve(FrontPage):
         postdata = requests.post(
             "https://api.minepi.com/v2/payments/" + id + "/approve",
             headers=header,
-            timeout=5000,
+            timeout=500000,
         )
         if postdata.status_code == 200:
             return JsonResponse(postdata.json())

@@ -157,7 +157,9 @@ class ProdukChartItem(models.Model):
     harga = models.FloatField(null=True, blank=True)
     kategori = models.ManyToManyField(Kategori)
     detail = models.TextField(null=True, blank=True)
-    tipe = models.ForeignKey(TipeProduk, blank=True, null=True, on_delete=models.CASCADE)
+    tipe = models.ForeignKey(
+        TipeProduk, blank=True, null=True, on_delete=models.CASCADE
+    )
     warna = models.ManyToManyField(WarnaProduk, blank=True)
     stok_produk = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
