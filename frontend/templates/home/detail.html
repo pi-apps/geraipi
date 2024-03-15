@@ -233,7 +233,7 @@
             $.ajax({
                 url: '{% url "ulasancart-list" %}',
                 method:"get",
-                data:{ produk:"{{ produk.id }}" },
+                data:{ produkitem__id:"{{ produk.id }}" },
                 success:function(res){
                     
                     let html = ''

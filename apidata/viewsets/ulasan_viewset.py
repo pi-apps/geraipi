@@ -13,6 +13,6 @@ class UlasanViewSet(viewsets.ModelViewSet):
     queryset = UlasanCart.objects.all().order_by("-pk")
     serializer_class = UlasanSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["produk"]
+    filterset_fields = ["produkitem__id"]
     # pagination_class = None
     http_method_names = ["get", "head"]

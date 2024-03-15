@@ -93,25 +93,7 @@
             console.log("coba",jsonurl)
         }
     })
-    {% comment %} {% comment %} const scopes = ['username','payments','wallet_address'];
-
-    // Read more about this callback in the SDK reference:
-    function onIncompletePaymentFound(payment) { /* ... */ };
-    function actionlogin(){
-        try{
-            Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
-                console.log(`Hi there! You're ready to make payments!`);
-                window.localStorage.setItem("authdata",JSON.stringify(auth))
-                alert("sukses login")
-                window.location.href = '/login_user/?username='+auth.user?.username
-            }).catch(function(error) {
-                alert("ada kesalahan sistem ")
-                console.error(error);
-            });
-        }catch(err){
-            alert("maaf mohon install pi browser untuk mengakses halaman login")
-        }
-    } {% endcomment %}
+    
 
     {% comment %} $(function(){
         const datas = JSON.parse(window.localStorage.getItem("authdata"))
