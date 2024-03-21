@@ -4,7 +4,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django_resized import ResizedImageField
 
-from master.models import Distric, Provinsi, Regency, Village
+from master.models import Country, Distric, Provinsi, Regency, Village
 from profiles.models import LangSupport, UserProfile
 from store.models import Expedisi, UserStore
 
@@ -50,9 +50,7 @@ class Produk(models.Model):
     stok = models.IntegerField(default=0)
     is_promo = models.IntegerField(default=False)
 
-    negara = models.ForeignKey(
-        LangSupport, blank=True, null=True, on_delete=models.CASCADE
-    )
+    negara = models.ForeignKey(Country, blank=True, null=True, on_delete=models.CASCADE)
     descriptis_langs = models.JSONField(null=True)
 
     is_archive = models.BooleanField(default=False)
@@ -249,3 +247,9 @@ class CartItem(models.Model):
 
     def __str__(self):
         return " cart " + self.unique_cart
+
+
+class DeskripsiProduk(models.Model):
+    produk = models.ForeignKey(Produk, on_delete=models.CASCADE)
+    languange = models.ForeignKey(LangSupport, on_delete=models.CASCADE)
+    deskripsi = models.TextField(blank=True, null=True)

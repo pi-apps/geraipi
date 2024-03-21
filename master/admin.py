@@ -6,11 +6,14 @@ from solo.admin import SingletonModelAdmin
 
 from .models import (
     ConfigurationWebsite,
+    Country,
     Distric,
     HistoriTampung,
     Provinsi,
     Regency,
+    Region,
     SettingWebsite,
+    SubRegion,
     Village,
 )
 
@@ -88,5 +91,64 @@ class VillageAdmin(ImportExportModelAdmin):
 admin.site.register(Village, VillageAdmin)
 
 admin.site.register(SettingWebsite)
+
+
+class RegionResource(resources.ModelResource):
+    wiki_id = fields.Field(column_name="wiki_id", attribute="wiki_id")
+
+    class Meta:
+        model = Region
+        import_id_fields = ["id"]
+
+
+class RegionAdmin(ImportExportModelAdmin):
+    resource_classes = [RegionResource]
+
+
+admin.site.register(Region, RegionAdmin)
+
+
+class SubRegionResource(resources.ModelResource):
+    region_id = fields.Field(
+        column_name="region_id",
+        attribute="region_id",
+        widget=ForeignKeyWidget(Region, field="id"),
+    )
+
+    class Meta:
+        model = SubRegion
+        import_id_fields = ["id"]
+
+
+class SubRegionAdmin(ImportExportModelAdmin):
+    resource_classes = [SubRegionResource]
+
+
+admin.site.register(SubRegion, SubRegionAdmin)
+
+
+class CountryResource(resources.ModelResource):
+    region_id = fields.Field(
+        column_name="region_id",
+        attribute="region_id",
+        widget=ForeignKeyWidget(Region, field="id"),
+    )
+
+    subregion_id = fields.Field(
+        column_name="subregion_id",
+        attribute="subregion_id",
+        widget=ForeignKeyWidget(SubRegion, field="id"),
+    )
+
+    class Meta:
+        model = Country
+        import_id_fields = ["id"]
+
+
+class CountryAdmin(ImportExportModelAdmin):
+    resource_classes = [CountryResource]
+
+
+admin.site.register(Country, CountryAdmin)
 
 # Register your models here.

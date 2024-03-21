@@ -2,6 +2,40 @@ from django.db import models
 from solo.models import SingletonModel
 
 
+class Region(models.Model):
+    name = models.CharField(max_length=100)
+    wiki_id = models.CharField(max_length=100)
+
+
+class SubRegion(models.Model):
+    region_id = models.ForeignKey(Region, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    wiki_id = models.CharField(max_length=100)
+
+
+class Country(models.Model):
+    region_id = models.ForeignKey(
+        Region, on_delete=models.CASCADE, blank=True, null=True
+    )
+    subregion_id = models.ForeignKey(
+        SubRegion, on_delete=models.CASCADE, blank=True, null=True
+    )
+    name = models.CharField(max_length=100)
+    iso3 = models.CharField(max_length=50, blank=True, null=True)
+    iso2 = models.CharField(max_length=50, blank=True, null=True)
+    numeric_code = models.CharField(max_length=50, blank=True, null=True)
+    phone_code = models.CharField(max_length=50, blank=True, null=True)
+    capital = models.CharField(max_length=50, blank=True, null=True)
+    currency = models.CharField(max_length=50, blank=True, null=True)
+    currency_name = models.CharField(max_length=50, blank=True, null=True)
+    currency_symbol = models.CharField(max_length=50, blank=True, null=True)
+    tld = models.CharField(max_length=50, blank=True, null=True)
+    native = models.CharField(max_length=50, blank=True, null=True)
+    nationality = models.CharField(max_length=50, blank=True, null=True)
+    timezones = models.TextField(default=[])
+    is_active = models.BooleanField(default=True)
+
+
 # Create your models here.
 class Provinsi(models.Model):
     code = models.CharField(max_length=255)
@@ -67,6 +101,11 @@ class HistoriTampung(models.Model):
     tanggal = models.DateTimeField(auto_now=True)
     jumlah = models.FloatField(default=0)
     success = models.BooleanField(default=False)
+
+
+class Negara(models.Model):
+    kode = models.CharField(max_length=50)
+    nama = models.CharField(max_length=100)
 
 
 # class Tampung(models.Model):

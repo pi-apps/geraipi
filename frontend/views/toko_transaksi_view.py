@@ -39,9 +39,7 @@ class TransaksiToko(FrontPage):
                         reverse(
                             "transaksi_toko",
                             kwargs={"id": str(request.user.id)},
-                        )
-                        + "?status="
-                        + str(status)
+                        ) + "?status=" + str(status)
                     )
             elif cart.status_toko == 3:
                 cart.status = 3

@@ -7,6 +7,7 @@ from django.http.request import HttpRequest
 from produk.models import (
     Cart,
     CartItem,
+    DeskripsiProduk,
     GambarProduk,
     Kategori,
     Produk,
@@ -145,3 +146,4 @@ admin.site.register(TipeProduk)
 admin.site.register(WarnaProduk)
 admin.site.register(ProdukStok)
 admin.site.register(GambarProduk)
+admin.site.register(DeskripsiProduk)

@@ -42,7 +42,7 @@
             <div class="flex items-center gap-2">
                 <span class="w-10 h-10 rounded-full bg-slate-500"></span>
                 <div class="flex justify-between grow">
-                    <p class="text-slate-600 flex flex-col justify-center">{% translater user.languages.code produk.store.nama produk.store.nama %}</p>
+                    <p class="text-slate-600 flex flex-col justify-center">{{ produk.store.nama }}</p>
                     <a class="text-slate-600 bg-orange-400 rounded-full px-4 py-1" href="/koleksi/{{produk.store.pk}}">{% translater user.languanges.code "Lihat Koleksi" "Lihat Koleksi" %}</a>
                 </div>
             </div>
@@ -58,6 +58,11 @@
                                 <td>:</td>
                                 <td class="flex flex-wrap gap-2 flex-row">
                                     <span class=" py-[2px] px-2 w-full">
+                                        {% if produk.tipe %}
+                                            {{ produk.tipe.nama }}
+                                        {% else %}
+                                            {% translater user.languages.code "Tanpa Tipe" "Tanpa Tipe"%}
+                                        {% endif %}
                                         {% for a in produk.tipe.all %}
                                             {% translater user.languages.code a.nama a.nama %}
                                         {% endfor %}
@@ -103,7 +108,19 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="text-justify p-4 border rounded-lg">{% translater user.languages.code produk.detail produk.detail as safertext %} {{safertext|safe}}</div>
+                <div class="border rounded-lg mb-2 p-2">
+                    <label for="">{%translater user.languages.code "Pilih Bahasa Deskripsi" "Pilih Bahasa Deskripsi"%}</label>
+                    <select name="language" id="" class="w-full">
+                        {% for language in produk.deskripsiproduk_set.all %}
+                        <option value="{{ language.languange.code }}">{{ language.languange.alias }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% for language in produk.deskripsiproduk_set.all %}
+                <div class="text-justify p-4 border rounded-lg hidden data-deskripsi" data-language="{{ language.languange.code }}">
+                    {{language.deskripsi|safe}}
+                </div>
+                {% endfor %}
             </div>
         </div>
         <div class="shadow-lg w-full rounded-lg p-2 border">
@@ -114,8 +131,8 @@
                 </div>
             </div>
             <div class="flex flex-row justify-between">
-                <button id="prev" onclick="getComment()" class="btn btn-neutral btn-disabled btn-sm">Prev</button>
-                <button id="next" onclick="getComment()" class="btn btn-neutral btn-disabled btn-sm">Next</button>
+                <button id="prev" onclick="getComment()" class="btn btn-neutral btn-disabled btn-sm">{%translater user.languages.code "Sebelumnya" "Sebelumnya"%}</button>
+                <button id="next" onclick="getComment()" class="btn btn-neutral btn-disabled btn-sm">{%translater user.languages.code "Selanjutnya" "Selanjutnya"%}</button>
             </div>
         </div>
     </div>
@@ -124,11 +141,11 @@
 {% block bottom_nav %}
 <div class="flex flex-row justify-evenly sticky bottom-0 bg-white opacity-95">
     <div class="w-1/2 flex justify-center">
-        <button type="button" class="bg-green-500 px-8 py-1 my-2 rounded-full h-8 text-white" data-id="{{ produk.pk }}">Coming Soon</button>
+        <button type="button" class="bg-green-500 px-8 py-1 my-2 rounded-full h-8 text-white" data-id="{{ produk.pk }}">{% translater user.languages.code "Coming Soon" "Coming Soon" %}</button>
     </div>
     {% if produk.stok_produk > 0 %}
     <div class="w-1/2 flex justify-center">
-        <a class="bg-red-600 px-8 py-1 my-2 rounded-full h-8 text-white" href="/keranjang/{{ produk.id }}"> Beli Langsung </a>
+        <a class="bg-red-600 px-8 py-1 my-2 rounded-full h-8 text-white" href="/keranjang/{{ produk.id }}">{% translater user.languages.code "Beli Langsung" "Beli Langsung" %}</a>
     </div>
     {% endif %}
 </div>
@@ -142,6 +159,14 @@
             window.history.back();
         });
         getComment()
+
+        let vallang = $('[name="language"]').val()
+        $(`div[data-language="${vallang}"]`).removeClass("hidden")
+
+        $('[name="language"]').on("change",function(){
+            $(`data-deskripsi`).addClass("hidden")
+            $(`div[data-language="${$(this).val()}"]`).removeClass("hidden")
+        })
     });
     function getComment(next, prev){
         if(next){

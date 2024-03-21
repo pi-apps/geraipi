@@ -61,7 +61,7 @@ class PaymentsCart(FrontPage):
         try:
             carts = CartItem.objects.get(pk=cart_id)
             print(carts, cart_id)
-            cartitems = CartItem.objects.get(cart__id=carts.id)
+            CartItem.objects.get(cart__id=carts.id)
             # print(carts, cartitems)
             # subject = "Payment Success GeraiPi"
             # html_message = render_to_string("mail_template.html", {"carts": carts})

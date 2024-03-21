@@ -12,13 +12,11 @@
 <!-- <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" /> -->
 <link rel="stylesheet" href="{% static 'select2/css/select2.min.css' %}" />
 <style>
-    .h-screen {
-        height: auto !important;
+    p:empty {
+        display:none
     }
 </style>
 {% endblock %} 
-{% block bottom_nav %}
-{% endblock %}
 
 {% block content %}
 <div class="px-3 mt-3 mb-[60px] flex flex-col gap-2">
@@ -42,27 +40,8 @@
             <input type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="nama" />
         </div>
         <div class="mb-6">
-            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Bahasa Deskripsi" "Bahasa Deskripsi" %}</label>
-            <select id="bahasa" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="bahasa" required>
-                {% for k in languages %}
-                <option value="{{ k.code }}">{{ k.alias }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="mb-6">
             <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Deskripsi" "Deskripsi" %}</label>
-            <textarea type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" id="default"></textarea>
-            {% for k in languages %}
-            <input type="hidden" name="deskripsi|{{k.code}}" value="">
-            {% endfor %}
-        </div>
-        <div class="mb-6">
-            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Negara" "Negara" %}</label>
-            <select id="negara" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="negara" required>
-                {% for k in country %}
-                <option value="{{ k.id }}">{{ k.name }}</option>
-                {% endfor %}
-            </select>
+            <textarea type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="deskripsi" id="default"></textarea>
         </div>
         <div class="mb-6">
             <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Stok" "Stok" %}</label>
@@ -98,6 +77,15 @@
             <select multiple="multiple" id="kategori" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="kategori" required>
                 {% for k in kategori %}
                 <option value="{{ k.pk }}">{{ k.nama }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-6">
+            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Negara" "Negara" %}</label>
+            <select id="negara" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="negara" required>
+                {% for k in languages %}
+                <option value="{{ k.id }}">{{ k.alias }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -229,17 +217,10 @@
 </script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.24.0/ckeditor.js" integrity="sha512-Vzo9BnO8qlWYp96AZsG6QtNm+csiTPp3mBn5KtAOUBdj9cqfjRTN7e418F92/pVx9SOOsYwNPV+vhsf+lU5lxg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 <script>
-    let ck = CKEDITOR.replace( 'default' );
-    ck.on('change',function(){
-        let valinput = $("select[id='bahasa']").val()
-        $(`[name="deskripsi|${valinput}"]`).val(ck.getData())
-    });
-    let valnow = "{{ user.languages.code }}"
-    $("select[id='bahasa']").on("change", function(){
-        let vv = $(`[name="deskripsi|${$(this).val()}"]`).val()
-        if(vv){
-            ck.setData(vv)
-        }
+    let ck = CKEDITOR.replace( 'editor1' );
+    $("select[id='negara']").on("change", function(){
+        console.log("-")
+        ck.setData("asdf")
     })
 </script>
 {% endblock %}
