@@ -57,6 +57,7 @@ class UserNotification(models.Model):
 
 
 class Expedisi(models.Model):
+    code = models.CharField(max_length=255, null=True, blank=True)
     nama = models.CharField(max_length=255)
 
     def __str__(self):

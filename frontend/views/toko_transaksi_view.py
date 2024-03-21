@@ -33,6 +33,19 @@ class TransaksiToko(FrontPage):
                     cart.status_toko = 3
                     cart.status = 3
                     cart.expedisi_id = request.POST.get("expedisi")
+                    from apidata.resi_check import ResiCheck
+                    from master.models import ConfigurationWebsite
+                    konfigurasi = ConfigurationWebsite.get_solo()
+                    cekinit = ResiCheck(url=konfigurasi.url_check_resi, api=konfigurasi.api_check_resi)
+                    code_expedisi = Expedisi.objects.get(id=request.POST.get("expedisi"))
+                    cekresi = cekinit.check_resi(resi=resi, courier=code_expedisi.code)
+                    if cekresi.status_code != 200:
+                        return redirect(
+                            reverse(
+                                "transaksi_toko",
+                                kwargs={"id": str(request.user.id)},
+                            ) + "?status=" + str(status)
+                        )
                 else:
                     messages.error(request, "Sorry, please input your number")
                     return redirect(

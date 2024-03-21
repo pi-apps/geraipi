@@ -95,6 +95,8 @@ class ConfigurationWebsite(SingletonModel):
     konfigurasi_firebase = models.FileField(
         blank=True, null=True, upload_to="konfigurasi/"
     )
+    url_check_resi = models.URLField(blank=True, null=True)
+    api_check_resi = models.CharField(blank=True, null=True, max_length=200)
 
 
 class HistoriTampung(models.Model):
