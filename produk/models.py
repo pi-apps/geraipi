@@ -7,6 +7,7 @@ from django_resized import ResizedImageField
 from master.models import Country, Distric, Provinsi, Regency, Village
 from profiles.models import LangSupport, UserProfile
 from store.models import Expedisi, UserStore
+from django.utils import timezone
 
 
 # Create your models here.
@@ -144,6 +145,7 @@ class UlasanCart(models.Model):
     pengiriman = models.FloatField(default=0)
     produk = models.FloatField(default=0)
     catatan = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.catatan

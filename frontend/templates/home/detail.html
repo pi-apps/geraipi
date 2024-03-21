@@ -151,6 +151,7 @@
 </div>
 {% endblock %} 
 {% block script %}
+<script src="{% static 'moment.min.js' %}"></script>
 <script>
     $(function () {
         var splide = new Splide(".splide");
@@ -183,6 +184,7 @@
                             html += `
                             <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
                                 <p class="font-bold">${datas.user}</p>
+                                <p class="font-[10px]">${moment(datas.created_at).format('LLLL')}</p>
                                 <p>${datas.catatan}</p>
                                 <div>
                                     <div class="rating">
@@ -225,6 +227,7 @@
                             html += `
                             <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
                                 <p class="font-bold">${datas.user}</p>
+                                <p class="font-[10px]">${moment(datas.created_at).format('LLLL')}</p>
                                 <p>${datas.catatan}</p>
                                 <div>
                                     <div class="rating">
@@ -267,6 +270,7 @@
                             html += `
                             <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
                                 <p class="font-bold">${datas.user}</p>
+                                <p class="font-[10px]">${moment(datas.created_at).format('LLLL')}</p>
                                 <p>${datas.catatan}</p>
                                 <div>
                                     <div class="rating">
