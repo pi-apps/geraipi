@@ -1,5 +1,5 @@
 {% extends 'layout.html' %} 
-{% load static %} 
+{% load static translater %} 
 {% block header %}
 <nav class="sticky top-0 flex bg-white px-2 py-2 z-50">
     <a href="{% url 'list_produk_toko' id=user.id %}" class="flex gap-1 items-center">
@@ -11,7 +11,16 @@
 {% block styles %}
 <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{% static 'select2/css/select2.min.css' %}" />
+<style>
+    .h-screen {
+        height: auto !important;
+    }
+</style>
 {% endblock %} 
+
+{% block bottom_nav %}
+{% endblock %}
+
 {% block content %}
 <div class="px-3 mt-3 mb-[60px] flex flex-col gap-2">
     <div></div>
@@ -22,8 +31,27 @@
             <input type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="nama" value="{{ data.nama }}"/>
         </div>
         <div class="mb-6">
+            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Bahasa Deskripsi" "Bahasa Deskripsi" %}</label>
+            <select id="bahasa" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="bahasa" required>
+                {% for k in languages %}
+                <option value="{{ k.code }}">{{ k.alias }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-6">
             <label class="block mb-2 font-medium text-slate-900">Deskripsi</label>
-            <textarea type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 django_ckeditor" name="deskripsi" id="editor1">{{ data.detail }}</textarea>
+            <textarea type="text" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 django_ckeditor" name="deskripsi" id="default"></textarea>
+            {% for k in languages %}
+                <input type="hidden" name="deskripsi|{{k.code}}" value="">
+            {% endfor %}
+        </div>
+        <div class="mb-6">
+            <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Negara" "Negara" %}</label>
+            <select id="negara" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="negara" required>
+                {% for k in negara %}
+                <option value="{{ k.id }}" {% if k.id == data.negara.id %}selected{% endif %}>{{ k.name }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="mb-6">
             <label class="block mb-2 font-medium text-slate-900">Stok</label>
@@ -65,7 +93,7 @@
             </select>
         </div>
         <div class="mb-6">
-            <label class="block mb-2 font-medium text-slate-900">Tipe {{ data.tipe.first.id }}</label>
+            <label class="block mb-2 font-medium text-slate-900">Tipe </label>
             <div class="flex flex-row gap-3">
                 {% for tp in typeproduk %}
                 <div class="flex items-start mb-6">
@@ -129,6 +157,11 @@
 </div>
 {% endblock %} {% block script %}
 <script src="{% static 'select2/js/select2.full.min.js' %}"></script>
+{% for d in deskripsi %}
+<script>
+    $(`[name="deskripsi|{{ d.languange.code }}"]`).attr("value",`{{ d.deskripsi | safe }}`)
+</script>
+{% endfor %}
 <script>
     $('select[name="kategori"]').select2()
     $('select[name="warna"]').select2({
@@ -136,21 +169,8 @@
         tokenSeparators: [',', ' ']
     })
 </script>
-<script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
 
 <script>
-    const dzone = new Dropzone("#dropzonedata", {
-        url: "/file/post",
-    });
-    dzone.on("complete", function (file) {
-        console.log("ff", file);
-    });
-    dzone.on("addedfile", function (file) {
-        //console.log(file)
-    });
-    dzone.on("sending", function (file, xhr, formData) {
-        formData.append("uuid", file.upload.uuid); //name and value
-    });
     $("#kategori").select2();
     $(function () {
         $("#back-navigation").on("click", function () {
@@ -174,9 +194,21 @@
     
 </script>
 <script>
-    $(function(){
-        if($('#editor1')){
-            CKEDITOR.replace( 'editor1' );
+    let ck = CKEDITOR.replace( 'default' );
+    ck.on('change',function(){
+        let valinput = $("select[id='bahasa']").val()
+        $(`[name="deskripsi|${valinput}"]`).val(ck.getData())
+    });
+    let presentvalue = $("select[id='bahasa']").val()
+    let presentTextValue = $(`[name="deskripsi|${presentvalue}"]`).val()
+    ck.setData(presentTextValue)
+    let valnow = "{{ user.languages.code }}"
+    $("select[id='bahasa']").on("change", function(){
+        let vv = $(`[name="deskripsi|${$(this).val()}"]`).val()
+        if(vv){
+            ck.setData(vv)
+        }else{
+            ck.setData("")
         }
     })
 </script>
