@@ -98,6 +98,8 @@ class ConfigurationWebsite(SingletonModel):
     url_check_resi = models.URLField(blank=True, null=True)
     api_check_resi = models.CharField(blank=True, null=True, max_length=200)
 
+    api_biteship = models.CharField(blank=True, null=True, max_length=255)
+
 
 class HistoriTampung(models.Model):
     tanggal = models.DateTimeField(auto_now=True)

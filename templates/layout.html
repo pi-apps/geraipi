@@ -66,21 +66,21 @@
         
         {% tailwind_css %}
         <script>
-            window.onerror = function (message, file, line, col, error) {
-                alert("Error occurred: " + error.message);
-                return false;
-            };
-            window.onerror = function (message, file, line, col, error) {
-                alert("Error occurred: " + error.message);
-                return false;
-            };
-            window.addEventListener("unhandledrejection", (event) => {
-                event.preventDefault(); // This will not print the error in the console });
+            // window.onerror = function (message, file, line, col, error) {
+            //     alert("Error occurred: " + error.message);
+            //     return false;
+            // };
+            // window.onerror = function (message, file, line, col, error) {
+            //     alert("Error occurred: " + error.message);
+            //     return false;
+            // };
+            // window.addEventListener("unhandledrejection", (event) => {
+            //     event.preventDefault(); // This will not print the error in the console });
 
-                console.log("Unhandled promise rejection"); 
-                console.log(event.reason);
-                alert(event.reason)
-            });
+            //     console.log("Unhandled promise rejection"); 
+            //     console.log(event.reason);
+            //     alert(event.reason)
+            // });
 
         </script>
     </head>
