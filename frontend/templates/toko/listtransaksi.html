@@ -2,11 +2,11 @@
 {% load static %}
 
 {% block content %}
-<div class="{% if produk|length > 1 %}{% else %}h-screen{% endif %} px-3">
-    <div class="bg-white gap-2 flex flex-row shadow-lg my-2 p-2 rounded-lg">
+<div class="h-screen px-3">
+    <div class="bg-white gap-2 flex flex-row shadow-lg my-2 p-2 rounded-lg sticky top-24">
         <a class="border rounded-lg px-2 cursor-pointer bg-red-600 text-white" href="{% url 'toko' id=user.id %}">Kembali</a>
     </div>
-    <div class="bg-white gap-2 grid grid-cols-4 shadow-lg border text-slate-500 my-2">
+    <div class="bg-white gap-2 grid grid-cols-4 shadow-lg border text-slate-500 my-2 sticky top-36">
         <div class="py-2 cursor-pointer" onclick="pesanan_href(1)">
             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
                 <g fill="none" fill-rule="evenodd">
@@ -59,105 +59,107 @@
             {% endfor %}
         </div>
         {% endif %}
-        {% for transaksi in produk %}
-        <div class="border p-2 my-2">
-            <!-- <span class="font-medium">{{ transaksi.produk.nama }}</span> -->
-            <div class="flex flex-col justify-between">
-                <span>
-                    <table>
-                        {% if transaksi.cart.nomor_resi %}
-                        <tr>
-                            <td class="font-bold">Nomor Transaksi</td>
-                            <td>:</td>
-                            <td>{{ transaksi.cart.kode }}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-bold">Nomor Resi</td>
-                            <td>:</td>
-                            <td>{{ transaksi.cart.nomor_resi }}</td>
-                        </tr>
-                        {% endif %}
-                        <tr>
-                            <td class="font-bold">Produk</td>
-                            <td>:</td>
-                            <td>{{ transaksi.produk.nama }}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-bold">Price</td>
-                            <td>:</td>
-                            <td>{{ transaksi.produk.harga }} Pi</td>
-                        </tr>
-                        <tr>
-                            <td class="font-bold">Date</td>
-                            <td>:</td>
-                            <td>{{ transaksi.cart.tanggal | date:'d-m-Y'}}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-bold">User</td>
-                            <td>:</td>
-                            <td>{{ transaksi.cart.user }}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-bold">Nomor Pemesan</td>
-                            <td>:</td>
-                            <td>{{ transaksi.cart.user.no_telepon }}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-bold">Email Pemesan</td>
-                            <td>:</td>
-                            <td>{{ transaksi.cart.user.email }}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-bold inline-block align-text-top">Address</td>
-                            <td class="px-1 align-text-top">:</td>
-                            <td>
-                                {% for tr in transaksi.user_chart.addressuserchartitem_set.all %}
-                                    
-                                        {{ tr.address }} - RT {% if tr.rt %}{{ tr.rt }}{% endif %} - RW {% if tr.rw %}{{ tr.rw }}{% endif %} - {% if tr.province %}{{ tr.province.nama }}{% endif %} - {% if tr.regency %}{{ tr.regency.name }}{% endif %} - {% if tr.distric %}{{ tr.distric.nama }}{% endif %}
-                                    
-                                {% endfor %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="font-bold inline-block align-text-top"> Expedisi</td>
-                            <td>:</td>
-                            <td>
-                                {% if transaksi.cart.status_toko == 2 %}
-                                <select id="expedisi" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 w-full" required>
-                                    <option value="">Pilih Expedisi</option>
-                                    {% for k in expedisi %}
-                                    <option value="{{ k.pk }}">{{ k.nama }}</option>
+        <div class="overflow-y-scroll">
+            {% for transaksi in produk %}
+            <div class="border p-2 my-2">
+                <!-- <span class="font-medium">{{ transaksi.produk.nama }}</span> -->
+                <div class="flex flex-col justify-between">
+                    <span>
+                        <table>
+                            {% if transaksi.cart.nomor_resi %}
+                            <tr>
+                                <td class="font-bold">Nomor Transaksi</td>
+                                <td>:</td>
+                                <td>{{ transaksi.cart.kode }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Nomor Resi</td>
+                                <td>:</td>
+                                <td>{{ transaksi.cart.nomor_resi }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <td class="font-bold">Produk</td>
+                                <td>:</td>
+                                <td>{{ transaksi.produk.nama }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Price</td>
+                                <td>:</td>
+                                <td>{{ transaksi.produk.harga }} Pi</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Date</td>
+                                <td>:</td>
+                                <td>{{ transaksi.cart.tanggal | date:'d-m-Y'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">User</td>
+                                <td>:</td>
+                                <td>{{ transaksi.cart.user }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Nomor Pemesan</td>
+                                <td>:</td>
+                                <td>{{ transaksi.cart.user.no_telepon }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold">Email Pemesan</td>
+                                <td>:</td>
+                                <td>{{ transaksi.cart.user.email }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold inline-block align-text-top">Address</td>
+                                <td class="px-1 align-text-top">:</td>
+                                <td>
+                                    {% for tr in transaksi.user_chart.addressuserchartitem_set.all %}
+                                        
+                                            {{ tr.address }} - RT {% if tr.rt %}{{ tr.rt }}{% endif %} - RW {% if tr.rw %}{{ tr.rw }}{% endif %} - {% if tr.province %}{{ tr.province.nama }}{% endif %} - {% if tr.regency %}{{ tr.regency.name }}{% endif %} - {% if tr.distric %}{{ tr.distric.nama }}{% endif %}
+                                        
                                     {% endfor %}
-                                </select>
-                                {% elif transaksi.cart.status_toko >= 3  %}
-                                <label for="">{{transaksi.cart.expedisi}}</label>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    </table>
-                </span>
-                <span class="flex flex-row gap-2 mt-4">
-                    {% if transaksi.cart.status_toko == 2 %}
-                    <form method="post" class="flex flex-row" id="transaksi">
-                        <input type="hidden" value="{{ transaksi.cart.id }}" name="cart_id" class="rounded-full"/>
-                        <input type="text" value="{% if transaksi.cart.nomor_resi %}{{ transaksi.cart.nomor_resi }}{% endif %}" name="nomor_resi" class="rounded-lg h-[35px]" placeholder="enter receipt here ..."/>
-                        <input type="hidden" value="" name="expedisi" required/>
-                        <button type="submit" class="mx-1 px-3 rounded-lg text-white bg-yellow-500 cursor-pointer w-full h-[35px]">Send</button>
-                    </form>
-                    {% elif transaksi.cart.status != 3 and transaksi.cart.status != 4 %}
-                    <form method="post" id="test-ambil">
-                        <input type="hidden" value="{{ transaksi.cart.id }}" name="cart_id"/>
-                        <button type="submit" class="p-1 px-3 rounded-lg text-white bg-yellow-500 cursor-pointer">Ambil</button>
-                    </form>
-                    <!-- <form method="post">
-                        <input type="hidden" value="{{ transaksi.cart.id }}" name="cart_id"/>
-                        <button class="p-1 px-3 rounded-lg text-white bg-red-600 cursor-pointer" type="submit">Tolak</button>
-                    </form> -->
-                    {% endif %}
-                </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold inline-block align-text-top"> Expedisi</td>
+                                <td>:</td>
+                                <td>
+                                    {% if transaksi.cart.status_toko == 2 %}
+                                    <select id="expedisi" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 w-full" required>
+                                        <option value="">Pilih Expedisi</option>
+                                        {% for k in expedisi %}
+                                        <option value="{{ k.pk }}">{{ k.nama }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% elif transaksi.cart.status_toko >= 3  %}
+                                    <label for="">{{transaksi.cart.expedisi}}</label>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+                    </span>
+                    <span class="flex flex-row gap-2 mt-4">
+                        {% if transaksi.cart.status_toko == 2 %}
+                        <form method="post" class="flex flex-row" id="transaksi">
+                            <input type="hidden" value="{{ transaksi.cart.id }}" name="cart_id" class="rounded-full"/>
+                            <input type="text" value="{% if transaksi.cart.nomor_resi %}{{ transaksi.cart.nomor_resi }}{% endif %}" name="nomor_resi" class="rounded-lg h-[35px]" placeholder="enter receipt here ..."/>
+                            <input type="hidden" value="" name="expedisi" required/>
+                            <button type="submit" class="mx-1 px-3 rounded-lg text-white bg-yellow-500 cursor-pointer w-full h-[35px]">Send</button>
+                        </form>
+                        {% elif transaksi.cart.status != 3 and transaksi.cart.status != 4 %}
+                        <form method="post" id="test-ambil">
+                            <input type="hidden" value="{{ transaksi.cart.id }}" name="cart_id"/>
+                            <button type="submit" class="p-1 px-3 rounded-lg text-white bg-yellow-500 cursor-pointer">Ambil</button>
+                        </form>
+                        <!-- <form method="post">
+                            <input type="hidden" value="{{ transaksi.cart.id }}" name="cart_id"/>
+                            <button class="p-1 px-3 rounded-lg text-white bg-red-600 cursor-pointer" type="submit">Tolak</button>
+                        </form> -->
+                        {% endif %}
+                    </span>
+                </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}
