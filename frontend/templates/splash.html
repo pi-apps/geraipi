@@ -28,22 +28,22 @@
 </div> -->
 {% endblock %} {% block script %}
 <script>
-        // total = 2
-        // timeinterval = setInterval(function () {
+        total = 2
+        timeinterval = setInterval(function () {
 
-        //     total = --total;
+            total = --total;
 
-        //     if (total <= 0) {
-        //         clearInterval(timeinterval);
-        //         window.location = '/home';
-        //     }
-        // }, 1000);
-        document.getElementById('mvideo').addEventListener('ended',myHandler,false);
-        function myHandler(e) {
-            console.log("hello")
-            window.location = '/home';
-            // What you want to do after the event
-        }
+            if (total <= 0) {
+                clearInterval(timeinterval);
+                window.location = '/home';
+            }
+        }, 7000);
+        // document.getElementById('mvideo').addEventListener('ended',myHandler,false);
+        // function myHandler(e) {
+        //     console.log("hello")
+        //     window.location = '/home';
+        //     // What you want to do after the event
+        // }
     
 </script>
 {% endblock %}
