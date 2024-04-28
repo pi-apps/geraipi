@@ -19,21 +19,30 @@
         }
     }
 </style>
-<div class="justify-center flex-1 justify-items-center h-screen flex items-center">
+<video id="mvideo" autoplay muted style="max-width: 450px;">
+    <source src="{% static 'videos.mp4' %}" type="video/mp4"/>
+</video>
+<!-- <div class="justify-center flex-1 justify-items-center h-screen flex items-center">
     <img src="{% static 'logo_tunggal.png' %}" class="w-24 h-24 mt-auto mb-auto zoom-in-out-box" />
-</div>
+</div> -->
 {% endblock %} {% block script %}
 <script>
-        total = 2
-        timeinterval = setInterval(function () {
+        // total = 2
+        // timeinterval = setInterval(function () {
 
-            total = --total;
+        //     total = --total;
 
-            if (total <= 0) {
-                clearInterval(timeinterval);
-                window.location = '/home';
-            }
-        }, 1000);
+        //     if (total <= 0) {
+        //         clearInterval(timeinterval);
+        //         window.location = '/home';
+        //     }
+        // }, 1000);
+        document.getElementById('mvideo').addEventListener('ended',myHandler,false);
+        function myHandler(e) {
+            console.log("hello")
+            window.location = '/home';
+            // What you want to do after the event
+        }
     
 </script>
 {% endblock %}
