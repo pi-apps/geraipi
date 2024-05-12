@@ -33,6 +33,15 @@ class TransaksiToko(FrontPage):
                     cart.status_toko = 3
                     cart.status = 3
                     cart.expedisi_id = request.POST.get("expedisi")
+                    cek = Cart.objects.filter(nomor_resi=resi, status=2)
+                    if cek.exists():
+                        messages.error(request, "Sorry, Nomor resi sudah digunakan")
+                        return redirect(
+                            reverse(
+                                "transaksi_toko",
+                                kwargs={"id": str(request.user.id)},
+                            ) + "?status=" + str(status)
+                        )
                     from apidata.resi_check import ResiCheck
                     from master.models import ConfigurationWebsite
 
