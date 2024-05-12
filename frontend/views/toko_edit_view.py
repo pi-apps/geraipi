@@ -11,8 +11,8 @@ from .base_view import FrontPage
 @method_decorator(csrf_exempt, name="dispatch")
 class TokoEdit(FrontPage):
     def get(self, request, id):
-        user = UserStore.objects.filter(users_id=id).first()
-        return render(request, "toko/edit.html", {"user_toko": user})
+        usertoko = UserStore.objects.filter(users_id=id).first()
+        return render(request, "toko/edit.html", {"user_toko": usertoko})
 
     def post(self, request, id):
         user = UserStore.objects.filter(users_id=id).first()

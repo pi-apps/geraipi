@@ -131,7 +131,7 @@
                     kecamatanselect.select2({
                         disabled:false,
                         ajax:{
-                            url: '/api/v1/regencys/?province_code='+value_provinsi,
+                            url: '/api/regency/?province_code='+value_provinsi,
                             dataType: 'json',
                             data: function(params){
                                 var query = {
@@ -162,7 +162,7 @@
                             desaselect.select2({
                                 disabled:false,
                                 ajax:{
-                                    url: '/api/v1/districs/?regency_code='+kecamatanvalue,
+                                    url: '/api/districs/?regency_code='+kecamatanvalue,
                                     dataType: 'json',
                                     data: function(params){
                                         var query = {
@@ -196,7 +196,7 @@
                 }
             })
         }
-        select2('.provinsi',"/api/v1/provinsis/")
+        select2('.provinsi',"/api/provinsi/")
 
     })
     {% comment %} {% comment %} const scopes = ['username','payments','wallet_address'];

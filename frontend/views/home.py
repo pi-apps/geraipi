@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from frontend.models import Pengumuman
 from produk.models import Kategori
-from profiles.models import LangSupport
+from master.models import Negara
 
 from ..models import Banner
 from .base_view import FrontPage
@@ -15,7 +15,7 @@ class Home(FrontPage):
         pengumuman = pengumuman.first()
 
         # Languange list
-        languages = LangSupport.objects.filter(is_active_store=True)
+        languages = Negara.objects.all()
 
         kategori = []
         banner = Banner.objects.all()

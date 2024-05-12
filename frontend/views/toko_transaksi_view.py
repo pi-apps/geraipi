@@ -68,6 +68,7 @@ class TransaksiToko(FrontPage):
                             resi=resi, courier=code_expedisi.code
                         )
                         if cekresi.status_code != 200:
+                            cart.save()
                             messages.success(request, "Nomor resi valid")
                             return redirect(
                                 reverse(

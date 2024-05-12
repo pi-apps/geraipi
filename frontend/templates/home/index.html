@@ -44,14 +44,14 @@
             </div>
             {% endfor %}
         </div>
-        <div>
+        {% comment %} <div>
             <label for="">{% translater user.languages.code "List Negara" "List Negara" %}</label>
             <select name="languange" id="language" class="w-full rounded-full my-2 py-1">
                 {% for l in languages %}
-                <option value="{{l.id}}" {% if l.code == user.languages.code %}selected{% else %}{% endif %}>{{ l.alias }}</option>
+                <option value="{{ l.id }}">{{ l.nama }}</option>
                 {% endfor %}
             </select>
-        </div>
+        </div> {% endcomment %}
     </div>
 
     <div class="container p-4">

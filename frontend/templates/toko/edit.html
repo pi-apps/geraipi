@@ -6,7 +6,7 @@
     <div class="flex flex-col justify-around p-1 gap-6">
         <form action="" method="post" enctype="multipart/form-data">
             <div class="p-3 shadow-sm border rounded-lg my-3">
-                <a href="{% url 'toko' id=user_toko.id %}" class="">< {% translater user.languages.code "Back" "Back" %}</a>
+                <a href="{% url 'toko' id=user_toko.users_id %}" class="">< {% translater user.languages.code "Back" "Back" %}</a>
             </div>
             <div class="flex flex-col gap-3 shadow-lg p-3 border rounded-lg">
                 {% if messages %}

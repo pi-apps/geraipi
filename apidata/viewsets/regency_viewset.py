@@ -10,5 +10,5 @@ class RegencyViewSet(viewsets.ModelViewSet):
     serializer_class = RegencySerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ["code", "province_code", "name"]
-    search_fields = ["code", "province_code", "name"]
+    search_fields = ["code", "name"]
     http_method_names = ["get", "head"]
