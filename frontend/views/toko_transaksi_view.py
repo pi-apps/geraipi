@@ -65,6 +65,7 @@ class TransaksiToko(FrontPage):
                             )
                         else:
                             messages.success(request, "Nomor resi valid")
+                            cart.save()
                             return redirect(
                                 reverse(
                                     "transaksi_toko",
