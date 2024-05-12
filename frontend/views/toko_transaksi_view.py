@@ -35,11 +35,18 @@ class TransaksiToko(FrontPage):
                     cart.expedisi_id = request.POST.get("expedisi")
                     from apidata.resi_check import ResiCheck
                     from master.models import ConfigurationWebsite
+
                     konfigurasi = ConfigurationWebsite.get_solo()
-                    cekinit = ResiCheck(url=konfigurasi.url_check_resi, api=konfigurasi.api_check_resi)
-                    code_expedisi = Expedisi.objects.get(id=request.POST.get("expedisi"))
+                    cekinit = ResiCheck(
+                        url=konfigurasi.url_check_resi, api=konfigurasi.api_check_resi
+                    )
+                    code_expedisi = Expedisi.objects.get(
+                        id=request.POST.get("expedisi")
+                    )
                     if code_expedisi.source_request == 1:
-                        cekresi = cekinit.check_resi(resi=resi, courier=code_expedisi.code)
+                        cekresi = cekinit.check_resi(
+                            resi=resi, courier=code_expedisi.code
+                        )
                         if cekresi.status_code != 200:
                             return redirect(
                                 reverse(
@@ -57,7 +64,9 @@ class TransaksiToko(FrontPage):
                             )
                     elif code_expedisi.source_request == 2:
                         cekinit.api = konfigurasi.api_biteship
-                        cekresi = cekinit.check_resi_bitesip(resi=resi, courier=code_expedisi.code)
+                        cekresi = cekinit.check_resi_bitesip(
+                            resi=resi, courier=code_expedisi.code
+                        )
                         if cekresi.status_code != 200:
                             messages.success(request, "Nomor resi valid")
                             return redirect(
@@ -92,9 +101,11 @@ class TransaksiToko(FrontPage):
         return redirect("/toko/" + str(request.user.id) + "/transaksi/")
 
     def send_mail(self, request):
-        from django.core.mail import EmailMessage, get_connection
         from smtplib import SMTPException
+
+        from django.core.mail import EmailMessage, get_connection
         from django.template.loader import render_to_string
+
         # print(carts, cartitems)
         try:
             with get_connection(
@@ -103,13 +114,17 @@ class TransaksiToko(FrontPage):
                 username=self.email_user,
                 password=self.email_password,
                 use_ssl=True,
-                use_tls=False
+                use_tls=False,
             ) as connection:
-                subject = 'Payment Success GeraiPi'
-                from_email = 'Admin <{}>'.format("admin@geraipi.id")
+                subject = "Payment Success GeraiPi"
+                from_email = "Admin <{}>".format("admin@geraipi.id")
                 html = render_to_string("mail_template.html")
-                to = [request.user.email,]
-                sendd = EmailMessage(subject, html, from_email, to, connection=connection)
+                to = [
+                    request.user.email,
+                ]
+                sendd = EmailMessage(
+                    subject, html, from_email, to, connection=connection
+                )
                 sendd.content_subtype = "html"
                 sendd.send()
         except SMTPException as e:
@@ -118,7 +133,10 @@ class TransaksiToko(FrontPage):
 
     def send_telegram(self, message):
         from projekpi.telegram_utils import TelegramService
-        telegram = TelegramService("+6281556776939", "Roni", "890218", "b1628fc625e688db2579e87b929f0965")
+
+        telegram = TelegramService(
+            "+6281556776939", "Roni", "890218", "b1628fc625e688db2579e87b929f0965"
+        )
         telegram.connection()
         telegram.initial_auth()
 

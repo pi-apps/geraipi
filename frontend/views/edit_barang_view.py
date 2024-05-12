@@ -1,13 +1,20 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib import messages
 
 from frontend.views.base_view import FrontPage
-from produk.models import GambarProduk, Kategori, Produk, TipeProduk, WarnaProduk, DeskripsiProduk
 from master.models import Country
+from produk.models import (
+    DeskripsiProduk,
+    GambarProduk,
+    Kategori,
+    Produk,
+    TipeProduk,
+    WarnaProduk,
+)
 from profiles.models import LangSupport
 
 
@@ -37,7 +44,7 @@ class EditBarang(FrontPage):
             "warnaproduk": warna,
             "negara": country,
             "languages": lang,
-            "deskripsi": deskripsi
+            "deskripsi": deskripsi,
         }
         return render(request, "toko/edit_barang.html", data)
 

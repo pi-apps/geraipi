@@ -2,12 +2,12 @@ import uuid
 
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.utils import timezone
 from django_resized import ResizedImageField
 
 from master.models import Country, Distric, Provinsi, Regency, Village
 from profiles.models import LangSupport, UserProfile
 from store.models import Expedisi, UserStore
-from django.utils import timezone
 
 
 # Create your models here.

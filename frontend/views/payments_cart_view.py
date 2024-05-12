@@ -64,8 +64,13 @@ class PaymentsCart(FrontPage):
             CartItem.objects.get(cart__id=carts.id)
             from django.core.mail import EmailMessage
             from django.template.loader import render_to_string
+
             # print(carts, cartitems)
-            subject, from_email, to = "Payment Success GeraiPi", "payment@geraipi.com", request.user.email
+            subject, from_email, to = (
+                "Payment Success GeraiPi",
+                "payment@geraipi.com",
+                request.user.email,
+            )
             html_message = render_to_string("mail_template.html", {"carts": carts})
             # # plain_message = strip_tags(html_message)
             # # mail.send_mail(subject,

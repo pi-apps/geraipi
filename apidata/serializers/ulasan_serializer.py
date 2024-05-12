@@ -9,7 +9,15 @@ class UlasanSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = UlasanCart
-        fields = ["url", "user", "cart", "catatan", "produkitem", "produk", "created_at"]
+        fields = [
+            "url",
+            "user",
+            "cart",
+            "catatan",
+            "produkitem",
+            "produk",
+            "created_at",
+        ]
 
     def get_cart(self, obj):
         carts = Cart.objects.filter(pk=obj.cart.id)
