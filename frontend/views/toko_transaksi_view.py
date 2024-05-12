@@ -33,7 +33,7 @@ class TransaksiToko(FrontPage):
                     cart.status_toko = 3
                     cart.status = 3
                     cart.expedisi_id = request.POST.get("expedisi")
-                    cek = Cart.objects.filter(nomor_resi=resi, status=2)
+                    cek = Cart.objects.filter(nomor_resi=resi)
                     if cek.exists():
                         messages.error(request, "Sorry, Nomor resi sudah digunakan")
                         return redirect(
