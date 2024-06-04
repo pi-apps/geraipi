@@ -7,4 +7,4 @@
 mysql
 .env
 **/__pycache__
-projekpi/settings.py
+# projekpi/settings.py #
