@@ -59,13 +59,7 @@ class Command(BaseCommand):
                 import_regency.delay(row)
                 
         Distric.objects.all().delete()
-        with open('data/district.json', encoding='utf-8', errors='ignore') as read_district:
-            spamreader = json.load(read_district)
-            for row in spamreader:
-                import_district.delay(row)
+        import_district.delay()
                 
         Village.objects.all().delete()
-        with open('data/village.json', encoding='utf-8', errors='ignore') as read_village:
-            spamreader = json.load(read_village)
-            for row in spamreader:
-                import_village.delay(row)
+        import_village.delay()
