@@ -32,7 +32,7 @@ class Country(models.Model):
     tld = models.CharField(max_length=50, blank=True, null=True)
     native = models.CharField(max_length=50, blank=True, null=True)
     nationality = models.CharField(max_length=50, blank=True, null=True)
-    timezones = models.TextField(default=[])
+    timezones = models.TextField(blank=True, null=True, default=[])
     is_active = models.BooleanField(default=True)
 
 
