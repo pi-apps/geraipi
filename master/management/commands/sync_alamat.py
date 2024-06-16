@@ -1,8 +1,5 @@
-from django.core.management.base import BaseCommand, CommandError
-from master.models import Region, SubRegion, Country, Provinsi, Regency, Distric, Village
-import json
-import csv
-import sys
+from django.core.management.base import BaseCommand
+from projekpi.tasks import import_all_alamat
 
 
 class Command(BaseCommand):
@@ -28,38 +25,4 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        from projekpi.tasks import import_region, import_subregion, import_country, import_provinsi, import_regency, import_district, import_village
-        Region.objects.all().delete()
-        with open("data/regions.json", encoding='utf-8', errors='ignore') as read_file:
-            data = json.load(read_file)
-            for region in data:
-                import_region.delay(region)
-        SubRegion.objects.all().delete()
-        with open("data/subregions.json", encoding='utf-8', errors='ignore') as read_subregion:
-            data_subregion = json.load(read_subregion)
-            for subregion in data_subregion:
-                import_subregion.delay(subregion)
-        
-        Country.objects.all().delete()
-        with open('data/countries.json', encoding='utf-8', errors='ignore') as read_countries:
-            data_countries = json.load(read_countries)
-            for countries in data_countries:
-                import_country.delay(countries)
-                
-        Provinsi.objects.all().delete()
-        with open("data/provinces.csv") as read_provice:
-            spamreader = csv.reader(read_provice)
-            for row in spamreader:
-                import_provinsi.delay(row)
-                
-        Regency.objects.all().delete()
-        with open('data/regencies.json', encoding='utf-8', errors='ignore') as read_regency:
-            spamreader = json.load(read_regency)
-            for row in spamreader:
-                import_regency.delay(row)
-                
-        Distric.objects.all().delete()
-        import_district.delay()
-                
-        Village.objects.all().delete()
-        import_village.delay()
+        import_all_alamat.delay(True)
