@@ -60,3 +60,50 @@ def import_country(countries={}):
             timezones = countries.get('timezones', None)
         )
         print("saved country")
+        
+@shared_task(name="import_provinsi")
+def import_provinsi(row=[]):
+    code = row[0]
+    name = row[1]
+    province_model = Provinsi.objects.filter(id=code, code=code, nama=name).first()
+    if province_model:
+        print("Province exists")
+    else:
+        province_model = Provinsi.objects.create(id=code, code=code, nama=name)
+        print("Province saved")
+        
+@shared_task(name="import_regency")
+def import_regency(row={}):
+    code = row.get('code')
+    province_code = row.get("province")
+    name = row.get("name")
+    province_model = Regency.objects.filter(id=code, code=code, province_code_id=province_code, name=name).first()
+    if province_model:
+        print("regency exist")
+    else:
+        province_model = Regency.objects.create(id=code, code=code, province_code_id=province_code, name=name)
+        print("regency saved")
+        
+@shared_task(name="import_district")
+def import_district(row={}):
+    code = row.get('code')
+    regency_code = row.get('regency')
+    name = row.get("name")
+    province_model = Distric.objects.filter(id=code, code=code, regency_code_id=regency_code, name=name).first()
+    if province_model:
+        print("regency exist")
+    else:
+        province_model = Distric.objects.create(id=code, code=code, regency_code_id=regency_code, name=name)
+        print("regency saved")
+        
+@shared_task(name="import_village")
+def import_village(row={}):
+    code = row.get('code')
+    district_code = row.get('distric')
+    name = row.get('name')
+    village_model = Village.objects.filter(code=code, district_code_id=district_code, name=name).first()
+    if village_model:
+        print("Village Exists")
+    else:
+        province_model = Village.objects.create(code=code, district_code_id=district_code, name=name)
+        print("Village saved")
