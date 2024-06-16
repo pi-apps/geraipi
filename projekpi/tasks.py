@@ -1,6 +1,7 @@
 import time
 
 from celery import shared_task
+import json
 from master.models import Region, SubRegion, Country, Provinsi, Regency, Distric, Village
 
 
@@ -85,25 +86,31 @@ def import_regency(row={}):
         print("regency saved")
         
 @shared_task(name="import_district")
-def import_district(row={}):
-    code = row.get('code')
-    regency_code = row.get('regency')
-    name = row.get("name")
-    province_model = Distric.objects.filter(id=code, code=code, regency_code_id=regency_code, name=name).first()
-    if province_model:
-        print("regency exist")
-    else:
-        province_model = Distric.objects.create(id=code, code=code, regency_code_id=regency_code, name=name)
-        print("regency saved")
+def import_district():
+    with open('data/district.json', encoding='utf-8', errors='ignore') as read_district:
+        spamreader = json.load(read_district)
+        for row in spamreader:
+            code = row.get('code')
+            regency_code = row.get('regency')
+            name = row.get("name")
+            province_model = Distric.objects.filter(id=code, code=code, regency_code_id=regency_code, name=name).first()
+            if province_model:
+                print("District exist")
+            else:
+                province_model = Distric.objects.create(id=code, code=code, regency_code_id=regency_code, name=name)
+                print("District saved")
         
 @shared_task(name="import_village")
-def import_village(row={}):
-    code = row.get('code')
-    district_code = row.get('distric')
-    name = row.get('name')
-    village_model = Village.objects.filter(code=code, district_code_id=district_code, name=name).first()
-    if village_model:
-        print("Village Exists")
-    else:
-        province_model = Village.objects.create(code=code, district_code_id=district_code, name=name)
-        print("Village saved")
+def import_village():
+    with open('data/village.json', encoding='utf-8', errors='ignore') as read_village:
+        spamreader = json.load(read_village)
+        for row in spamreader:
+            code = row.get('code')
+            district_code = row.get('distric')
+            name = row.get('name')
+            village_model = Village.objects.filter(code=code, district_code_id=district_code, name=name).first()
+            if village_model:
+                print("Village Exists")
+            else:
+                province_model = Village.objects.create(code=code, district_code_id=district_code, name=name)
+                print("Village saved")
