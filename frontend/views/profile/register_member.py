@@ -26,11 +26,14 @@ class RegisterMember(FrontPage):
         if applied.exists():
             applied = applied.first()
             accept = True
-        code = UserCodeGenerator.objects.filter(user_id=request.user.id, is_active=True)
-        if code.exists():
-            codes = code.first()
-            if codes.is_active:
-                return redirect(reverse('profile'))
+        applied_true = UserAppliedMember.objects.filter(user_id=request.user.id, is_accept=True)
+        if applied_true.exists():
+            applied_true = applied_true.first()
+            code = UserCodeGenerator.objects.filter(user_apply_id=applied_true.id)
+            if code.exists():
+                codes = code.first()
+                if codes.is_active:
+                    return redirect(reverse('register_member_code'))
         return render(
             request,
             "member/register.html",
