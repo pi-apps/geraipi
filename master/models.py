@@ -111,6 +111,10 @@ class Negara(models.Model):
     kode = models.CharField(max_length=50)
     nama = models.CharField(max_length=100)
 
+class VoucherConfig(models.Model):
+    generate_code = models.CharField(max_length=50)
+    has_access_store = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
 # class Tampung(models.Model):
 #     history_tampung = models.CharField(max_length=)

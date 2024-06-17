@@ -17,6 +17,9 @@ from profiles.models import (
     UserProfileAddress,
     UserWithdrawlTransaction,
     UserwithdrawlTransactionRequest,
+    UserCodeGenerator,
+    UserAppliedMember,
+    UserSettingsMember,
 )
 
 
@@ -219,3 +222,8 @@ class LangSupportAdmin(admin.ModelAdmin):
 
 
 admin.site.register(LangSupport, LangSupportAdmin)
+
+
+admin.site.register(UserAppliedMember)
+admin.site.register(UserCodeGenerator)
+admin.site.register(UserSettingsMember)

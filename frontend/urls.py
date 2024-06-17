@@ -61,6 +61,8 @@ from frontend.views.withdrawl_request_json_view import WithdrawlRequestJson
 from frontend.views.withdrawl_toko_view import WithdrawlToko
 from frontend.views.withdrawl_view import Withdrawl
 from frontend.views.withdrawltokojson_view import WithdrawlTokoJson
+from frontend.views.profile.register_member import RegisterMember
+from frontend.views.profile.register_member_code import RegisterMemberCode
 
 urlpatterns = [
     path("", Splash.as_view(), name="splash"),
@@ -168,6 +170,8 @@ urlpatterns = [
     path("cancel/<str:id>", Cancel.as_view(), name="cancel"),
     path("completing/<str:id>", CompletePayment.as_view(), name="completing"),
     path("faq/", Faq.as_view(), name="faq"),
+    path("member/", RegisterMember.as_view(), name="register_member"),
+    path("member/code/", RegisterMemberCode.as_view(), name="register_member_code"),
     path(
         "transaksi/users/list/json",
         TransaksiUserJson.as_view(),
