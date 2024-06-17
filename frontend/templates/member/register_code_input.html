@@ -1,0 +1,24 @@
+{% extends 'layout.html' %} 
+{% load static %} 
+{% block content %}
+<div class="container p-4">
+    <div class="h-full">
+        <div class="grid grid-cols-1 gap-1 shadow-lg pb-2 border rounded-lg p-3">
+            <p><strong>Input Code Form</strong></p>
+            <p>
+                <strong>GeraiPi Army Uniform</strong> adalah salah satu bentuk <strong>Identitas Ekosistem Utilitas Pi</strong> sekalikus <strong>Kebanggaan Pioner</strong> bisa bergabung dan berkontribusi sebagai <strong>Penyedia layanan ( Vendor Produk )</strong> Melalui GeraiPi Indonesia Marketplace.
+            </p>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" name="applied" value="" required class="w-full my-4 rounded-lg"/>
+                <button type="submit" class="bg-green-600 text-center p-3 rounded w-full text-white">Submit Code</button>
+            </form>
+            <a class="bg-red-600 text-center p-2 rounded text-white w-full" href="{% url 'register_member' %}">Batal</a>
+
+        </div>
+    </div>
+</div>
+{% endblock %} 
+{% block script %}{% endblock %}
+{% block bottom_nav %}
+{% endblock %}
