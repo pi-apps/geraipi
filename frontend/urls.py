@@ -63,6 +63,7 @@ from frontend.views.withdrawl_view import Withdrawl
 from frontend.views.withdrawltokojson_view import WithdrawlTokoJson
 from frontend.views.profile.register_member import RegisterMember
 from frontend.views.profile.register_member_code import RegisterMemberCode
+from frontend.views.piverification_view import VerificationCode
 
 urlpatterns = [
     path("", Splash.as_view(), name="splash"),
@@ -198,4 +199,5 @@ urlpatterns = [
         "firebase-messaging-sw.js", ServiceWorkerView.as_view(), name="service_worker"
     ),
     path("fcm-token", FcmSaveTokenView.as_view(), name="fcm_token"),
+    path("validation-key.txt", VerificationCode.as_view(), name="verification"),
 ]

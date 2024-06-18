@@ -1,9 +1,11 @@
 from django.core.management.base import BaseCommand
 from projekpi.tasks import import_all_alamat
+from django.core import serializers
+from produk import models
 
 
 class Command(BaseCommand):
-    help = "Sync Alamat"
+    help = "export master kategori"
 
     # # def add_arguments(self, parser):
     # #     parser.add_argument("poll_ids", nargs="+", type=int)
@@ -25,4 +27,8 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        import_all_alamat(True)
+        data = serializers.serialize("json", models.Kategori.objects.all())
+        out = open("data/kategori.json", "w")
+        out.write(data)
+        out.close()
+
