@@ -99,6 +99,7 @@ class ConfigurationWebsite(SingletonModel):
     api_check_resi = models.CharField(blank=True, null=True, max_length=200)
 
     api_biteship = models.CharField(blank=True, null=True, max_length=255)
+    verification = models.CharField(blank=True, null=True, max_length=255)
 
 
 class HistoriTampung(models.Model):

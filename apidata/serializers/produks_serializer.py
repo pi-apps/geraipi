@@ -24,9 +24,11 @@ class KategoriSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["url", "kode", "icon", "nama"]
 
     def get_nama(self, obj):
-        user = self.context["users"]
+        user = self.context.get("users", None)
         languanges_code = "id"
-        if not user.is_authenticated:
+        if not user:
+            user = None
+        elif user.is_anonymous:
             user = None
         else:
             languanges_code = user.languages.code if user.languages else "id"
@@ -48,6 +50,8 @@ class TipeProdukSerializer(serializers.HyperlinkedModelSerializer):
         languanges_code = "id"
         if not user.is_authenticated:
             user = None
+        elif user.is_anonymous:
+            user = None
         else:
             languanges_code = user.languages.code if user.languages else "id"
         translate_text = translater(
@@ -64,9 +68,11 @@ class WarnaProdukSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["url", "nama"]
 
     def get_nama(self, obj):
-        user = self.context["users"]
+        user = self.context.get("users", None)
         languanges_code = "id"
-        if not user.is_authenticated:
+        if not user:
+            user = None
+        elif user.is_anonymous:
             user = None
         else:
             languanges_code = user.languages.code if user.languages else "id"
@@ -119,9 +125,13 @@ class ProdukSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
     def get_nama(self, obj):
-        user = self.context["users"]
+        user = self.context.get("users", None)
         user_lang = "id"
-        if not user.is_authenticated:
+        if not user:
+            if not user.is_authenticated:
+                user = None
+            user = None
+        elif user.is_anonymous:
             user = None
         else:
             user_lang = user.languages.code if user.languages else "id"

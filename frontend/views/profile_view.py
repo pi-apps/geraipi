@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from produk.models import Cart
+from profiles.models import UserSettingsMember
 
 from .base_view import FrontPage
 
@@ -9,20 +10,13 @@ class Profile(FrontPage):
     def get(self, request):
         pesanan = None
         profile = request.user
-        try:
-            pesanan = {
-                "pesanan": Cart.objects.filter(
-                    status=2, status_toko=1, user=request.user.id
-                ).count(),
-                "diproses": Cart.objects.filter(
-                    status=2, status_toko=2, user=request.user.id
-                ).count(),
-                "dikirim": Cart.objects.filter(
-                    status=2, status_toko=3, user=request.user.id
-                ).count(),
-            }
-        except Exception as e:
-            print(e)
-            pesanan = {"pesanan": 0, "diproses": 0, "dikirim": 0}
-        datas = {"status_pesanan": pesanan, "profile": profile}
+        if request.user.is_anonymous:
+            profile=None
+        profile_setting = UserSettingsMember.objects.filter(user=profile)
+        is_registered = False
+        if profile_setting.exists():
+            profile_setting = profile_setting.first()
+            if profile_setting:
+                is_registered = True
+        datas = {"status_pesanan": pesanan, "profile": profile, "registered": is_registered}
         return render(request, "profil/profile.html", datas)

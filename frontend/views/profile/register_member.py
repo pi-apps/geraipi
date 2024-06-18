@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from profiles.models import UserAppliedMember, UserCodeGenerator
+from profiles.models import UserAppliedMember, UserCodeGenerator, UserSettingsMember
 from ..base_view import FrontPage
 import datetime
 
@@ -34,6 +34,11 @@ class RegisterMember(FrontPage):
                 codes = code.first()
                 if codes.is_active:
                     return redirect(reverse('register_member_code'))
+        usersetting = UserSettingsMember.objects.filter(user_id=request.user.id)
+        if usersetting.exists():
+            usersetting = usersetting.first()
+            if usersetting:
+                return redirect(reverse('profile'))
         return render(
             request,
             "member/register.html",
