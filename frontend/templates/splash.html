@@ -24,7 +24,7 @@
 </style>
 <!-- <img src="{% static 'geraigif.gif' %}" alt="" style="height: 100vh; width: 450px;"> -->
 <div style="max-width: 450px; height: 100vh;">
-    <video id="mvideo" autoplay style="width: 100%; height: 100vh;">
+    <video id="mvideo" autoplay style="width: 100%; height: 100vh;" muted>
         <source src="{% static 'video.mp4' %}" type="video/mp4"/>
     </video>
 </div>
@@ -34,7 +34,6 @@
 {% endblock %} {% block script %}
 <script>
     window.onload = function(){
-        
         var promise = document.getElementById('mvideo').play();
     
         if (promise !== undefined) {
@@ -44,6 +43,7 @@
                 document.getElementById('mvideo').play();
             }).catch(error => {
                 console.log("prevented")
+                document.getElementById('mvideo').muted = false;
                 document.getElementById('mvideo').play();
                 // Autoplay was prevented.
                 // Show a "Play" button so that user can start playback.
