@@ -33,23 +33,23 @@
 </div> -->
 {% endblock %} {% block script %}
 <script>
-    window.onload = function(){
-        var promise = document.getElementById('mvideo').play();
+    // window.onload = function(){
+    //     var promise = document.getElementById('mvideo').play();
     
-        if (promise !== undefined) {
-            promise.then(_ => {
-                // Autoplay started!
-                console.log("started")
-                document.getElementById('mvideo').play();
-            }).catch(error => {
-                console.log("prevented")
-                document.getElementById('mvideo').muted = false;
-                document.getElementById('mvideo').play();
-                // Autoplay was prevented.
-                // Show a "Play" button so that user can start playback.
-            });
-        }
-    }
+    //     if (promise !== undefined) {
+    //         promise.then(_ => {
+    //             // Autoplay started!
+    //             console.log("started")
+    //             document.getElementById('mvideo').play();
+    //         }).catch(error => {
+    //             console.log("prevented")
+    //             document.getElementById('mvideo').muted = false;
+    //             document.getElementById('mvideo').play();
+    //             // Autoplay was prevented.
+    //             // Show a "Play" button so that user can start playback.
+    //         });
+    //     }
+    // }
     // document.getElementById('mvideo').addEventListener('playing',myHandlerplay,false);
     // function myHandlerplay(e) {
     //     // alert("hello")
