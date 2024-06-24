@@ -100,6 +100,7 @@ class ConfigurationWebsite(SingletonModel):
 
     api_biteship = models.CharField(blank=True, null=True, max_length=255)
     verification = models.CharField(blank=True, null=True, max_length=255)
+    bypass_expedisi = models.BooleanField(default=False)
 
 
 class HistoriTampung(models.Model):
