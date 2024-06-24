@@ -58,33 +58,33 @@ class PaymentsCart(FrontPage):
         cart_id = request.GET.get("cart_id")
         requestjson = requestdata.json()
         result_dict = json.loads(str(json.dumps(requestjson)))
-        try:
-            carts = CartItem.objects.get(pk=cart_id)
-            print(carts, cart_id)
-            CartItem.objects.get(cart__id=carts.id)
-            from django.core.mail import EmailMessage
-            from django.template.loader import render_to_string
+        # try:
+        #     carts = CartItem.objects.get(pk=cart_id)
+        #     print(carts, cart_id)
+        #     CartItem.objects.get(cart__id=carts.id)
+        #     from django.core.mail import EmailMessage
+        #     from django.template.loader import render_to_string
 
-            # print(carts, cartitems)
-            subject, from_email, to = (
-                "Payment Success GeraiPi",
-                "payment@geraipi.com",
-                request.user.email,
-            )
-            html_message = render_to_string("mail_template.html", {"carts": carts})
-            # # plain_message = strip_tags(html_message)
-            # # mail.send_mail(subject,
-            # #     plain_message,
-            # #     from_email,
-            # #     [to],
-            # #     html_message=html_message)
+        #     # print(carts, cartitems)
+        #     subject, from_email, to = (
+        #         "Payment Success GeraiPi",
+        #         "payment@geraipi.com",
+        #         request.user.email,
+        #     )
+        #     html_message = render_to_string("mail_template.html", {"carts": carts})
+        #     # # plain_message = strip_tags(html_message)
+        #     # # mail.send_mail(subject,
+        #     # #     plain_message,
+        #     # #     from_email,
+        #     # #     [to],
+        #     # #     html_message=html_message)
 
-            msg = EmailMessage(subject, html_message, from_email, [to])
-            msg.content_subtype = "html"
-            msg.send()
+        #     msg = EmailMessage(subject, html_message, from_email, [to])
+        #     msg.content_subtype = "html"
+        #     msg.send()
 
-        except CartItem.DoesNotExist or Exception as e:
-            print(e)
+        # except CartItem.DoesNotExist or Exception as e:
+        #     print("error")
 
         txid = result_dict.get("transaction")
         txid = json.loads(str(json.dumps(txid)))
