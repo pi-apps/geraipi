@@ -53,6 +53,7 @@ class AddToCart(FrontPage):
             user=request.user,
             expedisi=request.POST.get("expedisi"),
             tanggal=datetime.datetime.now(),
+            catatan=request.POST.get("catatan")
         )
         cart.save()
 

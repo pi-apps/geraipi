@@ -122,7 +122,7 @@ class Cart(models.Model):
         default=0, choices=STATUS_TOKO, blank=True, null=True
     )
     nomor_resi = models.CharField(blank=True, null=True, max_length=255)
-    catatan = models.CharField(blank=True, null=True, max_length=255)
+    catatan = models.TextField(blank=True, null=True, max_length=255)
     expedisi = models.ForeignKey(
         Expedisi, blank=True, null=True, on_delete=models.CASCADE
     )
