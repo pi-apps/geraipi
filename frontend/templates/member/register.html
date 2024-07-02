@@ -4,7 +4,7 @@
 <div class="container p-4">
     <div class="">
         <div class="grid grid-cols-1 gap-1 shadow-lg pb-2 border rounded-lg p-3">
-            <p><strong>GeraiPi Army Uniform</strong></p>
+            <p class="text-center"><strong>GeraiPi Army Uniform</strong></p>
             <p>
                 <strong>GeraiPi Army Uniform</strong> adalah salah satu bentuk <strong>Identitas Ekosistem Utilitas Pi</strong> sekalikus <strong>Kebanggaan Pioner</strong> bisa bergabung dan berkontribusi sebagai <strong>Penyedia layanan ( Vendor Produk )</strong> Melalui GeraiPi Indonesia Marketplace.
             </p>
@@ -35,7 +35,11 @@
                 <form action="" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="applied" value="0" />
-                    <button type="submit" class="bg-green-600 text-center p-3 mt-8 rounded">Daftar</button>
+                    <div class="my-2">
+                        <label for="" class="px-2">Nama</label>
+                        <input type="text" name="name" class="w-full rounded-full" required>
+                    </div>
+                    <button type="submit" class="bg-green-600 text-center  mt-8 rounded w-full">Daftar</button>
                 </form>
             {% endif %}
 
