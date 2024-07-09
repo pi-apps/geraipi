@@ -30,6 +30,8 @@ class Jual(FrontPage):
             user = user.first()
             if user.is_active_store is False:
                 return redirect(reverse("profile"))
+        else:
+            return redirect(reverse('profile'))
         kategori = Kategori.objects.all()
         typeproduk = TipeProduk.objects.all()
         warnaproduk = WarnaProduk.objects.all()

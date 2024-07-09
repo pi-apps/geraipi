@@ -1,5 +1,7 @@
 {% extends 'layout.html' %} 
 {% load static %} 
+{% block bottom_nav %}
+{% endblock %}
 {% block content %}
 <div class="mt-3 mb-[100px] {% if transaksi_data|length > 2 %}{%else%} h-screen {% endif %} mx-5" id="body-screen">
     {% if user.is_authenticated %}
