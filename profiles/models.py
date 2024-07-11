@@ -118,6 +118,8 @@ class UserwithdrawlTransactionRequest(models.Model):
 class UserAppliedMember(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, blank=True, null=True)
     name = models.CharField(blank=False, max_length=255)
+    email = models.EmailField(blank=True, null=True)
+    nomor = models.CharField(blank=True, null=True, max_length=255)
     tanggal = models.DateTimeField(auto_now=True, auto_created=True)
     is_accept = models.BooleanField(default=False)
     accept_date = models.DateTimeField(auto_now=False, blank=True, null=True)

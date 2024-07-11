@@ -17,6 +17,8 @@ class RegisterMember(FrontPage):
         userapplied.user = userprofile
         userapplied.is_accept = False
         userapplied.name = request.POST.get("name", request.user.username)
+        userapplied.email = request.POST.get("email", request.user.email)
+        userapplied.nomor = request.POST.get("nomor", "081")
         userapplied.accept_date = datetime.datetime.now()
         userapplied.save()
         return redirect(reverse("register_member"))
