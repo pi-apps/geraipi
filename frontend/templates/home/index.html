@@ -85,12 +85,12 @@
                             <hr />
                             <p class="text-xs text-slate-600 produk-stok" id="produk-stok-${index_res}">Stock :{{ a.stok_produk }}</p>
                             <div class="rating">
-                                <input type="radio" value="1" name="rating-1" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 0 ? "checked" : "" } />
-                                <input type="radio" value="1" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 1 ? "checked" : "" } />
-                                <input type="radio" value="2" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 2 ? "checked" : "" } />
-                                <input type="radio" value="3" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 3 ? "checked" : "" } />
-                                <input type="radio" value="4" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 4 ? "checked" : "" } />
-                                <input type="radio" value="5" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 5 ? "checked" : "" } />
+                                <input type="radio" value="0" name="rating-{{ forloop.counter }}" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star is None %} checked {% endif %}/>
+                                <input type="radio" value="1" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 1 %} checked {% endif %} />
+                                <input type="radio" value="2" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 2 %} checked {% endif %} />
+                                <input type="radio" value="3" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 3 %} checked {% endif %} />
+                                <input type="radio" value="4" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 4 %} checked {% endif %} />
+                                <input type="radio" value="5" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 5 %} checked {% endif %} />
                             </div>
                         </div>
                     </a>
