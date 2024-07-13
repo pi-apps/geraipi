@@ -97,6 +97,7 @@ class ConfigurationWebsite(SingletonModel):
     )
     url_check_resi = models.URLField(blank=True, null=True)
     api_check_resi = models.CharField(blank=True, null=True, max_length=200)
+    video_splash = models.FileField(blank=True, null=True, upload_to="splash", unique=True)
 
     api_biteship = models.CharField(blank=True, null=True, max_length=255)
     verification = models.CharField(blank=True, null=True, max_length=255)

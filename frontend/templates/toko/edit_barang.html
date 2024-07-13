@@ -62,16 +62,16 @@
             <div>
                 <input type="file" accept="image/*" class="hidden" name="gambar1" id="img1" onchange="readURL(this, 'image1');" />
                 <label for="img1">
-                    <img id="image1" class="rounded-lg overflow-hidden w-[120px] h-[120px] object-cover" mimetype="image/jpeg, image/png" src="/media/{{ images.gambar1 }}" alt="your image" />
+                    <img id="image1" class="rounded-lg overflow-hidden w-[120px] h-[120px] object-cover" mimetype="image/jpeg, image/png" src="{% get_media_prefix %}{{ images.gambar1 }}" alt="your image" />
                 </label>
             </div>
             <div>
                 <input type="file" accept="image/*" class="hidden" name="gambar2" id="img2" onchange="readURL(this, 'image2');" />
-                <label for="img2"><img id="image2" class="rounded-lg overflow-hidden w-[120px] h-[120px] object-cover" mimetype="image/jpeg, image/png" src="/media/{{ images.gambar2 }}" alt="your image" /></label>
+                <label for="img2"><img id="image2" class="rounded-lg overflow-hidden w-[120px] h-[120px] object-cover" mimetype="image/jpeg, image/png" src="{% get_media_prefix %}{{ images.gambar2 }}" alt="your image" /></label>
             </div>
             <div>
                 <input type="file" accept="image/*" class="hidden" name="gambar3" id="img3" onchange="readURL(this, 'image3');" />
-                <label for="img3"><img id="image3" class="rounded-lg overflow-hidden w-[120px] h-[120px] object-cover" mimetype="image/jpeg, image/png" src="/media/{{ images.gambar3 }}" alt="your image" /></label>
+                <label for="img3"><img id="image3" class="rounded-lg overflow-hidden w-[120px] h-[120px] object-cover" mimetype="image/jpeg, image/png" src="{% get_media_prefix %}{{ images.gambar3 }}" alt="your image" /></label>
             </div>
         </div>
         <div class="mb-6">

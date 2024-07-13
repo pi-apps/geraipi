@@ -66,6 +66,7 @@ class Produk(models.Model):
     def __str__(self) -> str:
         return self.nama
 
+    @property
     def gambarutama(self):
         return self.gambarproduk_set.first()
 

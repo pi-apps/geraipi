@@ -25,7 +25,7 @@
                     <div class="border rounded flex flex-row">
                         <div class="w-24 h-30 ">
                             {% if produk.gambarutama %}
-                                <img src="/media/{{ produk.gambarutama.gambar }}" />
+                                <img src="{% get_media_prefix %}{{ produk.gambarutama.gambar }}" />
                             {% else %}
                                 {{ produk.nama }}
                             {% endif %}
