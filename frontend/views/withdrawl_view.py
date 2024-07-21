@@ -1,7 +1,7 @@
 from django.db.models import Sum
 from django.shortcuts import render
 
-from profiles.models import UserWithdrawlTransaction, UserwithdrawlTransactionRequest
+from profiles.models import UserWithdrawlTransaction, UserwithdrawlTransactionRequest, UserSettingsMember
 
 from .base_view import FrontPage
 
@@ -24,6 +24,8 @@ class Withdrawl(FrontPage):
 
         total = user.coin - userwd
 
+        usersetting = UserSettingsMember.objects.filter(user=request.user.id).first()
+
         return render(
             request,
             "user_withdrawl_user.html",
@@ -32,5 +34,6 @@ class Withdrawl(FrontPage):
                 "history": history,
                 "history_request": history_request,
                 "totals": total,
+                "profiles": usersetting
             },
         )

@@ -40,7 +40,8 @@ class RegisterMemberCode(FrontPage):
                     userstore.save()
                 else:
                     userstore = UserStore.objects.create(
-                        nama = userprofile.name,
+                        nama = userprofile,
+                        users_id= request.user.id,
                         is_active_store = True,
                         aggrement = True
                     )

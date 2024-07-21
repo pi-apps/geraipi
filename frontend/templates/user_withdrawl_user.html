@@ -9,7 +9,8 @@
         <h2 class="text-xl font-bold">Back</h2>
     </a>
 </nav>
-{% endblock %} {% block content %}
+{% endblock %} 
+{% block content %}
 <div class="mt-3 mb-4  mx-5 {% if history|length > 3 or history_request|length > 3 %} h-full {% else %} h-screen {% endif %}">
     <div class="flex-col flex gap-6">
         <div>
@@ -30,6 +31,7 @@
                 </svg>
                 <p class="font-light text-slate-500 text-sm">Jumlah Saldo Sekarang: <span class="text-lg font-medium text-slate-900"> {{ totals }} 𝛑</span></p>
             </div>
+            <p class="text-sm">{% if profiles %}<strong>Kuota Tersisa : {{ profiles.quota_withdrawl }}</strong>{% endif %}</p>
         </div>
 
         <div class="flex flex-col gap-2">
@@ -44,7 +46,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M22 2H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9h3a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1ZM7 20v-2a2 2 0 0 1 2 2Zm10 0h-2a2 2 0 0 1 2-2Zm0-4a4 4 0 0 0-4 4h-2a4 4 0 0 0-4-4V8h10Zm4-6h-2V7a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v3H3V4h18Zm-9 5a3 3 0 1 0-3-3a3 3 0 0 0 3 3Zm0-4a1 1 0 1 1-1 1a1 1 0 0 1 1-1Z" />
                     </svg>
-                    <span>Withdraw</span>
+                    <span>Withdraw </span>
                 </span>
 
                 <svg id="spinner" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
