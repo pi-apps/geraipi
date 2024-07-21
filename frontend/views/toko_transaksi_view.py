@@ -20,7 +20,6 @@ class TransaksiToko(FrontPage):
         status = request.GET.get("status", 1)
         if status:
             cart = Cart.objects.get(pk=request.POST.get("cart_id"))
-            # for c in cart:
             if cart.status_toko == 1:
                 cart.status_toko = 2
                 cart.status = 2

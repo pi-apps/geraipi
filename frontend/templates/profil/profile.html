@@ -75,10 +75,12 @@
             {% endif %}
         </div>
         
+        {% if settings.bypass_waiting or profile.is_stores %}
         <div class="text-sm gap-2 border shadow-lg rounded-lg p-4 grid">
             <h6 class="font-bold">{% translater user.languages.code "toko_title_setting" "Setting Toko" %}</h6>
             <a href="/toko/{{ user.pk }}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "toko_menu_toko_saya" "Toko Saya" %}</a>
         </div>
+        {% endif %}
     </div>
     {% else %}
     <div class="flex flex-col justify-center gap-6">

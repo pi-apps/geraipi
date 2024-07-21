@@ -12,9 +12,6 @@
         <link rel="shortcut icon" href="{% static 'logo_tunggal.png' %}" type="image/png" />
         <meta name="description" content="Belanja online dengan koin pi" />
         <meta name="theme-color" content="#b50795" />
-        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-        <meta http-equiv="Pragma" content="no-cache" />
-        <meta http-equiv="Expires" content="0" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -86,7 +83,7 @@
     </head>
 
     <body style="background-color: aliceblue">
-        <div class="container-mobile mx-auto bg-white overflow-y-scroll scroll-smooth h-screen ">
+        <div class="container-mobile mx-auto bg-white overflow-y-scroll scroll-smooth h-screen no-scrollbar">
             {% block header %} 
                 {% include 'component/header_home.html' %} 
             {% endblock %}
@@ -107,7 +104,7 @@
         <script src="{% static 'splide/dist/js/splide.min.js' %}"></script>
         <script src="{% static 'loading/loading-bar.js' %}"></script>
         <script>
-            Pi.init({ version: "2.0", sandbox: false });
+            Pi.init({ version: "2.0", sandbox: true });
         </script>
 
         <!--Start of Tawk.to Script-->

@@ -52,6 +52,12 @@ class UserProfile(AbstractUser):
         verbose_name = "UserProfile"
         verbose_name_plural = "UserProfiles"
 
+    @property
+    def is_stores(self):
+        from store.models import UserStore
+        user_stores = UserStore.objects.filter(users_id=self.id, is_active_store=True).first()
+        return user_stores or None
+
     def __str__(self):
         return self.nama or "-"
 

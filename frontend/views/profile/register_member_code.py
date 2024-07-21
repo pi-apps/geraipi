@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from profiles.models import UserAppliedMember, UserCodeGenerator, UserSettingsMember
+from store.models import UserStore
 from ..base_view import FrontPage
 import datetime
 
@@ -29,7 +30,20 @@ class RegisterMemberCode(FrontPage):
                 usersetting.quota_withdrawl = quota
                 usersetting.user = userprofile
                 usersetting.save()
-                
+
+                userstore = UserStore.objects.filter(users_id=userprofile.id)
+                userstore = userstore.first()
+                if userstore:
+                    userstore.nama = userprofile.name
+                    userstore.is_active_store = True
+                    userstore.aggrement = True
+                    userstore.save()
+                else:
+                    userstore = UserStore.objects.create(
+                        nama = userprofile.name,
+                        is_active_store = True,
+                        aggrement = True
+                    )
                 usercode.is_active = False
                 usercode.save()
                 return redirect(reverse('profile'))

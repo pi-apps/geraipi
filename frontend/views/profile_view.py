@@ -18,5 +18,5 @@ class Profile(FrontPage):
             profile_setting = profile_setting.first()
             if profile_setting:
                 is_registered = True
-        datas = {"status_pesanan": pesanan, "profile": profile, "registered": is_registered}
+        datas = {"status_pesanan": pesanan, "profile": profile, "registered": is_registered, "settings": profile_setting}
         return render(request, "profil/profile.html", datas)
