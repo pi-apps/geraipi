@@ -3,7 +3,7 @@
 {% block bottom_nav %}
 {% endblock %}
 {% block content %}
-<div class=" {% if transaksi_data|length > 2 %}{%else%} h-screen {% endif %}" id="body-screen">
+<div class="mb-[100px] {% if transaksi_data|length > 2 %}{%else%} h-screen {% endif %}" id="body-screen">
     {% if user.is_authenticated %}
     <div class="flex flex-col justify-around gap-3 ">
         <div class="sticky top-[78px] bg-white">
@@ -149,13 +149,15 @@
                     </div>
                 </div>
                 <div class="modal-action">
-                    {% if tr.status == 3 %}
+                    {% if tr.cart.status == 3 %}
                         <button class="btn btn-sm btn-warning " onclick="confirmselesai({{ tr.id }})">Selesai</button>
                     {% endif %}
-                    {% if tr.cart.ulasancart_set.all|length > 0 %}
-                    <a class="btn btn-sm btn-success" href="{% url 'detail_transaksi_user_ulasan' tr.id %}">Edit Ulasan</a>
-                    {% else %}
-                    <a class="btn btn-sm btn-warning " href="{% url 'detail_transaksi_user_ulasan' tr.id %}">Tambahkan Ulasan</a>
+                    {% if tr.cart.status > 3%}
+                        {% if tr.cart.ulasancart_set.all|length > 0 %}
+                        <a class="btn btn-sm btn-success" href="{% url 'detail_transaksi_user_ulasan' tr.id %}">Edit Ulasan</a>
+                        {% else %}
+                        <a class="btn btn-sm btn-warning " href="{% url 'detail_transaksi_user_ulasan' tr.id %}">Tambahkan Ulasan</a>
+                        {% endif %}
                     {% endif %}
                     
                     <form method="dialog">
