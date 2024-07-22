@@ -55,6 +55,7 @@ class UserProfile(AbstractUser):
     @property
     def is_stores(self):
         from store.models import UserStore
+
         user_stores = UserStore.objects.filter(users_id=self.id, is_active_store=True).first()
         return user_stores or None
 
@@ -120,7 +121,8 @@ class UserwithdrawlTransactionRequest(models.Model):
 
     def __str__(self):
         return str(self.kode)
-    
+
+
 class UserAppliedMember(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, blank=True, null=True)
     name = models.CharField(blank=False, max_length=255)
@@ -129,12 +131,12 @@ class UserAppliedMember(models.Model):
     tanggal = models.DateTimeField(auto_now=True, auto_created=True)
     is_accept = models.BooleanField(default=False)
     accept_date = models.DateTimeField(auto_now=False, blank=True, null=True)
-    
+
     def save(self, *args, **kwargs):
-       if self.is_accept:
-           self.create_generator()
-       super(UserAppliedMember, self).save(*args, **kwargs) # Call the real save() method
-    
+        if self.is_accept:
+            self.create_generator()
+        super(UserAppliedMember, self).save(*args, **kwargs)  # Call the real save() method
+
     def create_generator(self):
         usergenerator = UserCodeGenerator()
         usergenerator.code = get_random()
@@ -146,6 +148,7 @@ class UserAppliedMember(models.Model):
         usergenerator.is_active = True
         usergenerator.save()
 
+
 class UserCodeGenerator(models.Model):
     user_apply = models.ForeignKey(UserAppliedMember, on_delete=models.SET_NULL, blank=True, null=True)
     code = models.CharField(max_length=50)
@@ -153,9 +156,10 @@ class UserCodeGenerator(models.Model):
     bypass_waiting = models.BooleanField(default=False)
     updated_information = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    
+
     def save(self, *args, **kwargs):
         super(UserCodeGenerator, self).save(*args, **kwargs)
+
 
 class UserSettingsMember(models.Model):
     code = models.CharField(blank=True, null=True, max_length=50)

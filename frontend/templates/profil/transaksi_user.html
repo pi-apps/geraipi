@@ -3,7 +3,7 @@
 {% block bottom_nav %}
 {% endblock %}
 {% block content %}
-<div class="mb-[100px] {% if transaksi_data|length > 2 %}{%else%} h-screen {% endif %}" id="body-screen">
+<div class=" {% if transaksi_data|length > 2 %}{%else%} h-screen {% endif %}" id="body-screen">
     {% if user.is_authenticated %}
     <div class="flex flex-col justify-around gap-3 ">
         <div class="sticky top-[78px] bg-white">
@@ -51,7 +51,6 @@
                     <p class="text-center">Ulasan</p>
                 </div>
             </div>
-
         </div>
         {% for tr in transaksi_data %}
         <div class="flex bg-slate-100 mx-1 rounded-lg shadow-lg" onclick="show_modals('my_modal_{{ tr.id }}')">
@@ -60,7 +59,7 @@
             </div>
             <div class="p-2 break-words">
                 <h3 class="text-[20px] font-bold">{{ tr.produk.nama }}</h3>
-                <p class="text-[10px]">Tanggal diambil: {{ tr.cart.tanggal }}</p>
+                <p class="text-[12px]">Tanggal diambil: {{ tr.cart.tanggal }}</p>
                 <p class="text-[13px]">{{ tr.produk.harga }} Pi</p>
                 <p class="text-[12px] break-all">{% if tr.cart.catatan %} {{ tr.cart.catatan | truncatewords:5 }} {% else %} - {% endif %} </p>
             </div>
@@ -71,21 +70,81 @@
                 <div>
                     <img src="{% get_media_prefix %}{{ tr.produk.gambarutama.gambar }}" alt="" class="w-full h-full rounded-lg border">
                     <div class="flex flex-col">
-                        <div class="text-lg font-bold">{{ tr.produk.nama }}</div>
-                        <p class="text-[10px]">Tanggal diambil: {{ tr.cart.tanggal | date:'d M Y' }}</p>
-                        {% for t in tr.user_chart.addressuserchartitem_set.all %}
-                            <p class="font-bold text-[10px]">Alamat Pembeli:</p>
-                            <p class="text-[10px]"><strong>{{ t.address }}</strong></p>
-                            <p class="text-[10px]">{{ t.province.nama }} / {{ t.regency.name }} / {{ t.distric.name }} / RT. {{ t.rt }} - RW. {{ t.rw }}</p>
-                        {% endfor %}
-                        {% if tr.status >= 3 %}
-                            {% if tr.cart.nomor_resi %}
-                                <p> Nomor Resi : {{ tr.nomor_resi }}</p>
-                                <p class="text-[10px]">Tanggal dikirim: {{ tr.tanggal_dikirim | date:'d M Y' }}</p>
-                                <p class="text-[10px]">Expedisi: {{ tr.tanggal_dikirim | date:'d M Y' }}</p>
-                                <p class="text-[10px]">Nomor Resi: {{ tr.tanggal_dikirim | date:'d M Y' }}</p>
+                        <div class="text-lg font-bold">{{ tr.produk.nama }} </div>
+                        <table>
+                            <tr>
+                                <td class="w-[110px] align-top"><p class="text-[12px]">Tanggal diambil: </p></td>
+                                <td class="w-[1px] align-top">:</td>
+                                <td><p class="text-[12px]">{{ tr.cart.tanggal | date:'d M Y' }}</p></td>
+                            </tr>
+                            {% for t in tr.user_chart.addressuserchartitem_set.all %}
+                            <tr>
+                                <td class="w-[110px] align-top"><p class="font-bold text-[12px]">Alamat Pembeli:</p></td>
+                                <td class="w-[1px] align-top">:</td>
+                                <td>
+                                    <p class="text-[12px]"><strong>{{ t.address }}</strong></p>
+                                    <p class="text-[12px]">{{ t.province.nama }} / {{ t.regency.name }} / {{ t.distric.name }} / RT. {{ t.rt }} - RW. {{ t.rw }}</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% if tr.cart.status >= 3 %}
+                                {% if tr.cart.nomor_resi %}
+                                    <tr>
+                                        <td class="w-[110px] align-top">
+                                            <p class="text-[12px] font-bold"> Nomor Resi </p>
+                                        </td>
+                                        <td class="w-[1px] align-top">:</td>
+                                        <td>
+                                            <p class="text-[12px] font-bold"> {{ tr.cart.nomor_resi }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="w-[110px] align-top"><p class="text-[12px] font-bold">Tanggal dikirim </p></td>
+                                        <td class="w-[1px] align-top">:</td>
+                                        <td><p class="text-[12px] font-bold">{{ tr.cart.tanggal_dikirim | date:'d M Y' }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="w-[110px]">
+                                            <p class="text-[12px] font-bold">Expedisi </p>
+                                        </td>
+                                        <td class="w-[1px]">:</td>
+                                        <td>
+                                            <p class="text-[12px] font-bold">{{ tr.cart.expedisi }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="w-[110px]">
+                                            <p class="text-[12px] font-bold">Nomor Resi </p>
+                                        </td>
+                                        <td class="w-[1px]">:</td>
+                                        <td>
+                                            <p class="text-[12px] font-bold">{{ tr.cart.nomor_resi }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="w-[110px]">
+                                            <p class="text-[12px] font-bold">Rating</p>
+                                        </td>
+                                        <td class="w-[1px]">:</td>
+                                        <td>
+                                            {% if tr.cart.ulasans %}
+                                            <div class="rating">
+                                                <input type="radio" value="0" name="rating-{{ forloop.counter }}" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled {% if tr.cart.ulasans.produk is None %} checked {% endif %}/>
+                                                <input type="radio" value="1" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if tr.cart.ulasans.produk == 1 %} checked {% endif %} />
+                                                <input type="radio" value="2" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if tr.cart.ulasans.produk == 2 %} checked {% endif %} />
+                                                <input type="radio" value="3" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if tr.cart.ulasans.produk == 3 %} checked {% endif %} />
+                                                <input type="radio" value="4" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if tr.cart.ulasans.produk == 4 %} checked {% endif %} />
+                                                <input type="radio" value="5" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if tr.cart.ulasans.produk == 5 %} checked {% endif %} />
+                                            </div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
+                        </table>
+                        
+                        
+                        <p class="text-[12px] font-bold">Catatan: </p>
                         <div class="text-sm">{{ tr.cart.catatan }}</div>
                     </div>
                 </div>
@@ -93,6 +152,12 @@
                     {% if tr.status == 3 %}
                         <button class="btn btn-sm btn-warning " onclick="confirmselesai({{ tr.id }})">Selesai</button>
                     {% endif %}
+                    {% if tr.cart.ulasancart_set.all|length > 0 %}
+                    <a class="btn btn-sm btn-success" href="{% url 'detail_transaksi_user_ulasan' tr.id %}">Edit Ulasan</a>
+                    {% else %}
+                    <a class="btn btn-sm btn-warning " href="{% url 'detail_transaksi_user_ulasan' tr.id %}">Tambahkan Ulasan</a>
+                    {% endif %}
+                    
                     <form method="dialog">
                         <!-- if there is a button in form, it will close the modal -->
                         <button class="btn btn-sm">Close</button>
@@ -101,126 +166,6 @@
             </div>
         </dialog>
         {% endfor %}
-        <div class="text-sm gap-2 border shadow-lg rounded-lg p-4 grid">
-            {% for tr in transaksi_data %}
-            <div class="rounded-lg shadow bg-white border p-2 flex flex-col">
-                <table>
-                    <tr>
-                        <td style="width:100px; font-weight:bold;">
-                            Produk
-                        </td>
-                        <td style="width:2px;">
-                            :
-                        </td>
-                        <td>
-                            {{ tr.cartitem_set.first.produk_chart.nama }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width:100px; font-weight:bold;">
-                            Catatan
-                        </td>
-                        <td style="width:2px;">
-                            :
-                        </td>
-                        <td>
-                            {{ tr.catatan }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width:100px; font-weight:bold;">
-                            Price
-                        </td>
-                        <td style="width:2px;">
-                            :
-                        </td>
-                        <td>
-                            {{ tr.cartitem_set.first.produk_chart.harga }} Pi
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width:100px; font-weight:bold;">
-                            Date
-                        </td>
-                        <td style="width:2px;">
-                            :
-                        </td>
-                        <td>
-                            {{ tr.tanggal | date:'d M Y' }}
-                        </td>
-                    </tr>
-                    {% if tr.status >= 3 %}
-                    <tr>
-                        <td style="width:100px; font-weight:bold;">
-                            Date confirmation
-                        </td>
-                        <td style="width:2px;">
-                            :
-                        </td>
-                        <td>
-                            {{ tr.tanggal_dikirim | date:'d M Y' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width:100px; font-weight:bold;">
-                            Expedisi
-                        </td>
-                        <td style="width:2px;">
-                            :
-                        </td>
-                        <td>
-                            {{ tr.expedisi }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width:100px; font-weight:bold;">
-                            Nomor Resi
-                        </td>
-                        <td style="width:2px;">
-                            :
-                        </td>
-                        <td>
-                            {{ tr.nomor_resi }}
-                        </td>
-                    </tr>
-                    {% endif %}
-                    <tr>
-                        <td class="font-bold align-text-top">Toko</td>
-                        <td class="align-text-top">:</td>
-                        <td class="font-bold">{{ tr.cartitem_set.first.store_chart.nama }}</td>
-                    </tr>
-                    <tr>
-                        <td style="width:100px; font-weight:bold; vertical-align: top;">
-                            Address
-                        </td>
-                        <td style="width:2px; vertical-align: top;">
-                            :
-                        </td>
-                        <td>
-                            {% for t in tr.cartitem_set.first.user_chart.addressuserchartitem_set.all %}
-                                    <strong>{{ t.address }}</strong><br/>
-                                    <p>{{ t.province.nama }} / {{ t.regency.name }} / {{ t.distric.name }} / RT. {{ t.rt }} - RW. {{ t.rw }}</p>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                </table>
-                <div class="grid">
-                    <div class="w-full">
-                        <a class="bg-green-500 rounded-full px-2 float-right right-0 cursor-pointer" href="{% url 'detail_transaksi_user' %}?detail={{ tr.id }}">Lihat detail</a>
-                        {% if tr.status == 3 %}
-                        <button class="bg-yellow-500 rounded-full px-2 float-right right-0 cursor-pointer " onclick="confirmselesai({{ tr.id }})">Selesai</button>
-                        {% elif tr.status == 4 %}
-                        {% if tr.ulasancart_set.all|length > 0 %}
-                        <a class="bg-green-500 rounded-full px-2 float-right right-0 cursor-pointer " href="{% url 'detail_transaksi_user_ulasan' tr.id %}">Edit Ulasan</a>
-                        {% else %}
-                        <a class="bg-yellow-500 rounded-full px-2 float-right right-0 cursor-pointer " href="{% url 'detail_transaksi_user_ulasan' tr.id %}">Tambahkan Ulasan</a>
-                        {% endif %}
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
         <form action="" method="post" id="form_selesai" class="hidden">
             <input type="hidden" name="id" id="id_form">
         </form>

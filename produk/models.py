@@ -131,6 +131,11 @@ class Cart(models.Model):
 
     def __str__(self):
         return self.kode
+    
+    @property
+    def ulasans(self):
+        ulasan = UlasanCart.objects.filter(cart_id=self.id).first()
+        return ulasan
 
     def save(self, *args, **kwargs):
         if not self.kode:

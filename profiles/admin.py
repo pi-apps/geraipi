@@ -13,13 +13,13 @@ from django.views.decorators.csrf import csrf_exempt
 
 from profiles.models import (
     LangSupport,
+    UserAppliedMember,
+    UserCodeGenerator,
     UserProfile,
     UserProfileAddress,
+    UserSettingsMember,
     UserWithdrawlTransaction,
     UserwithdrawlTransactionRequest,
-    UserCodeGenerator,
-    UserAppliedMember,
-    UserSettingsMember,
 )
 
 
@@ -119,7 +119,6 @@ admin.site.register(UserProfile, ProfileAdmin)
 
 
 class UserProfileAddressAdmin(admin.ModelAdmin):
-
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
         query = super().get_queryset(request)
         if not request.user.is_superuser:

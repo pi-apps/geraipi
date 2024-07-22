@@ -11,12 +11,17 @@ class Profile(FrontPage):
         pesanan = None
         profile = request.user
         if request.user.is_anonymous:
-            profile=None
+            profile = None
         profile_setting = UserSettingsMember.objects.filter(user=profile)
         is_registered = False
         if profile_setting.exists():
             profile_setting = profile_setting.first()
             if profile_setting:
                 is_registered = True
-        datas = {"status_pesanan": pesanan, "profile": profile, "registered": is_registered, "settings": profile_setting}
+        datas = {
+            "status_pesanan": pesanan,
+            "profile": profile,
+            "registered": is_registered,
+            "settings": profile_setting,
+        }
         return render(request, "profil/profile.html", datas)
