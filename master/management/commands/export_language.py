@@ -1,5 +1,6 @@
-from django.core.management.base import BaseCommand
 from django.core import serializers
+from django.core.management.base import BaseCommand
+
 from profiles import models
 
 
@@ -11,4 +12,3 @@ class Command(BaseCommand):
         out = open("data/language.json", "w")
         out.write(data)
         out.close()
-

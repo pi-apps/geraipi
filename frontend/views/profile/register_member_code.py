@@ -59,5 +59,3 @@ class RegisterMemberCode(FrontPage):
         if not applied.exists():
             return redirect(reverse("register_member"))
         return render(request, "member/register_code_input.html")
-
-

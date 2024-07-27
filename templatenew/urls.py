@@ -19,8 +19,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from .views.home.index import Home
+
 from .views.fcm.token_view import TokenView
+from .views.home.index import Home
 
 urlpatterns = [
     path("", Home.as_view()),

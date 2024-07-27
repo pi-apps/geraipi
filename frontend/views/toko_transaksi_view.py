@@ -39,7 +39,9 @@ class TransaksiToko(FrontPage):
                             reverse(
                                 "transaksi_toko",
                                 kwargs={"id": str(request.user.id)},
-                            ) + "?status=" + str(status)
+                            )
+                            + "?status="
+                            + str(status)
                         )
                     from apidata.resi_check import ResiCheck
                     from master.models import ConfigurationWebsite
@@ -61,7 +63,9 @@ class TransaksiToko(FrontPage):
                                     reverse(
                                         "transaksi_toko",
                                         kwargs={"id": str(request.user.id)},
-                                    ) + "?status=" + str(status)
+                                    )
+                                    + "?status="
+                                    + str(status)
                                 )
                             else:
                                 messages.success(request, "Nomor resi valid")
@@ -70,7 +74,9 @@ class TransaksiToko(FrontPage):
                                     reverse(
                                         "transaksi_toko",
                                         kwargs={"id": str(request.user.id)},
-                                    ) + "?status=" + str(status)
+                                    )
+                                    + "?status="
+                                    + str(status)
                                 )
                         elif code_expedisi.source_request == 2:
                             cekinit.api = konfigurasi.api_biteship
@@ -84,7 +90,9 @@ class TransaksiToko(FrontPage):
                                     reverse(
                                         "transaksi_toko",
                                         kwargs={"id": str(request.user.id)},
-                                    ) + "?status=" + str(status)
+                                    )
+                                    + "?status="
+                                    + str(status)
                                 )
                             else:
                                 messages.error(request, "Sorry, Nomor resi tidak valid")
@@ -92,7 +100,9 @@ class TransaksiToko(FrontPage):
                                     reverse(
                                         "transaksi_toko",
                                         kwargs={"id": str(request.user.id)},
-                                    ) + "?status=" + str(status)
+                                    )
+                                    + "?status="
+                                    + str(status)
                                 )
                     else:
                         cart.save()
@@ -101,7 +111,9 @@ class TransaksiToko(FrontPage):
                             reverse(
                                 "transaksi_toko",
                                 kwargs={"id": str(request.user.id)},
-                            ) + "?status=" + str(status)
+                            )
+                            + "?status="
+                            + str(status)
                         )
                 else:
                     messages.error(request, "Sorry, please input your number")
@@ -109,7 +121,9 @@ class TransaksiToko(FrontPage):
                         reverse(
                             "transaksi_toko",
                             kwargs={"id": str(request.user.id)},
-                        ) + "?status=" + str(status)
+                        )
+                        + "?status="
+                        + str(status)
                     )
             elif cart.status_toko == 3:
                 cart.status = 3

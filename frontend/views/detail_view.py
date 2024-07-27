@@ -1,5 +1,5 @@
-from django.shortcuts import render
 from django.core.paginator import Paginator
+from django.shortcuts import render
 
 from produk.models import GambarProduk, Produk, UlasanCart
 from profiles.models import LangSupport
@@ -24,5 +24,11 @@ class Detail(FrontPage):
         return render(
             request,
             "home/detail.html",
-            {"slug": slug, "produk": produk, "gambar": gambar, "languages": languages, "ulasan": ulasan},
+            {
+                "slug": slug,
+                "produk": produk,
+                "gambar": gambar,
+                "languages": languages,
+                "ulasan": ulasan,
+            },
         )

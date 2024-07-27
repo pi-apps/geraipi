@@ -1,10 +1,10 @@
+from django.core.paginator import Paginator
+from django.db.models import Avg
 from django.shortcuts import render
 
 from frontend.models import Pengumuman
-from produk.models import Kategori, Produk
 from master.models import Negara
-from django.core.paginator import Paginator
-from django.db.models import Avg
+from produk.models import Kategori, Produk
 
 from ..models import Banner
 from .base_view import FrontPage
@@ -36,7 +36,7 @@ class Home(FrontPage):
             request,
             "home/index.html",
             {
-                "produk":produk_page,
+                "produk": produk_page,
                 "kategori": kategori,
                 "banner": banner,
                 "range_value": range(1, 6),

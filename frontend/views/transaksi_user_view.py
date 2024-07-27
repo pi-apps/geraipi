@@ -10,15 +10,15 @@ from .base_view import FrontPage
 @method_decorator(csrf_exempt, name="dispatch")
 class TransaksiUsers(FrontPage):
     def get(self, request):
-        cart = Cart.objects.filter(
-            user_id=request.user.id, status_pembayaran__gte=2
-        )
+        cart = Cart.objects.filter(user_id=request.user.id, status_pembayaran__gte=2)
         transaksi_status = {
             "pending": cart.filter(status=1).count(),
             "diproses": cart.filter(status=2).count(),
             "dikirim": cart.filter(status=3).count(),
         }
-        transaksi_data = CartItem.objects.filter(cart__user_id=request.user.id, cart__status_pembayaran__gte=2).filter(cart__status=request.GET.get("status", 1))
+        transaksi_data = CartItem.objects.filter(
+            cart__user_id=request.user.id, cart__status_pembayaran__gte=2
+        ).filter(cart__status=request.GET.get("status", 1))
         data = {
             "transaksi": transaksi_status,
             "transaksi_data": transaksi_data,

@@ -1,0 +1,1 @@
+[{"model": "frontend.banner", "pk": 1, "fields": {"name": "Image01", "image": "image_banner/Banner01_TdjEAEI.jpg"}}, {"model": "frontend.banner", "pk": 2, "fields": {"name": "Image2", "image": "image_banner/Banner2_VQNjzOj.jpg"}}]
