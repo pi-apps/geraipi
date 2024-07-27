@@ -18,3 +18,8 @@ jobs:
           git pull origin2 main
           service uwsgi restart
           service nginx restart
+          
+          cd /opg/GPMain
+          git pull
+          service uwsgi restart
+          service nginx restart
