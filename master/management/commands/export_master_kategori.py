@@ -2,7 +2,6 @@ from django.core import serializers
 from django.core.management.base import BaseCommand
 
 from produk import models
-from projekpi.tasks import import_all_alamat
 
 
 class Command(BaseCommand):

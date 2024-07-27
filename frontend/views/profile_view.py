@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-from produk.models import Cart
 from profiles.models import UserSettingsMember
 
 from .base_view import FrontPage

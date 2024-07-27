@@ -84,7 +84,7 @@ class PaymentsCart(FrontPage):
             msg.send()
 
         except CartItem.DoesNotExist or Exception as e:
-            print("error")
+            print("error", str(e))
 
         txid = result_dict.get("transaction")
         txid = json.loads(str(json.dumps(txid)))

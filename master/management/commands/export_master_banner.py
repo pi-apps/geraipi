@@ -2,7 +2,8 @@ from django.core import serializers
 from django.core.management.base import BaseCommand
 
 from frontend import models
-from produk import models
+
+# from produk import models
 
 
 class Command(BaseCommand):

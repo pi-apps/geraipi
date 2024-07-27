@@ -201,7 +201,7 @@ def import_village():
             if village_model:
                 print("Village Exists")
             else:
-                province_model = Village.objects.create(
+                Village.objects.create(
                     code=code, district_code_id=district_code, name=name
                 )
                 print("Village saved")
