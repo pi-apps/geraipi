@@ -19,6 +19,6 @@ jobs:
           service nginx restart
           
           cd /opg/GPMain
-          git pull
+          git pull origin main
           service uwsgi restart
           service nginx restart
