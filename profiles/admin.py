@@ -10,6 +10,7 @@ from django.urls import path, reverse
 from django.urls.resolvers import URLPattern
 from django.utils.html import format_html
 from django.views.decorators.csrf import csrf_exempt
+from store.models import UserStore
 
 from profiles.models import (
     LangSupport,
@@ -20,6 +21,7 @@ from profiles.models import (
     UserSettingsMember,
     UserWithdrawlTransaction,
     UserwithdrawlTransactionRequest,
+    Tier
 )
 
 
@@ -225,4 +227,19 @@ admin.site.register(LangSupport, LangSupportAdmin)
 
 admin.site.register(UserAppliedMember)
 admin.site.register(UserCodeGenerator)
-admin.site.register(UserSettingsMember)
+
+class UserSettingMemberAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change):
+        userstore = UserStore.objects.get(users_id=obj.user_id)
+        userstore.is_active_store = obj.is_active_store
+        userstore.save()
+        super().save_model(request, obj, form, change)
+
+admin.site.register(UserSettingsMember, UserSettingMemberAdmin)
+
+class TierAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change):
+        print(obj)
+        super().save_model(request, obj, form, change)
+
+admin.site.register(Tier, TierAdmin)

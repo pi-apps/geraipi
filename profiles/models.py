@@ -60,6 +60,10 @@ class UserProfile(AbstractUser):
             users_id=self.id, is_active_store=True
         ).first()
         return user_stores or None
+    
+    @property
+    def settings(self):
+        return UserSettingsMember.objects.get_or_create()
 
     def __str__(self):
         return self.nama or "-"
@@ -169,11 +173,26 @@ class UserCodeGenerator(models.Model):
         super(UserCodeGenerator, self).save(*args, **kwargs)
 
 
+class Tier(models.Model):
+    name = models.CharField(max_length=100)
+    bypass_verification_store = models.BooleanField(default=False)
+    kuota_withdrawl = models.IntegerField(default=0)
+    pajak_user = models.FloatField(default=0.0)
+    pajak_withdrawl = models.FloatField(default=0.0)
+    realtime_information = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
 class UserSettingsMember(models.Model):
     code = models.CharField(blank=True, null=True, max_length=50)
     user = models.ForeignKey(
         UserProfile, on_delete=models.CASCADE, blank=True, null=True
     )
-    quota_withdrawl = models.IntegerField(default=0)
-    bypass_waiting = models.BooleanField(default=False)
-    updated_information = models.BooleanField(default=False)
+    kuota = models.IntegerField(default=0)
+    is_active_store = models.BooleanField(default=False)
+    tier = models.ForeignKey(Tier, blank=True, null=True, on_delete=models.SET_NULL)
+
+    def save(self, *args, **kwargs):
+        super(UserSettingsMember, self).save(*args, **kwargs)

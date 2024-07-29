@@ -7,17 +7,12 @@
         <div class="flex justify-between items-center gap-2 my-5 border shadow-lg rounded-lg px-2 py-4">
             <div class="w-10 h-10 bg-slate-300 rounded-full"></div>
             <div class="flex flex-col px-2">
-                <p id="nama" class="text-lg font-medium">@{{ user.username }}</p>
+                <p id="nama" class="text-lg font-medium">@{{ settings.user.username }}</p>
                 <div class="flex flex-row justify-between">
                     <div class="flex flex-wrap items-center gap-2 flex-row w-full">
-                        <p id="pendapatan" class="text-slate-600 text-sm">{% translater user.languages.code "profile" "Pendapatan User:" %} {{profile.coin}} Pi</p>
+                        <p id="pendapatan" class="text-slate-600 text-sm">{% translater user.languages.code "profile" "Pendapatan User:" %} {{ settings.user.coin }} Pi</p>
                         <a href="/user/withdrawl" class="bg-orange-400 flex items-center uppercase font-bold hover:bg-orange-600 hover:shadow-sm text-white text-xs rounded-full py-1 px-2"><span>{% translater user.languages.code "profile_withdraw" "Withdraw" %}</span></a>
                     </div>
-                    {% comment %}
-                    <div>
-                        <p id="pendapatan" class="text-center"></p>
-                    </div>
-                    {% endcomment %}
                 </div>
             </div>
         </div>
@@ -69,23 +64,25 @@
             <a href="{% url 'transaksi_users' %}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "profile_menu_transaksi_saya" "Transaksi" %}</a>
             <a href="/faq/" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">FAQ</a>
             {% if registered %}
-            <a href="/member/quota" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">Quota Member</a>
+            <a href="/member/quota" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">Quota Member </a>
             {% else %}
             <a href="/member/" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">Register Membership</a>
             {% endif %}
         </div>
         
-        {% if settings.bypass_waiting or profile.is_stores %}
-        <div class="text-sm gap-2 border shadow-lg rounded-lg p-4 grid">
-            <h6 class="font-bold">{% translater user.languages.code "toko_title_setting" "Setting Toko" %}</h6>
-            <a href="/toko/{{ user.pk }}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "toko_menu_toko_saya" "Toko Saya" %}</a>
-        </div>
+        {% if stores %}
+            {% if stores.is_active_store and stores.aggrement %}
+            <div class="text-sm gap-2 border shadow-lg rounded-lg p-4 grid">
+                <h6 class="font-bold">{% translater user.languages.code "toko_title_setting" "Setting Toko" %}</h6>
+                <a href="/toko/{{ user.pk }}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "toko_menu_toko_saya" "Toko Saya" %}</a>
+            </div>
+            {% endif %}
         {% endif %}
     </div>
     {% else %}
     <div class="flex flex-col justify-center gap-6">
         <span class="bg-red-400/20 text-red-800 text-sm p-2 font-light">Anda belum login silahkan Login terlebih Dahulu</span>
-        <button id="loginn" class="bg-orange-400 text-white py-3 rounded-full" onclick="actionlogin()">Login {{ user }}</button>
+        <button id="loginn" class="bg-orange-400 text-white py-3 rounded-full" onclick="redirect_nologin()">Login</button>
     </div>
     {% endif %}
 </div>
@@ -100,9 +97,15 @@
             console.log("coba",jsonurl)
         }
     })
+
+    function redirect_nologin(){
+
+        window.open("pi://geraipi.id")
+    }
     
 
-    {% comment %} $(function(){
+    {% comment %} 
+    $(function(){
         const datas = JSON.parse(window.localStorage.getItem("authdata"))
 
         $.ajax({
@@ -146,7 +149,8 @@
                 console.log(res)
             }
         })
-    }) {% endcomment %}
+    }) 
+    {% endcomment %}
 </script>
 {% else %}
     {{ block.super }}

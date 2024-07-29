@@ -7,6 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from profiles.models import UserAppliedMember, UserCodeGenerator, UserSettingsMember
+from store.models import UserStore
 
 from ..base_view import FrontPage
 
@@ -16,6 +17,15 @@ from ..base_view import FrontPage
 class RegisterMember(FrontPage):
     def post(self, request):
         userprofile = request.user
+
+        userstore = UserStore()
+        userstore.users = userprofile
+        userstore.nama = userprofile.name
+        userstore.deskripsi = "-"
+        userstore.email = request.POST.get("email")
+        userstore.telpon = request.POST.get("nomor")
+        userstore.save()
+
         userapplied = UserAppliedMember()
         userapplied.user = userprofile
         userapplied.is_accept = False

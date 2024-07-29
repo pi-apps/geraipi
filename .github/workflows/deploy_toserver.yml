@@ -1,4 +1,4 @@
-name: remote ssh command
+name: Deploy to server
 on: [push]
 jobs:
   build:
@@ -15,10 +15,14 @@ jobs:
         script: | 
           cd /opt/geraipi
           git pull origin2 main
+          /opt/geraienv/bin/python /opt/geraipi/manage.py makemigrations
+          /opt/geraienv/bin/python /opt/geraipi/manage.py migrate
           service uwsgi restart
           service nginx restart
           
           cd /opg/GPMain
           git pull origin main
+          /opt/geraienv/bin/python /opt/geraipi/manage.py makemigrations
+          /opt/geraienv/bin/python /opt/geraipi/manage.py migrate
           service uwsgi restart
           service nginx restart

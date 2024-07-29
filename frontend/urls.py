@@ -40,7 +40,7 @@ from frontend.views.profile.register_member import RegisterMember
 from frontend.views.profile.register_member_code import RegisterMemberCode
 from frontend.views.profile_delete_detail_view import DeleteDetailProfile
 from frontend.views.profile_detail_address_view import DetailProfileAddressMain
-from frontend.views.profile_view import Profile
+from frontend.views.profile.profile_view import Profile
 from frontend.views.promo_view import Promo
 from frontend.views.save_token_views import SaveToken
 from frontend.views.search_produk_view import SearchProduct
