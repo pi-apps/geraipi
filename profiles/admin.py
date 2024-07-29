@@ -230,7 +230,7 @@ admin.site.register(UserCodeGenerator)
 
 class UserSettingMemberAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
-        userstore = UserStore.objects.get(users_id=obj.user_id)
+        userstore = UserStore.objects.filter(users_id=obj.user_id).last()
         userstore.is_active_store = obj.is_active_store
         userstore.save()
         super().save_model(request, obj, form, change)
@@ -239,7 +239,6 @@ admin.site.register(UserSettingsMember, UserSettingMemberAdmin)
 
 class TierAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
-        print(obj)
         super().save_model(request, obj, form, change)
 
 admin.site.register(Tier, TierAdmin)

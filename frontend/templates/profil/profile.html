@@ -89,69 +89,69 @@
 {% endblock %} 
 {% block script %}
 {% if user.is_authenticated %}
-<script>
+    <script>
 
-    $(function(){
-        async function ini(){
-            let jsonurl = await JSON.parse(window.localStorage.getItem('url_data'))
-            console.log("coba",jsonurl)
+        $(function(){
+            async function ini(){
+                let jsonurl = await JSON.parse(window.localStorage.getItem('url_data'))
+                console.log("coba",jsonurl)
+            }
+        })
+
+        function redirect_nologin(){
+
+            window.open("pi://geraipi.id")
         }
-    })
+        
 
-    function redirect_nologin(){
+        {% comment %} 
+        $(function(){
+            const datas = JSON.parse(window.localStorage.getItem("authdata"))
 
-        window.open("pi://geraipi.id")
-    }
-    
-
-    {% comment %} 
-    $(function(){
-        const datas = JSON.parse(window.localStorage.getItem("authdata"))
-
-        $.ajax({
-            url:"/balance",
-            method:"get",
-            success: function(res){
-                console.log(res)
-            }
-        })
-        $.ajax({
-            url:'https://api.minepi.com/v2/me',
-            method:"get",
-            headers: {
-                "Authorization": "Bearer "+datas.accessToken
-            },
-            success: function(res){
-                $('button[id="loginn"]').hide()
-                $('p[id="nama"]').text(res.username)
-                console.log("{{ request.user }}")
-                {% if not user.is_authenticated %}
-                window.location.href = '/login_user/?username='+res.username
-                console.log("hello", "{{ request.user }}")
-                {% endif %}
-            }
-        })
-        $.ajax({
-            url:'https://api.minepi.com/v2/payments',
-            headers: {
-                "Authorization": "Bearer "+window.localStorage.getItem("accessToken")
-            },
-            method:"post",
-            data:{
-                "payment": {
-                  "amount": 10,
-                  "memo": "From app to user test",
-                  "metadata": {"test": "test metadata"},
-                  "uid": "a1111111-aaaa-bbbb-2222-ccccccc3333d"
+            $.ajax({
+                url:"/balance",
+                method:"get",
+                success: function(res){
+                    console.log(res)
                 }
-            },
-            success: function(res){
-                console.log(res)
-            }
-        })
-    }) 
-    {% endcomment %}
-</script>
+            })
+            $.ajax({
+                url:'https://api.minepi.com/v2/me',
+                method:"get",
+                headers: {
+                    "Authorization": "Bearer "+datas.accessToken
+                },
+                success: function(res){
+                    $('button[id="loginn"]').hide()
+                    $('p[id="nama"]').text(res.username)
+                    console.log("{{ request.user }}")
+                    {% if not user.is_authenticated %}
+                    window.location.href = '/login_user/?username='+res.username
+                    console.log("hello", "{{ request.user }}")
+                    {% endif %}
+                }
+            })
+            $.ajax({
+                url:'https://api.minepi.com/v2/payments',
+                headers: {
+                    "Authorization": "Bearer "+window.localStorage.getItem("accessToken")
+                },
+                method:"post",
+                data:{
+                    "payment": {
+                    "amount": 10,
+                    "memo": "From app to user test",
+                    "metadata": {"test": "test metadata"},
+                    "uid": "a1111111-aaaa-bbbb-2222-ccccccc3333d"
+                    }
+                },
+                success: function(res){
+                    console.log(res)
+                }
+            })
+        }) 
+        {% endcomment %}
+    </script>
 {% else %}
     {{ block.super }}
     <script>
