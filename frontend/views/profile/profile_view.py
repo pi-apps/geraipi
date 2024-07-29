@@ -12,10 +12,10 @@ class Profile(FrontPage):
         profile = request.user
         if request.user.is_anonymous:
             profile = None
-        profile_setting = UserSettingsMember.objects.get(user=profile)
-        stores = UserStore.objects.get(users_id=profile.id)
+        profile_setting = UserSettingsMember.objects.filter(user=profile).last()
+        stores = UserStore.objects.filter(users_id=profile.id).first()
         is_registered = False
-        if profile_setting:
+        if profile_setting.tier:
             is_registered = True
         datas = {
             "status_pesanan": pesanan,

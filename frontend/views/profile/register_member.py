@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-from profiles.models import UserAppliedMember, UserCodeGenerator, UserSettingsMember
+from profiles.models import UserAppliedMember, UserCodeGenerator, UserSettingsMember, Tier
 from store.models import UserStore
 
 from ..base_view import FrontPage
@@ -20,7 +20,7 @@ class RegisterMember(FrontPage):
 
         userstore = UserStore()
         userstore.users = userprofile
-        userstore.nama = userprofile.name
+        userstore.nama = userprofile.nama
         userstore.deskripsi = "-"
         userstore.email = request.POST.get("email")
         userstore.telpon = request.POST.get("nomor")
@@ -42,21 +42,21 @@ class RegisterMember(FrontPage):
         )
         accept = False
         if applied.exists():
-            applied = applied.first()
+            applied = applied.last()
             accept = True
         applied_true = UserAppliedMember.objects.filter(
             user_id=request.user.id, is_accept=True
         )
         if applied_true.exists():
-            applied_true = applied_true.first()
+            applied_true = applied_true.last()
             code = UserCodeGenerator.objects.filter(user_apply_id=applied_true.id)
             if code.exists():
-                codes = code.first()
+                codes = code.last()
                 if codes.is_active:
                     return redirect(reverse("register_member_code"))
         usersetting = UserSettingsMember.objects.filter(user_id=request.user.id)
         if usersetting.exists():
             usersetting = usersetting.first()
-            if usersetting:
+            if usersetting.tier:
                 return redirect(reverse("profile"))
         return render(request, "member/register.html", {"register": accept})
