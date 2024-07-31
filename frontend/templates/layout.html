@@ -223,13 +223,11 @@
             };
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
-            alert("in this", app)
             const analytics = getAnalytics(app);
-            alert("in this this", analytics)
             const messaging = getMessaging(app);
-            alert("in here", messaging)
             // Add the public key generated from the console here.
             let token = await getToken(messaging, {vapidKey: "BFN7KQFtuiq9l_tkSE3GcS66hqmsG7ddDjL5wrpSlegQY5_YGzp1LD5F3vn74RP4skldx5A_7k9DQuswI5zYUEs"})
+            await alert("test token", token)
             if(token){
                 alert("test", token)
                 $.ajax({
