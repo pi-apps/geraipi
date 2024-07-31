@@ -228,6 +228,7 @@
             // Add the public key generated from the console here.
             let token = await getToken(messaging, {vapidKey: "BFN7KQFtuiq9l_tkSE3GcS66hqmsG7ddDjL5wrpSlegQY5_YGzp1LD5F3vn74RP4skldx5A_7k9DQuswI5zYUEs"})
             if(token){
+                alert("test", token)
                 $.ajax({
                     url: '{% url "fcm_token" %}',
                     method: "post",
@@ -236,6 +237,9 @@
                         console.log("success")
                     }
                 })
+
+            }else{
+                alert("hello", token)
             }
         </script>
         <script>
