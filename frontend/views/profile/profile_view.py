@@ -14,7 +14,9 @@ class Profile(FrontPage):
         if request.user.is_authenticated:
             if request.user.is_anonymous:
                 profile = None
-            profile_setting = UserSettingsMember.objects.filter(user_id=profile.id).last()
+            profile_setting = UserSettingsMember.objects.filter(
+                user_id=profile.id
+            ).last()
             stores = UserStore.objects.filter(users_id=profile.id).first()
             is_registered = False
             if profile_setting.tier:
@@ -24,6 +26,6 @@ class Profile(FrontPage):
                 "profile": profile,
                 "registered": is_registered,
                 "settings": profile_setting,
-                "stores": stores
+                "stores": stores,
             }
         return render(request, "profil/profile.html", datas)

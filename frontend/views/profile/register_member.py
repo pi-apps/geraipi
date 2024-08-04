@@ -6,7 +6,12 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-from profiles.models import UserAppliedMember, UserCodeGenerator, UserSettingsMember, Tier
+from profiles.models import (
+    Tier,
+    UserAppliedMember,
+    UserCodeGenerator,
+    UserSettingsMember,
+)
 from store.models import UserStore
 
 from ..base_view import FrontPage

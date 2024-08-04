@@ -1,12 +1,12 @@
 {% extends 'layout.html' %} 
 {% load static translater %} 
 {% block content %}
-<div class="mt-3 mb-4 h-screen mx-5">
+<div class="mt-3 mb-28 h-screen mx-5">
     {% if user.is_authenticated %}
     <div class="flex flex-col justify-around p-1 gap-6">
-        <div class="flex justify-between items-center gap-2 my-5 border shadow-lg rounded-lg px-2 py-4">
-            <div class="w-10 h-10 bg-slate-300 rounded-full"></div>
-            <div class="flex flex-col px-2">
+        <div class="flex justify-between items-center my-5 border shadow-lg rounded-lg px-2 py-4">
+            <div class="w-10 h-10 bg-slate-300 rounded-full mx-auto"></div>
+            <div class="flex flex-col px-2 w-64 text-wrap">
                 <p id="nama" class="text-lg font-medium">@{{ settings.user.username }}</p>
                 <div class="flex flex-row justify-between">
                     <div class="flex flex-wrap items-center gap-2 flex-row w-full">

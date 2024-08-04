@@ -60,7 +60,7 @@ class UserProfile(AbstractUser):
             users_id=self.id, is_active_store=True
         ).first()
         return user_stores or None
-    
+
     @property
     def settings(self):
         return UserSettingsMember.objects.get_or_create()
