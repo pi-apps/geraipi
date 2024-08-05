@@ -2,7 +2,7 @@
 {% load static translater %} 
 {% block content %}
 <div class="mt-3 mb-4">
-    <form action="" method="post">
+    <form action="" method="post" id="sbbutton">
         <div class="h-screen mx-3">
             {% if messages %}
             <div class="bg-red-300 my-3 rounded-lg px-2 py-3">
@@ -76,13 +76,28 @@
             </div>
             <div class="w-full flex gap-2">
                 {% if produk.stok_produk != 0 %}
-                <button type="submit" class="p-2 text-center w-screen bg-slate-200 rounded no-underline text-black">Checkout</button>
+                <button id="checkoutbt" type="button" class="p-2 text-center w-screen bg-slate-200 rounded no-underline text-black">Checkout</button>
                 {% endif %}
             </div>
             <p class="my-3"><strong>{% translater user.languages.code "Note" "Note" %}:</strong>{% translater user.languages.code "Barang yang sudah dibeli Tidak Bisa dikembalikan lagi" "Barang yang sudah dibeli Tidak Bisa dikembalikan lagi" %} </p>
         </div>
     </form>
 </div>
+<dialog id="my_modal_1" class="modal modal-bottom">
+    <div class="modal-box">
+        <div class="text-red-700 text-center" id="pesanerror"></div>
+        <h3 class="font-bold text-lg pb-4">Pilih Cara Pembayaran</h3>
+        <ul class="menu bg-base-200 w-full rounded-box">
+            <li><a class="disabled" id="userbtn">Dengan Saldo User</a></li>
+            <li><a id="waletbtn">Via Wallet</a></li>
+        </ul>
+        <div class="modal-action flex-col gap-2">
+            <form method="dialog">
+                <button class="btn w-full rounded-full bg-red-600">Tutup</button>
+            </form>
+        </div>
+    </div>
+</dialog>
 
 {% endblock %}
 
@@ -90,6 +105,14 @@
 {% endblock%}
 
 {% block script %}
+<script>
+    $("#checkoutbt").on("click", function(){
+        my_modal_1.showModal()
+    })
+    $("#waletbtn").on("click", function(){
+        $("#sbbutton").submit()
+    })
+</script>
 <!-- <script>
     function clickIncrement(){
         $.ajax({

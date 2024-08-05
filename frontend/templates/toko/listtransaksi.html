@@ -44,9 +44,9 @@
             </div>
         </div>
         {% for tr in produk %}
-            <div class="flex bg-slate-100 mx-1 rounded-lg shadow-lg" onclick="show_modals('my_modal_{{ tr.id }}')">
-                <div class="w-[100px] h-[100px] p-2">
-                    <img src="{% get_media_prefix %}{{ tr.produk.gambarutama.gambar }}" alt="" class="w-full h-full rounded-lg">
+            <div class="flex bg-slate-100 mx-1 rounded-lg shadow-lg flex-1 flex-row" onclick="show_modals('my_modal_{{ tr.id }}')">
+                <div class="p-2">
+                    <img src="{% get_media_prefix %}{{ tr.produk.gambarutama.gambar }}" alt="" class="w-[100px] h-[100px] rounded-lg">
                 </div>
                 <div class="p-2 break-words">
                     <h3 class="text-sm font-bold">{{ tr.produk.nama }}</h3>
@@ -123,15 +123,6 @@
                                                 <p class="text-[12px] font-bold">{{ tr.cart.expedisi }}</p>
                                             </td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td class="w-[110px]">
-                                                <p class="text-[12px] font-bold">Nomor Resi </p>
-                                            </td>
-                                            <td class="w-[1px]">:</td>
-                                            <td>
-                                                <p class="text-[12px] font-bold">{{ tr.cart.nomor_resi }}</p>
-                                            </td>
-                                        </tr> -->
                                         
                                     {% endif %}
                                 {% endif %}
