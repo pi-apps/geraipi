@@ -11,7 +11,7 @@
                 <a href="/profile" class="bg-red-600 cursor-pointer px-2 my-2 rounded-full text-white" >Kembali</a>
             </div>
             <div class="bg-white gap-2 grid grid-cols-4 border text-slate-500">
-                <div class="py-2 cursor-pointer" onclick="url_redirect(1)">
+                <div class="py-2 cursor-pointer {% if request.GET.status == "1" %} text-orange-600 {% endif %}" onclick="url_redirect(1)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
                         <g fill="none" fill-rule="evenodd">
                             <path
@@ -21,7 +21,7 @@
                     </svg>
                     <p class="text-center">Pesanan {{ transaksi.pending }}</p>
                 </div>
-                <div class="py-2 cursor-pointer" onclick="url_redirect(2)">
+                <div class="py-2 cursor-pointer {% if request.GET.status == "2" %} text-orange-600 {% endif %}" onclick="url_redirect(2)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
                         <path
                             fill="currentColor"
@@ -29,7 +29,7 @@
                     </svg>
                     <p class="text-center">Diproses {{ transaksi.diproses }}</p>
                 </div>
-                <div class="py-2 cursor-pointer" onclick="url_redirect(3)">
+                <div class="py-2 cursor-pointer {% if request.GET.status == "3" %} text-orange-600 {% endif %}" onclick="url_redirect(3)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
                         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                             <path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0-4 0m10 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0" />
@@ -38,7 +38,7 @@
                     </svg>
                     <p class="text-center">Dikirim {{ transaksi.dikirim }}</p>
                 </div>
-                <div class="py-2 cursor-pointer" onclick="url_redirect(4)">
+                <div class="py-2 cursor-pointer {% if request.GET.status == "4" %} text-orange-600 {% endif %}" onclick="url_redirect(4)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
                         <path
                             fill="none"

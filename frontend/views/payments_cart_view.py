@@ -78,10 +78,12 @@ class PaymentsCart(FrontPage):
             # #     from_email,
             # #     [to],
             # #     html_message=html_message)
-
-            msg = EmailMessage(subject, html_message, from_email, [to])
-            msg.content_subtype = "html"
-            msg.send()
+            try:
+                msg = EmailMessage(subject, html_message, from_email, [to])
+                msg.content_subtype = "html"
+                msg.send()
+            except Exception as e:
+                print("error send email", e)
 
         except CartItem.DoesNotExist or Exception as e:
             print("error", str(e))

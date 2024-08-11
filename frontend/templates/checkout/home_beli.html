@@ -134,6 +134,10 @@
     $("#waletbtn").on("click", function(){
         $("#sbbutton").submit()
     })
+    $("#userbtn").on("click", function(){
+        $("#sbbutton").append("<input type='hidden' name='is_user' value='1'>")
+        $("#sbbutton").submit()
+    })
 </script>
 <!-- <script>
     function clickIncrement(){

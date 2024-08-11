@@ -7,6 +7,8 @@ from .forms import UserStoreForm
 
 # Register your models here.
 class UserStoreAdmin(admin.ModelAdmin):
+    list_display = ["users", "nama", "coin", "is_active_store", "aggrement"]
+    search_fields = ["users__username", "nama"]
     form = UserStoreForm
 
 

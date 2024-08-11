@@ -66,7 +66,7 @@ class UserProfile(AbstractUser):
         return UserSettingsMember.objects.get_or_create()
 
     def __str__(self):
-        return self.nama or "-"
+        return self.username or "-"
 
 
 class UserProfileAddress(models.Model):

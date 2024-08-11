@@ -225,11 +225,38 @@ class LangSupportAdmin(admin.ModelAdmin):
 admin.site.register(LangSupport, LangSupportAdmin)
 
 
-admin.site.register(UserAppliedMember)
-admin.site.register(UserCodeGenerator)
+class UserAppliedMemberAdmin(admin.ModelAdmin):
+    list_display = ["user", "name", "email", "nomor", "is_accept"]
+    search_fields = ["name", "email"]
+    list_filter = ["is_accept"]
+
+
+admin.site.register(UserAppliedMember, UserAppliedMemberAdmin)
+
+
+class UserCodeGeneratorAdmin(admin.ModelAdmin):
+    list_display = ["user_apply_username", "code", "quota_withdrawl", "is_active"]
+    search_fields = [
+        "user_apply__user__username",
+    ]
+
+    def user_apply_username(self, obj):
+        return obj.user_apply.user or "-"
+
+    user_apply_username.short_description = "Username"
+
+
+admin.site.register(UserCodeGenerator, UserCodeGeneratorAdmin)
 
 
 class UserSettingMemberAdmin(admin.ModelAdmin):
+    list_display = ["code", "user_name"]
+
+    def user_name(self, obj):
+        return obj.user.username
+
+    user_name.short_description = "Username"
+
     def save_model(self, request, obj, form, change):
         userstore = UserStore.objects.filter(users_id=obj.user_id).last()
         userstore.is_active_store = obj.is_active_store
