@@ -2,164 +2,178 @@
 {% load static %}
 
 {% block content %}
-<div class="h-screen px-3">
-    <div class="bg-white gap-2 flex flex-row shadow-lg my-2 p-2 rounded-lg sticky top-24">
-        <a class="border rounded-lg px-2 cursor-pointer bg-red-600 text-white" href="{% url 'toko' id=user.id %}">Kembali</a>
-    </div>
-    <div class="bg-white gap-2 grid grid-cols-4 shadow-lg border text-slate-500 my-2 sticky top-36">
-        <div class="py-2 cursor-pointer" onclick="pesanan_href(1)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
-                <g fill="none" fill-rule="evenodd">
-                    <path
-                        d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z" />
-                    <path fill="currentColor" d="M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4Zm14 0H6v16h12V4ZM8 9a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm1 4a1 1 0 1 0 0 2h3a1 1 0 1 0 0-2H9Z" />
-                </g>
-            </svg>
-            <p class="text-center">Pesanan {{ pesanan }}</p>
-        </div>
-        <div class="py-2 cursor-pointer" onclick="pesanan_href(2)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
-                <path
-                    fill="currentColor"
-                    d="M22 8a.76.76 0 0 0 0-.21v-.08a.77.77 0 0 0-.07-.16a.35.35 0 0 0-.05-.08l-.1-.13l-.08-.06l-.12-.09l-9-5a1 1 0 0 0-1 0l-9 5l-.09.07l-.11.08a.41.41 0 0 0-.07.11a.39.39 0 0 0-.08.1a.59.59 0 0 0-.06.14a.3.3 0 0 0 0 .1A.76.76 0 0 0 2 8v8a1 1 0 0 0 .52.87l9 5a.75.75 0 0 0 .13.06h.1a1.06 1.06 0 0 0 .5 0h.1l.14-.06l9-5A1 1 0 0 0 22 16V8zm-10 3.87L5.06 8l2.76-1.52l6.83 3.9zm0-7.72L18.94 8L16.7 9.25L9.87 5.34zM4 9.7l7 3.92v5.68l-7-3.89zm9 9.6v-5.68l3-1.68V15l2-1v-3.18l2-1.11v5.7z" />
-            </svg>
-            <p class="text-center">Diproses {{ diproses }}</p>
-        </div>
-        <div class="py-2 cursor-pointer" onclick="pesanan_href(3)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
-                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                    <path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0-4 0m10 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0" />
-                    <path d="M5 17H3v-4M2 5h11v12m-4 0h6m4 0h2v-6h-8m0-5h5l3 5M3 9h4" />
-                </g>
-            </svg>
-            <p class="text-center">Dikirim {{ dikirim }}</p>
-        </div>
-        <div class="py-2 cursor-pointer" onclick="pesanan_href(4)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
-                <path
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m17.8 19.817l-2.172 1.138a.392.392 0 0 1-.568-.41l.415-2.411l-1.757-1.707a.389.389 0 0 1 .217-.665l2.428-.352l1.086-2.193a.392.392 0 0 1 .702 0l1.086 2.193l2.428.352a.39.39 0 0 1 .217.665l-1.757 1.707l.414 2.41a.39.39 0 0 1-.567.411L17.8 19.817zm-11.6 0l-2.172 1.138a.392.392 0 0 1-.568-.41l.415-2.411l-1.757-1.707a.389.389 0 0 1 .217-.665l2.428-.352l1.086-2.193a.392.392 0 0 1 .702 0l1.086 2.193l2.428.352a.39.39 0 0 1 .217.665l-1.757 1.707l.414 2.41a.39.39 0 0 1-.567.411L6.2 19.817zm5.8-10l-2.172 1.138a.392.392 0 0 1-.568-.41l.415-2.411l-1.757-1.707a.389.389 0 0 1 .217-.665l2.428-.352l1.086-2.193a.392.392 0 0 1 .702 0l1.086 2.193l2.428.352a.39.39 0 0 1 .217.665l-1.757 1.707l.414 2.41a.39.39 0 0 1-.567.411L12 9.817z" />
-            </svg>
-            <p class="text-center">Ulasan</p>
-        </div>
-    </div>
-    <div class="bg-white gap-2 flex flex-col shadow-lg my-2 p-2 rounded-lg">
-        <div class="py-4 flex flex-row justify-between w-full">
-            <span class="font-bold text-lg">Produk</span>
-            <span class="cursor-pointer" onclick="reload()">Reload</span>
-        </div>
-        {% if messages %}
-        <div class="bg-red-300 rounded-lg p-1">
-            {% for m in messages %}
-                {{ m }}
-            {% endfor %}
-        </div>
-        {% endif %}
-        <div class="overflow-y-scroll">
-            {% for transaksi in produk %}
-            <div class="border p-2 my-2">
-                <!-- <span class="font-medium">{{ transaksi.produk.nama }}</span> -->
-                <div class="flex flex-col justify-between">
-                    <span>
-                        <table>
-                            {% if transaksi.cart.nomor_resi %}
-                            <tr>
-                                <td class="font-bold">Nomor Transaksi</td>
-                                <td>:</td>
-                                <td>{{ transaksi.cart.kode }}</td>
-                            </tr>
-                            <tr>
-                                <td class="font-bold">Nomor Resi</td>
-                                <td>:</td>
-                                <td>{{ transaksi.cart.nomor_resi }}</td>
-                            </tr>
-                            {% endif %}
-                            <tr>
-                                <td class="font-bold">Produk</td>
-                                <td>:</td>
-                                <td>{{ transaksi.produk.nama }}</td>
-                            </tr>
-                            <tr>
-                                <td class="font-bold">Price</td>
-                                <td>:</td>
-                                <td>{{ transaksi.produk.harga }} Pi</td>
-                            </tr>
-                            <tr>
-                                <td class="font-bold">Date</td>
-                                <td>:</td>
-                                <td>{{ transaksi.cart.tanggal | date:'d-m-Y'}}</td>
-                            </tr>
-                            <tr>
-                                <td class="font-bold">User</td>
-                                <td>:</td>
-                                <td>{{ transaksi.cart.user }}</td>
-                            </tr>
-                            <tr>
-                                <td class="font-bold">Nomor Pemesan</td>
-                                <td>:</td>
-                                <td>{{ transaksi.cart.user.no_telepon }}</td>
-                            </tr>
-                            <tr>
-                                <td class="font-bold">Email Pemesan</td>
-                                <td>:</td>
-                                <td>{{ transaksi.cart.user.email }}</td>
-                            </tr>
-                            <tr>
-                                <td class="font-bold inline-block align-text-top">Address</td>
-                                <td class="px-1 align-text-top">:</td>
-                                <td>
-                                    {% for tr in transaksi.user_chart.addressuserchartitem_set.all %}
-                                        
-                                            {{ tr.address }} - RT {% if tr.rt %}{{ tr.rt }}{% endif %} - RW {% if tr.rw %}{{ tr.rw }}{% endif %} - {% if tr.province %}{{ tr.province.nama }}{% endif %} - {% if tr.regency %}{{ tr.regency.name }}{% endif %} - {% if tr.distric %}{{ tr.distric.nama }}{% endif %}
-                                        
-                                    {% endfor %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="font-bold inline-block align-text-top"> Expedisi</td>
-                                <td>:</td>
-                                <td>
-                                    {% if transaksi.cart.status_toko == 2 %}
-                                    <select id="expedisi" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 w-full" required>
-                                        <option value="">Pilih Expedisi</option>
-                                        {% for k in expedisi %}
-                                        <option value="{{ k.pk }}">{{ k.nama }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    {% elif transaksi.cart.status_toko >= 3  %}
-                                    <label for="">{{transaksi.cart.expedisi}}</label>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        </table>
-                    </span>
-                    <span class="flex flex-row gap-2 mt-4">
-                        {% if transaksi.cart.status_toko == 2 %}
-                        <form method="post" class="flex flex-row" id="transaksi">
-                            <input type="hidden" value="{{ transaksi.cart.id }}" name="cart_id" class="rounded-full"/>
-                            <input type="text" value="{% if transaksi.cart.nomor_resi %}{{ transaksi.cart.nomor_resi }}{% endif %}" name="nomor_resi" class="rounded-lg h-[35px]" placeholder="enter receipt here ..."/>
-                            <input type="hidden" value="" name="expedisi" required/>
-                            <button type="submit" class="mx-1 px-3 rounded-lg text-white bg-yellow-500 cursor-pointer w-full h-[35px]">Send</button>
-                        </form>
-                        {% elif transaksi.cart.status != 3 and transaksi.cart.status != 4 %}
-                        <form method="post" id="test-ambil">
-                            <input type="hidden" value="{{ transaksi.cart.id }}" name="cart_id"/>
-                            <button type="submit" class="p-1 px-3 rounded-lg text-white bg-yellow-500 cursor-pointer">Ambil</button>
-                        </form>
-                        <!-- <form method="post">
-                            <input type="hidden" value="{{ transaksi.cart.id }}" name="cart_id"/>
-                            <button class="p-1 px-3 rounded-lg text-white bg-red-600 cursor-pointer" type="submit">Tolak</button>
-                        </form> -->
-                        {% endif %}
-                    </span>
+<div class="h-screen">
+    <div class="flex flex-col justify-around gap-3">
+        <div class="sticky top-[78px] bg-white">
+            <div class="flex justify-between items-center gap-2 border px-2">
+                <a class="border rounded-lg px-2 cursor-pointer bg-red-600 text-white" href="{% url 'toko' id=user.id %}">Kembali</a>
+            </div>
+            <div class="gap-2 grid grid-cols-4 border text-slate-500">
+                <div class="py-2 cursor-pointer  {% if request.GET.status == "1" %} text-orange-600 {% endif %} " onclick="pesanan_href(1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
+                        <g fill="none" fill-rule="evenodd">
+                            <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z" />
+                            <path fill="currentColor" d="M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4Zm14 0H6v16h12V4ZM8 9a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm1 4a1 1 0 1 0 0 2h3a1 1 0 1 0 0-2H9Z" />
+                        </g>
+                    </svg>
+                    <p class="text-center">
+                        Pesanan {{ pesanan }}
+                    </p>
+                </div>
+                <div class="py-2 cursor-pointer {% if request.GET.status == "2" %} text-orange-600 {% endif %}" onclick="pesanan_href(2)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M22 8a.76.76 0 0 0 0-.21v-.08a.77.77 0 0 0-.07-.16a.35.35 0 0 0-.05-.08l-.1-.13l-.08-.06l-.12-.09l-9-5a1 1 0 0 0-1 0l-9 5l-.09.07l-.11.08a.41.41 0 0 0-.07.11a.39.39 0 0 0-.08.1a.59.59 0 0 0-.06.14a.3.3 0 0 0 0 .1A.76.76 0 0 0 2 8v8a1 1 0 0 0 .52.87l9 5a.75.75 0 0 0 .13.06h.1a1.06 1.06 0 0 0 .5 0h.1l.14-.06l9-5A1 1 0 0 0 22 16V8zm-10 3.87L5.06 8l2.76-1.52l6.83 3.9zm0-7.72L18.94 8L16.7 9.25L9.87 5.34zM4 9.7l7 3.92v5.68l-7-3.89zm9 9.6v-5.68l3-1.68V15l2-1v-3.18l2-1.11v5.7z" />
+                    </svg>
+                    <p class="text-center">Diproses {{ diproses }}</p>
+                </div>
+                <div class="py-2 cursor-pointer {% if request.GET.status == "3" %} text-orange-600 {% endif %}" onclick="pesanan_href(3)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0-4 0m10 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0" />
+                            <path d="M5 17H3v-4M2 5h11v12m-4 0h6m4 0h2v-6h-8m0-5h5l3 5M3 9h4" />
+                        </g>
+                    </svg>
+                    <p class="text-center">Dikirim {{ dikirim }}</p>
+                </div>
+                <div class="py-2 cursor-pointer {% if request.GET.status == "4" %} text-orange-600 {% endif %}" onclick="pesanan_href(4)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" class="mx-auto" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17.8 19.817l-2.172 1.138a.392.392 0 0 1-.568-.41l.415-2.411l-1.757-1.707a.389.389 0 0 1 .217-.665l2.428-.352l1.086-2.193a.392.392 0 0 1 .702 0l1.086 2.193l2.428.352a.39.39 0 0 1 .217.665l-1.757 1.707l.414 2.41a.39.39 0 0 1-.567.411L17.8 19.817zm-11.6 0l-2.172 1.138a.392.392 0 0 1-.568-.41l.415-2.411l-1.757-1.707a.389.389 0 0 1 .217-.665l2.428-.352l1.086-2.193a.392.392 0 0 1 .702 0l1.086 2.193l2.428.352a.39.39 0 0 1 .217.665l-1.757 1.707l.414 2.41a.39.39 0 0 1-.567.411L6.2 19.817zm5.8-10l-2.172 1.138a.392.392 0 0 1-.568-.41l.415-2.411l-1.757-1.707a.389.389 0 0 1 .217-.665l2.428-.352l1.086-2.193a.392.392 0 0 1 .702 0l1.086 2.193l2.428.352a.39.39 0 0 1 .217.665l-1.757 1.707l.414 2.41a.39.39 0 0 1-.567.411L12 9.817z" />
+                    </svg>
+                    <p class="text-center">Ulasan</p>
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% for tr in produk %}
+            <div class="flex bg-slate-100 mx-1 rounded-lg shadow-lg flex-1 flex-row" onclick="show_modals('my_modal_{{ tr.id }}')">
+                <div class="p-2">
+                    <img src="{% get_media_prefix %}{{ tr.produk.gambarutama.gambar }}" alt="" class="w-[100px] h-[100px] rounded-lg">
+                </div>
+                <div class="p-2 break-words">
+                    <h3 class="text-sm font-bold">{{ tr.produk.nama }}</h3>
+                    <p class="text-[10px]">Tanggal diambil: {{ tr.cart.tanggal }}</p>
+                    <p class="text-[13px]">{{ tr.produk.harga }} Pi</p>
+                    <p class="text-[12px] break-all">{% if tr.cart.catatan %} {{ tr.cart.catatan | truncatewords:5 }} {% else %} - {% endif %}</p>
+                </div>
+            </div>
+            <dialog id="my_modal_{{ tr.id }}" class="modal">
+                <div class="modal-box py-4">
+                    <h3 class="text-lg font-bold text-center">Detail Barang ({{ tr.cart.kode }})</h3>
+                    <div >
+                        <img src="{% get_media_prefix %}{{ tr.produk.gambarutama.gambar }}" alt="" class="w-full h-full rounded-lg border">
+                        <div class="flex flex-col">
+
+                            <table>
+                                <tr>
+                                    <td class="w-[110px] align-top font-bold"><p class="text-[12px]">Nama Pembeli</p></td>
+                                    <td class="w-[2px] align-top">:</td>
+                                    <td><p class="text-[12px]">{{ tr.cart.user.nama }}</p></td>
+                                </tr>
+                                <tr>
+                                    <td class="w-[110px] align-top font-bold"><p class="text-[12px]">Nomor Pembeli</p></td>
+                                    <td class="w-[2px] align-top">:</td>
+                                    <td><p class="text-[12px]">{{ tr.cart.user.no_telepon }}</p></td>
+                                </tr>
+                                <tr>
+                                    <td class="w-[110px] align-top font-bold"><p class="text-[12px]">Email Pembeli</p></td>
+                                    <td class="w-[2px] align-top">:</td>
+                                    <td><p class="text-[12px]">{{ tr.cart.user.email }}</p></td>
+                                </tr>
+                                <tr>
+                                    <td class="w-[110px] align-top font-bold"><p class="text-[12px]">Nama Barang</p></td>
+                                    <td class="w-[2px] align-top">:</td>
+                                    <td><p class="text-[12px]">{{ tr.produk.nama }}</p></td>
+                                </tr>
+                                <tr>
+                                    <td class="w-[110px] align-top"><p class="text-[12px]">Tanggal diambil: </p></td>
+                                    <td class="w-[1px] align-top">:</td>
+                                    <td><p class="text-[12px]">{{ tr.cart.tanggal | date:'d M Y' }}</p></td>
+                                </tr>
+                                {% for t in tr.user_chart.addressuserchartitem_set.all %}
+                                <tr>
+                                    <td class="w-[110px] align-top"><p class="font-bold text-[12px]">Alamat Pembeli:</p></td>
+                                    <td class="w-[1px] align-top">:</td>
+                                    <td>
+                                        <p class="text-[12px]"><strong>{{ t.address }}</strong></p>
+                                        <p class="text-[12px]">{{ t.province.nama }} / {{ t.regency.name }} / {{ t.distric.name }} / RT. {{ t.rt }} - RW. {{ t.rw }}</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% if tr.cart.status >= 3 %}
+                                    {% if tr.cart.nomor_resi %}
+                                        <tr>
+                                            <td class="w-[110px] align-top">
+                                                <p class="text-[12px] font-bold"> Nomor Resi </p>
+                                            </td>
+                                            <td class="w-[1px] align-top">:</td>
+                                            <td>
+                                                <p class="text-[12px] font-bold"> {{ tr.cart.nomor_resi }}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="w-[110px] align-top"><p class="text-[12px] font-bold">Tanggal dikirim </p></td>
+                                            <td class="w-[1px] align-top">:</td>
+                                            <td><p class="text-[12px] font-bold">{{ tr.cart.tanggal_dikirim | date:'d M Y' }}</p></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="w-[110px]">
+                                                <p class="text-[12px] font-bold">Expedisi </p>
+                                            </td>
+                                            <td class="w-[1px]">:</td>
+                                            <td>
+                                                <p class="text-[12px] font-bold">{{ tr.cart.expedisi }}</p>
+                                            </td>
+                                        </tr>
+                                        
+                                    {% endif %}
+                                {% endif %}
+                            </table>
+                            <p class="font-bold text-[12px]"> Catatan : </p>
+                            <div class="text-sm">{{ tr.cart.catatan }}</div>
+                            {% if transaksi.cart.status_toko == 2 %}
+                                <select id="expedisi" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 w-full" required>
+                                    <option value="">Pilih Expedisi</option>
+                                    {% for k in expedisi %}
+                                        <option value="{{ k.pk }}">{{ k.nama }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% elif transaksi.cart.status_toko >= 3 %}
+                                <label for="">{{transaksi.cart.expedisi}}</label>
+                            {% endif %}
+                            {% if tr.cart.status_toko == 2 %}
+                            <form method="post" class="flex flex-row gap-2 py-4" id="transaksi">
+                                <input type="hidden" value="{{ tr.cart.id }}" name="cart_id" class="rounded-full"/>
+
+                                <select id="expedisi" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 w-full" required>
+                                    <option value="">Pilih Expedisi</option>
+                                    {% for k in expedisi %}
+                                        <option value="{{ k.pk }}">{{ k.nama }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <input type="text" placeholder="Type here" class="input input-bordered input-primary w-full max-w-xs h-[2rem] max-h-[2rem]" value="{% if tr.cart.nomor_resi %}{{ tr.cart.nomor_resi }}{% endif %}" name="nomor_resi" />
+
+                                <input type="hidden" value="" name="expedisi" required/>
+                                <button type="submit" class="btn btn-warning btn-sm">Send</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="modal-action">
+                        {% if tr.cart.status_toko == 1 %}
+                            <form method="post" action="" id="test-ambil">
+                                <input type="hidden" value="{{ tr.cart.id }}" name="cart_id"/>
+                                <button type="submit" class="p-1 px-3 rounded-lg text-white bg-yellow-500 cursor-pointer">Ambil</button>
+                            </form>
+                        {% endif %}
+                        
+                        <form method="dialog">
+                            <!-- if there is a button in form, it will close the modal -->
+                            <button class="btn btn-sm" type="submit">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
@@ -167,22 +181,23 @@
 {% endblock %}
 {% block script %}
 <script>
-    function reload(){
-        window.location.reload()
+    function show_modals(ids) {
+        document.getElementById(ids).showModal();
     }
-    $('#expedisi').on("change", function(){
-        $('input[name="expedisi"]').val($(this).val())
-    })
-
-    $(function(e){
+    function reload() {
+        window.location.reload();
+    }
+    $('#expedisi').on("change", function() {
+        $('input[name="expedisi"]').val($(this).val());
+    });
+    $(function(e) {
         // $('#test-ambil').on("submit", function(e){
         //     alert($(this).serialize())
         //     e.preventDefault()
         // })
-    })
-
-    function pesanan_href(status){
-        window.location.href = "{% url 'transaksi_toko' id=user.id %}?status="+status
+    });
+    function pesanan_href(status) {
+        window.location.href = "{% url 'transaksi_toko' id=user.id %}?status=" + status;
     }
 </script>
 {% endblock %}

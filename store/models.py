@@ -12,6 +12,9 @@ class UserStore(models.Model):
     nama = models.TextField(null=False, blank=False)
     coin = models.FloatField(default=0)
     deskripsi = models.TextField(null=True, blank=True)
+    alamat = models.TextField(null=True, blank=True)
+    email = models.EmailField(blank=True, null=True)
+    telpon = models.CharField(max_length=40, blank=True, null=True)
     is_active_store = models.BooleanField(default=False)
     aggrement = models.BooleanField(default=False)
 

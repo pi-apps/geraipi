@@ -2,7 +2,7 @@
 {% load static translater %} 
 {% block content %}
 <div class="mt-3 mb-4">
-    <form action="" method="post">
+    <form action="" method="post" id="sbbutton">
         <div class="h-screen mx-3">
             {% if messages %}
             <div class="bg-red-300 my-3 rounded-lg px-2 py-3">
@@ -25,7 +25,7 @@
                     <div class="border rounded flex flex-row">
                         <div class="w-24 h-30 ">
                             {% if produk.gambarutama %}
-                                <img src="/media/{{ produk.gambarutama.gambar }}" />
+                                <img src="{% get_media_prefix %}{{ produk.gambarutama.gambar }}" />
                             {% else %}
                                 {{ produk.nama }}
                             {% endif %}
@@ -37,48 +37,89 @@
                             </strong>
                         </div>
                     </div>
+                    <div class="my-2">
+                        <label for="catatan">{% translater user.languages.code "Catatan:" "Catatan:" %}</label>
+                        <textarea name="catatan" id="" class="w-full rounded-lg"></textarea>
+                    </div>
                 </div>
             </div>
-            <div class="my-3">
-                <div class="border rounded bg-slate-200 flex justify-between px-3 flex-col shadow-lg">
+            <div class="my-3 card bg-base-100 shadow-xl h-fit min-w-full">
+                <div class="card-body flex justify-between px-3 flex-col">
                     <div class="text-center text-sm font-bold">{% translater user.languages.code "TOTAL PEMBAYARAN" "TOTAL PEMBAYARAN" %}</div>
-                    <div class="flex flex-col gap-0">
+                    <div class="flex flex-col gap-0 font-bold">
                         <div class="flex flex-row justify-between">
-                            <span>
+                            <p>
                                 {% translater user.languages.code "Harga" "Harga" %}
-                            </span>
-                            <span>
+                            </p>
+                            <p class="text-right">
                                 {{ produk.harga }} Pi
-                            </span>
+                            </p>
                         </div>
                         <div class="flex flex-row justify-between">
-                            <span class="text-red-600">
+                            <p class="text-red-600">
                                 Fee ({{ prosentase }}%)
-                            </span>
-                            <span class="text-red-600">
+                            </p>
+                            <p class="text-red-600 text-right">
                                 {{ jumlah_pajak }}
-                            </span>
+                            </p>
                         </div>
                         <div class="flex flex-row justify-between">
-                            <span>
+                            <p>
                                 {% translater user.languages.code "Jumlah Total" "Jumlah Total" %}
-                            </span>
-                            <span class="jumlah_ppn">
+                            </p>
+                            <p class="jumlah_ppn text-right">
                                 {{ total_pajak }}
-                            </span>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="w-full flex gap-2">
                 {% if produk.stok_produk != 0 %}
-                <button type="submit" class="p-2 text-center w-screen bg-slate-200 rounded no-underline text-black">Checkout</button>
+                <button id="checkoutbt" type="button" class="btn btn-sm btn-block btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M17 18a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2M1 2h3.27l.94 2H20a1 1 0 0 1 1 1c0 .17-.05.34-.12.5l-3.58 6.47c-.34.61-1 1.03-1.75 1.03H8.1l-.9 1.63l-.03.12a.25.25 0 0 0 .25.25H19v2H7a2 2 0 0 1-2-2c0-.35.09-.68.24-.96l1.36-2.45L3 4H1zm6 16a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2m9-7l2.78-5H6.14l2.36 5z" />
+                    </svg>
+                    Checkout
+                </button>
                 {% endif %}
             </div>
             <p class="my-3"><strong>{% translater user.languages.code "Note" "Note" %}:</strong>{% translater user.languages.code "Barang yang sudah dibeli Tidak Bisa dikembalikan lagi" "Barang yang sudah dibeli Tidak Bisa dikembalikan lagi" %} </p>
         </div>
     </form>
 </div>
+<dialog id="my_modal_1" class="modal modal-bottom">
+    <div class="modal-box">
+        <div class="text-red-700 text-center" id="pesanerror"></div>
+        <h3 class="font-bold text-lg pb-4">Pilih Cara Pembayaran</h3>
+        <ul class="menu bg-base-200 w-full rounded-box">
+            <li class="disabled">
+                <a id="userbtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512">
+                        <rect width="416" height="288" x="48" y="144" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" rx="48" ry="48" />
+                        <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" d="M411.36 144v-30A50 50 0 0 0 352 64.9L88.64 109.85A50 50 0 0 0 48 159v49" />
+                        <path fill="currentColor" d="M368 320a32 32 0 1 1 32-32a32 32 0 0 1-32 32" />
+                    </svg>
+                     Dengan Saldo User
+                </a>
+            </li>
+            <li>
+                <a id="waletbtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 32 32">
+                        <path fill="currentColor" d="M16 28a5 5 0 0 1-.671-.044A21.8 21.8 0 0 1 12.033 17H29.95c.024-.331.05-.663.05-1a14 14 0 1 0-14 14Zm11.95-13h-5.987A24.3 24.3 0 0 0 19.21 4.45A12.01 12.01 0 0 1 27.95 15M16.67 4.044A21.8 21.8 0 0 1 19.967 15h-7.934A21.8 21.8 0 0 1 15.33 4.044a5.2 5.2 0 0 1 1.342 0m-3.881.405A24.3 24.3 0 0 0 10.037 15H4.05a12.01 12.01 0 0 1 8.74-10.55M4.05 17h5.987a24.3 24.3 0 0 0 2.753 10.55A12.01 12.01 0 0 1 4.05 17" />
+                        <path fill="currentColor" fill-rule="evenodd" d="m25 25l5 2v-2l-5-2.5V20a1 1 0 0 0-2 0v2.5L18 25v2l5-2v3.5L21 30v1l3-1l3 1v-1l-2-1.5Z" />
+                    </svg>
+                    Via Wallet
+                </a>
+            </li>
+        </ul>
+        <div class="modal-action flex-col gap-2">
+            <form method="dialog">
+                <button class="btn w-full rounded-full bg-red-600">Tutup</button>
+            </form>
+        </div>
+    </div>
+</dialog>
 
 {% endblock %}
 
@@ -86,6 +127,18 @@
 {% endblock%}
 
 {% block script %}
+<script>
+    $("#checkoutbt").on("click", function(){
+        my_modal_1.showModal()
+    })
+    $("#waletbtn").on("click", function(){
+        $("#sbbutton").submit()
+    })
+    $("#userbtn").on("click", function(){
+        $("#sbbutton").append("<input type='hidden' name='is_user' value='1'>")
+        $("#sbbutton").submit()
+    })
+</script>
 <!-- <script>
     function clickIncrement(){
         $.ajax({

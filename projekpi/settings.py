@@ -181,8 +181,8 @@ MEDIA_URL = "media/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
-# NPM_BIN_PATH = "/usr/bin/npm"
+# NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+NPM_BIN_PATH = os.getenv("NPM_ENV")
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 
 REST_FRAMEWORK = {

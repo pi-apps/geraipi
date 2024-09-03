@@ -30,14 +30,17 @@ from frontend.views.login_user_view import LoginUser
 from frontend.views.masuk_view import Masuk
 from frontend.views.minus_plus_view import MinusPluss
 from frontend.views.payments_cart_view import PaymentsCart
+from frontend.views.piverification_view import VerificationCode
 from frontend.views.privacyandpolicy_view import PrivacyAndPolicy
 from frontend.views.produk_view import Produks
 from frontend.views.profile.alamat_user_view import AlamatUser
 from frontend.views.profile.profile_alamat_view import ProfileAlamat
 from frontend.views.profile.profile_edit_view import ProfileEdit
+from frontend.views.profile.profile_view import Profile
+from frontend.views.profile.register_member import RegisterMember
+from frontend.views.profile.register_member_code import RegisterMemberCode
 from frontend.views.profile_delete_detail_view import DeleteDetailProfile
 from frontend.views.profile_detail_address_view import DetailProfileAddressMain
-from frontend.views.profile_view import Profile
 from frontend.views.promo_view import Promo
 from frontend.views.save_token_views import SaveToken
 from frontend.views.search_produk_view import SearchProduct
@@ -61,9 +64,6 @@ from frontend.views.withdrawl_request_json_view import WithdrawlRequestJson
 from frontend.views.withdrawl_toko_view import WithdrawlToko
 from frontend.views.withdrawl_view import Withdrawl
 from frontend.views.withdrawltokojson_view import WithdrawlTokoJson
-from frontend.views.profile.register_member import RegisterMember
-from frontend.views.profile.register_member_code import RegisterMemberCode
-from frontend.views.piverification_view import VerificationCode
 
 urlpatterns = [
     path("", Splash.as_view(), name="splash"),

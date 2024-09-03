@@ -66,6 +66,7 @@ class Produk(models.Model):
     def __str__(self) -> str:
         return self.nama
 
+    @property
     def gambarutama(self):
         return self.gambarproduk_set.first()
 
@@ -122,7 +123,7 @@ class Cart(models.Model):
         default=0, choices=STATUS_TOKO, blank=True, null=True
     )
     nomor_resi = models.CharField(blank=True, null=True, max_length=255)
-    catatan = models.CharField(blank=True, null=True, max_length=255)
+    catatan = models.TextField(blank=True, null=True, max_length=255)
     expedisi = models.ForeignKey(
         Expedisi, blank=True, null=True, on_delete=models.CASCADE
     )
@@ -130,6 +131,11 @@ class Cart(models.Model):
 
     def __str__(self):
         return self.kode
+
+    @property
+    def ulasans(self):
+        ulasan = UlasanCart.objects.filter(cart_id=self.id).first()
+        return ulasan
 
     def save(self, *args, **kwargs):
         if not self.kode:

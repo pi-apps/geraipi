@@ -1,0 +1,23 @@
+name: Deploy to server production
+on: [push]
+jobs:
+  build:
+    name: build-apps
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: | 
+          cd /opt/GPMain
+          git pull origin main
+          export $(grep -v '^#' .env | xargs)
+          /opt/geraienv/bin/python /opt/GPMain/manage.py makemigrations
+          /opt/geraienv/bin/python /opt/GPMain/manage.py migrate
+          echo yes | /opt/geraienv/bin/python /opt/GPMain/manage.py collectstatic
+          service uwsgi restart
+          service nginx restart

@@ -21,7 +21,7 @@
                 <div class="flex flex-row justify-center">
                     <div class="w-[100px] flex flex-col">
                         {% if user.image_profile %}
-                        <img src="/media/{{ user.image_profile }}" alt="" class="w-full h-[100px] rounded-full" id="profile-image">
+                        <img src="{% get_media_prefix %}{{ user.image_profile }}" alt="" class="w-full h-[100px] rounded-full" id="profile-image">
                         {% else %}
                         <img src="{% static 'logo_atas.jpg' %}" alt="" class="w-full h-[100px] rounded-full" id="profile-image">
                         {% endif %}

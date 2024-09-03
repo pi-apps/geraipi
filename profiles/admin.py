@@ -13,14 +13,16 @@ from django.views.decorators.csrf import csrf_exempt
 
 from profiles.models import (
     LangSupport,
+    Tier,
+    UserAppliedMember,
+    UserCodeGenerator,
     UserProfile,
     UserProfileAddress,
+    UserSettingsMember,
     UserWithdrawlTransaction,
     UserwithdrawlTransactionRequest,
-    UserCodeGenerator,
-    UserAppliedMember,
-    UserSettingsMember,
 )
+from store.models import UserStore
 
 
 # Register your models here.
@@ -119,7 +121,6 @@ admin.site.register(UserProfile, ProfileAdmin)
 
 
 class UserProfileAddressAdmin(admin.ModelAdmin):
-
     def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
         query = super().get_queryset(request)
         if not request.user.is_superuser:
@@ -224,6 +225,51 @@ class LangSupportAdmin(admin.ModelAdmin):
 admin.site.register(LangSupport, LangSupportAdmin)
 
 
-admin.site.register(UserAppliedMember)
-admin.site.register(UserCodeGenerator)
-admin.site.register(UserSettingsMember)
+class UserAppliedMemberAdmin(admin.ModelAdmin):
+    list_display = ["user", "name", "email", "nomor", "is_accept"]
+    search_fields = ["name", "email"]
+    list_filter = ["is_accept"]
+
+
+admin.site.register(UserAppliedMember, UserAppliedMemberAdmin)
+
+
+class UserCodeGeneratorAdmin(admin.ModelAdmin):
+    list_display = ["user_apply_username", "code", "quota_withdrawl", "is_active"]
+    search_fields = [
+        "user_apply__user__username",
+    ]
+
+    def user_apply_username(self, obj):
+        return obj.user_apply.user or "-"
+
+    user_apply_username.short_description = "Username"
+
+
+admin.site.register(UserCodeGenerator, UserCodeGeneratorAdmin)
+
+
+class UserSettingMemberAdmin(admin.ModelAdmin):
+    list_display = ["code", "user_name"]
+
+    def user_name(self, obj):
+        return obj.user.username
+
+    user_name.short_description = "Username"
+
+    def save_model(self, request, obj, form, change):
+        userstore = UserStore.objects.filter(users_id=obj.user_id).last()
+        userstore.is_active_store = obj.is_active_store
+        userstore.save()
+        super().save_model(request, obj, form, change)
+
+
+admin.site.register(UserSettingsMember, UserSettingMemberAdmin)
+
+
+class TierAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+
+
+admin.site.register(Tier, TierAdmin)

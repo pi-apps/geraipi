@@ -20,5 +20,6 @@ class TokoEdit(FrontPage):
             user = UserStore.objects.create(users_id=id)
         user.nama = request.POST.get("nama", "-")
         user.deskripsi = request.POST.get("deskripsi", "-")
+        user.alamat = request.POST.get("alamat", "-")
         user.save()
         return redirect(reverse("toko", kwargs={"id": id}))

@@ -5,114 +5,70 @@
     <div class="flex items-center justify-between">
         <h1 class="font-bold my-4">All Product ({{kategori.nama}})</h1>
         <div class="relative flex">
-            <div class="p-2 shadow-sm flex items-center rounded-l-full border">
+            <!-- <div class="p-2 shadow-sm flex items-center rounded-l-full border">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M7 12h10m-6 6h2"></path></svg>
-            </div>
-            <select id="states" class="bg-gray-50 border border-gray-200 text-gray-900 text-xs rounded-r-full focus:ring-blue-500 focus:border-blue-500 w-full p-2.5">
+            </div> -->
+            <!-- <select id="states" class="bg-gray-50 border border-gray-200 text-gray-900 text-xs rounded-r-full focus:ring-blue-500 focus:border-blue-500 w-full p-2.5">
                 <option selected="">Filter</option>
                 <option value="harga">Harga</option>
                 <option value="stock">Stock</option>
                 <option value="new">Terbaru</option>
-            </select>
+            </select> -->
         </div>
     </div>
-    <div class="grid grid-cols-2 gap-1 " id="produks-list">
-        
+    <div class="grid grid-cols-2 gap-1 ">
+        {% for a in produk.object_list %}
+        <div class="min-w-[112px] rounded-xl">
+            <a href="{% url 'detail_produk' a.slug %}">
+                {% if a.gambarutama %}
+                <img src="/media/{{ a.gambarutama.gambar }}" class="object-cover max-h-40 w-full" alt="" />
+                {% else %}
+                <img src="{% static 'sample.png' %}" class="image-fluid" alt="" />
+                {% endif %}
+                <span class="text-xs bg-fuchsia-700 px-2 rounded-r-full p-1 font-semibold text-white ktg-translate" id="ktg-${index_res}">
+                    {% if a.tipe %}
+                        {{ a.tipe.nama }}
+                    {% else %}
+                        Untype
+                    {% endif %}
+                </span>
+                <div class="flex flex-col p-2 w-full gap-1">
+                    <p class="text-xs text-slate-600 text-[9px] toko-r" id="toko-r-${index_res}">Toko <strong>
+                        {{ a.store.nama }}
+                    </strong></p>
+                    <h4 class="text-sm produk-nama" id="produk-nama-${index_res}">{{ a.nama }}</h4>
+                    <p class="font-bold text-xs text-orange-400 produk-coin" id="produk-coin-${index_res}">Coin: {{ a.harga }} π</p>
+                    <hr />
+                    <p class="text-xs text-slate-600 produk-stok" id="produk-stok-${index_res}">Stock :{{ a.stok_produk }}</p>
+                    <div class="rating">
+                        <input type="radio" value="0" name="rating-{{ forloop.counter }}" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star is None %} checked {% endif %}/>
+                        <input type="radio" value="1" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 1 %} checked {% endif %} />
+                        <input type="radio" value="2" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 2 %} checked {% endif %} />
+                        <input type="radio" value="3" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 3 %} checked {% endif %} />
+                        <input type="radio" value="4" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 4 %} checked {% endif %} />
+                        <input type="radio" value="5" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 5 %} checked {% endif %} />
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
     </div>
     <div class="flex justify-between bg-slate-400 rounded-full my-3">
         <div>
-            <a href="#" class="px-3 py-3 my-2" id="prev-button">Prev</a>
+            {% if produk.has_previous %}
+            <a href="{% url 'produk' %}?page={{ produk.previous_page_number }}" class="px-3 py-3 my-2" id="prev-button">Prev</a>
+            {% endif %}
         </div>
         <div>
-            <a href="#" class="px-3 py-3" id="next-button" aria-disabled="true">Next</a>
+            {% if produk.has_next %}
+            <a href="{% url 'produk' %}?page={{ produk.next_page_number }}" class="px-3 py-3" id="next-button" aria-disabled="true">Next</a>
+            {% endif %}
         </div>
     </div>
 </div>
 {% endblock %} 
 {% block script %} 
 {% comment %} <script src="{% static 'star-rating-master/jquery.rating.js' %}"></script> {% endcomment %}
-<script>
-    function loopdata(obj, i=0){
-        if(obj[i]){
-            let index_res = i
-            let data_res = obj[i]
-            let html = `
-                <div class="min-w-[112px] rounded-xl">
-                    <a href='${data_res.produk_detail_url}'>
-                        ${data_res.gambar ? 
-                                (data_res.gambar.length > 0 ?
-                                    `<img src="${data_res.gambar[0].gambar}" class="object-cover max-h-40 w-full" alt="" />`
-                                :
-                                    `<img src="{% static 'sample.png' %}" class="image-fluid" alt="" />`
-                                )
-                            :
-                            `<img src="{% static 'sample.png' %}" class="image-fluid" alt="" />`
-                        }
-                        <span class="text-xs bg-fuchsia-700 px-2 rounded-r-full p-1 font-semibold text-white ktg-translate" id="ktg-${index_res}">
-                            ${data_res.tipe ? 
-                                data_res.tipe.nama : "Untype"
-                            }
-                        </span>
-                        <div class="flex flex-col p-2 w-full gap-1">
-                            <p class="text-xs text-slate-600 text-[9px] toko-r" id="toko-r-${index_res}">Toko <strong>
-                                ${data_res.store.nama}
-                            </strong></p>
-                            <h4 class="text-sm produk-nama" id="produk-nama-${index_res}">${data_res.nama}</h4>
-                            <p class="font-bold text-xs text-orange-400 produk-coin" id="produk-coin-${index_res}">Coin: ${data_res.harga} π</p>
-                            <hr />
-                            <p class="text-xs text-slate-600 produk-stok" id="produk-stok-${index_res}">Stock :${data_res.stok_produk}</p>
-                            <div class="rating">
-                                <input type="radio" value="1" name="rating-1" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 0 ? "checked" : "" } />
-                                <input type="radio" value="1" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 1 ? "checked" : "" } />
-                                <input type="radio" value="2" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 2 ? "checked" : "" } />
-                                <input type="radio" value="3" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 3 ? "checked" : "" } />
-                                <input type="radio" value="4" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 4 ? "checked" : "" } />
-                                <input type="radio" value="5" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled ${data_res.count_star == 5 ? "checked" : "" } />
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            `
-            $('#produks-list').append(html)
-            i = i + 1
-            loopdata(obj, i)
-        }else{
-        }
-    }
-    async function getProduk(next=null, prev=null){
-        let url = '{% url "produk-list" %}{% if request.GET.kategori %}?kategori={{ request.GET.kategori }}{% endif %}'
-        $('#produks-list').html('')
-        if(next){
-            url = next
-        }
-        if(prev){
-            url = prev
-        }
-        $.ajax({
-            url: url,
-            method:"get",
-            success: function(res){
-                if(res.count > 0){
-                    loopdata(res.results)
-                }
-                if(res.next){
-                    $('#next-button').attr("onclick", `getProduk("${res.next}", "")`)
-                }else{
-                    $('#next-button').attr("onclick", ``)
-                }
-                if(res.previous){
-                    $('#prev-button').attr("onclick", `getProduk("","${res.previous}")`)
-                }else{
-                    $('#prev-button').attr("onclick", ``)
-                }
-            }
-        })
-    }
-    
-    $(function () {
-        getProduk()
-    });
-</script>
 {% endblock %}
 
 {% block styles %}

@@ -18,14 +18,15 @@ class Produks(FrontPage):
         if request.GET.get("kategori"):
             kategori = Kategori.objects.filter(pk=request.GET.get("kategori")).first()
             produk = produk.filter(kategori__in=[request.GET.get("kategori")])
-        produk_paginator = Paginator(produk, 100)
-        page_number = request.GET.get("page")
-        page_obj = produk_paginator.get_page(page_number)
+        produk_paginator = Paginator(produk, 10)
+        page_number = request.GET.get("page", 1)
+        produk_page = produk_paginator.page(page_number)
         return render(
             request,
             "home/produk.html",
             {
-                "produk": page_obj,
+                "produk": produk_page,
+                "produk_paginator": produk_paginator,
                 "kategori": kategori,
                 "range_value": range(1, 6),
                 "pengumuman": pengumuman,

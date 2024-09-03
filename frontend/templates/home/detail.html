@@ -17,7 +17,7 @@
                     {% if gambar %}
                         {% for g in gambar %}
                         <li class="splide__slide">
-                            <img src="/media/{{ g.gambar }}" alt="" class="image-fluid w-100" />
+                            <img src="{% get_media_prefix %}{{ g.gambar }}" alt="" class="image-fluid w-100" />
                         </li>
                         {% endfor %}
                     {% else %}
@@ -125,14 +125,43 @@
         </div>
         <div class="shadow-lg w-full rounded-lg p-2 border">
             <h2 class="font-bold">Review</h2>
-            <div class="p-0 flex flex-col reviews">
+            <div class="p-0 flex flex-col">
+            {% if ulasan.object_list %}
+                {% for a in ulasan.object_list %}
+                <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
+                    <p class="font-bold">{{ a.cart.user }}</p>
+                    <p style="font-size:10px;">{{ a.created_at|date:"M d, Y" }}</p>
+                    <p>{{ a.catatan }}</p>
+                    <div>
+                        <div class="rating">
+                            <input type="radio" value="0" name="rating-{{ forloop.counter }}" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled {% if a.produk is None %} checked {% endif %}/>
+                            <input type="radio" value="1" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.produk == 1 %} checked {% endif %} />
+                            <input type="radio" value="2" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.produk == 2 %} checked {% endif %} />
+                            <input type="radio" value="3" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.produk == 3 %} checked {% endif %} />
+                            <input type="radio" value="4" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.produk == 4 %} checked {% endif %} />
+                            <input type="radio" value="5" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.produk == 5 %} checked {% endif %} />
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
                 <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
                     <p class="font-bold">Not found</p>
                 </div>
+            {% endif %}
             </div>
             <div class="flex flex-row justify-between">
-                <button id="prev" onclick="getComment()" class="btn btn-neutral btn-disabled btn-sm">{%translater user.languages.code "Sebelumnya" "Sebelumnya"%}</button>
-                <button id="next" onclick="getComment()" class="btn btn-neutral btn-disabled btn-sm">{%translater user.languages.code "Selanjutnya" "Selanjutnya"%}</button>
+                {% if ulasan.has_previous %}
+                <a href="{% url 'detail_produk' slug=produk.slug %}?page={{ ulasan.previous_page_number }}" class="btn btn-neutral  btn-sm" id="prev-button">{%translater user.languages.code "Sebelumnya" "Sebelumnya"%}</a>
+                {% else %}
+                <a href="#" class="btn btn-neutral btn-disabled btn-sm" id="prev-button">{%translater user.languages.code "Sebelumnya" "Sebelumnya"%}</a>
+                {% endif %}
+                {% if ulasan.has_next %}
+                <a href="{% url 'detail_produk' slug=produk.slug %}?page={{ ulasan.next_page_number }}" class="btn btn-neutral  btn-sm" id="prev-button">{%translater user.languages.code "Selanjutnya" "Selanjutnya"%}{{ request.GET.slug }}</a>
+                {% else %}
+                <a href="#" class="btn btn-neutral btn-disabled btn-sm" id="prev-button">{%translater user.languages.code "Selanjutnya" "Selanjutnya"%}{{ request.GET.slug }}</a>
+                {% endif %}
+                
             </div>
         </div>
     </div>
@@ -159,7 +188,6 @@
         $("#back-navigation").on("click", function () {
             window.history.back();
         });
-        getComment()
 
         let vallang = $('[name="language"]').val()
         $(`div[data-language="${vallang}"]`).removeClass("hidden")
@@ -169,159 +197,5 @@
             $(`div[data-language="${$(this).val()}"]`).removeClass("hidden")
         })
     });
-    function getComment(next, prev){
-        if(next){
-            $.ajax({
-                url: next,
-                method:"get",
-                data:{
-                    produk: "{{produk.id}}"
-                },
-                success:function(res){
-                    let html = ''
-                    if(res.count > 0){
-                        $.each(res.results, function(index, datas){
-                            html += `
-                            <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
-                                <p class="font-bold">${datas.user}</p>
-                                <p class="" style="font-size:10px;">${moment(datas.created_at).format('LLLL')}</p>
-                                <p>${datas.catatan}</p>
-                                <div>
-                                    <div class="rating">
-                                        <input type="radio" value="1" name="rating-1" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="1" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="2" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="3" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="4" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="5" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                    </div>
-                                </div>
-                            </div>
-                            `
-                        })
-                        $('.reviews').html('')
-                        $('.reviews').html(html)
-                    }
-                    if(res.next){
-                        $('#next').removeClass("btn-disabled")
-                        $('#next').addClass("btn-active")
-                        $('#next').attr("onclick",`getComment('${res.next}','')`)
-                    }
-                    if(res.prev){
-                        $('#prev').removeClass("btn-disabled")
-                        $('#prev').addClass("btn-active")
-                        $('#prev').attr("onclick",`getComment('','${res.previous}')`)
-                    }
-                }
-            })
-        }else if(prev){
-            $.ajax({
-                url: prev,
-                method:"get",
-                data:{},
-                success:function(res){
-                    
-                    let html = ''
-                    if(res.count > 0){
-                        $.each(res.results, function(index, datas){
-                            html += `
-                            <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
-                                <p class="font-bold">${datas.user}</p>
-                                <p style="font-size:10px;">${moment(datas.created_at).format('LLLL')}</p>
-                                <p>${datas.catatan}</p>
-                                <div>
-                                    <div class="rating">
-                                        <input type="radio" value="1" name="rating-1" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="1" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="2" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="3" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="4" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="5" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                    </div>
-                                </div>
-                            </div>
-                            `
-                        })
-                        $('.reviews').html('')
-                        $('.reviews').html(html)
-                    }
-                    if(res.next){
-                        $('#next').removeClass("btn-disabled")
-                        $('#next').addClass("btn-active")
-                        $('#next').attr("onclick",`getComment('${res.next}','')`)
-                    }
-                    if(res.prev){
-                        $('#prev').removeClass("btn-disabled")
-                        $('#prev').addClass("btn-active")
-                        $('#prev').attr("onclick",`getComment('','${res.previous}')`)
-                    }
-                }
-            })
-        }else{
-            $.ajax({
-                url: '{% url "ulasancart-list" %}',
-                method:"get",
-                data:{ produkitem__id:"{{ produk.id }}" },
-                success:function(res){
-                    
-                    let html = ''
-                    if(res.count > 0){
-                        $.each(res.results, function(index, datas){
-                            html += `
-                            <div class="p-2 border rounded-lg my-2 flex flex-col gap-2">
-                                <p class="font-bold">${datas.user}</p>
-                                <p style="font-size:10px;">${moment(datas.created_at).format('LLLL')}</p>
-                                <p>${datas.catatan}</p>
-                                <div>
-                                    <div class="rating">
-                                        <input type="radio" value="1" name="rating-1" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="1" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="2" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="3" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="4" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                        <input type="radio" value="5" name="rating-1" class="mask mask-star-2 bg-orange-400" disabled  />
-                                    </div>
-                                </div>
-                            </div>
-                            `
-                        })
-                        $('.reviews').html('')
-                        $('.reviews').html(html)
-                    }
-                    if(res.next){
-                        $('#next').removeClass("btn-disabled")
-                        $('#next').addClass("btn-active")
-                        $('#next').attr("onclick",`getComment('${res.next ?? ''}','')`)
-                    }
-                    if(res.prev){
-                        $('#prev').removeClass("btn-disabled")
-                        $('#prev').addClass("btn-active")
-                        $('#prev').attr("onclick",`getComment('','${res.previous ?? ''}')`)
-                    }
-                }
-            })
-        }
-        
-    }
-
-    function clickadd(ini) {
-        $(ini).prop("disabled", true);
-        $.ajax({
-            url: "/keranjang/add/" + $(ini).data("id"),
-            method: "post",
-            data: {},
-            success: function (sc) {
-                $(ini).prop("disabled", false);
-                alert("sukses menambahkan ke keranjang");
-            },
-            error: function () {
-                alert("gagal menambahkan");
-                $(ini).prop("disabled", false);
-            },
-        });
-    }
-    function href_click(res) {
-        window.location.href = "/produk/detail/" + res;
-    }
 </script>
 {% endblock %}

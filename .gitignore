@@ -7,4 +7,6 @@
 mysql
 .env
 **/__pycache__
-# projekpi/settings.py #
+**/migrations
+projekpi/settings.py
+media

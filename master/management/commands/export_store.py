@@ -1,5 +1,6 @@
-from django.core.management.base import BaseCommand
 from django.core import serializers
+from django.core.management.base import BaseCommand
+
 from store import models
 
 
@@ -11,4 +12,3 @@ class Command(BaseCommand):
         with open("data/store.json", "w", encoding="utf-8") as f:
             f.write(data)
             f.close()
-

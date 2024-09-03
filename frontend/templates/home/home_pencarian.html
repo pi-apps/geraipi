@@ -20,7 +20,7 @@
     <div class="flex flex-col gap-5 overflow-y-hidden flex-wrap overflow-x-scroll h-[250px]" style="height: 280px;">
         {% for ktg in kategori %}
         <div class="flex justify-between flex-col items-center my-2 cursor-pointer h-[90px] w-[100px]" onclick="redirect_kategori('{{ ktg.pk }}')">
-            <img src="/media/{{ ktg.icon }}" alt="{{ ktg.nama }}" class="w-13 h-[6rem]" />
+            <img src="{% get_media_prefix %}{{ ktg.icon }}" alt="{{ ktg.nama }}" class="w-13 h-[6rem]" />
             <span style="" class="text-[12px] font-bold text-center">{{ ktg.nama }}</span>
         </div>
         {% endfor %}
@@ -39,7 +39,7 @@
                     <div class="min-w-[112px] border rounded-xl overflow-hidden">
                         <a href='{% url "detail_produk" pro.slug %}'>
                             {% if pro.gambarutama %}
-                            <img src="/media/{{pro.gambarutama.gambar}}" class="object-cover max-h-40 w-full" alt="" />
+                            <img src="{% get_media_prefix %}{{pro.gambarutama.gambar}}" class="object-cover max-h-40 w-full" alt="" />
                             {% else %}
                             <img src="{% static 'sample.png' %}" class="image-fluid" alt="" />
                             {% endif %}

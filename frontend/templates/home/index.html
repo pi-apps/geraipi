@@ -8,7 +8,7 @@
                 <ul class="splide__list">
                     {% for b in banner %}
                     <li class="splide__slide rounded h-40 overflow-hidden">
-                        <img src="/media/{{ b.image }}" alt="" class="image-fluid w-100 rounded" />
+                        <img src="{% get_media_prefix %}{{ b.image }}" alt="" class="image-fluid w-100 rounded" />
                     </li>
                     {% endfor %}
                 </ul>
@@ -39,7 +39,7 @@
         <div class="flex flex-col gap-5 overflow-y-hidden flex-wrap overflow-x-scroll h-[250px]" style="height: 280px;">
             {% for ktg in kategori %}
             <div class="flex justify-between flex-col items-center my-2 cursor-pointer h-[90px] w-[100px]" onclick="redirect_kategori('{{ ktg.pk }}')">
-                <img src="/media/{{ ktg.icon }}" alt="{{ ktg.nama }}" class="w-13 h-[6rem]" />
+                <img src="{% get_media_prefix %}{{ ktg.icon }}" alt="{{ ktg.nama }}" class="w-13 h-[6rem]" />
                 <span class="text-[12px] font-bold text-center">{% translater user.languages.code ktg.nama ktg.nama %}</span>
             </div>
             {% endfor %}
@@ -60,7 +60,42 @@
                 <h1 class="font-bold">{% translater user.languages.code "Product" "Produk" %}</h1>
                 <a href="/produk" class="text-sm underline text-slate-400">{% translater user.languages.code "Selengkapnya" "Selengkapnya" %}</a>
             </div>
-            <div class="grid grid-cols-2 flex-wrap gap-6 overflow-auto" id="produks-list">
+            <div class="grid grid-cols-2 flex-wrap gap-6 overflow-auto">
+                {% for a in produk.object_list %}
+                <div class="min-w-[112px] rounded-xl">
+                    <a href="{% url 'detail_produk' a.slug  %}">
+                        {% if a.gambarutama %}
+                        <img src="/media/{{ a.gambarutama.gambar }}" class="object-cover max-h-40 w-full" alt="" />
+                        {% else %}
+                        <img src="{% static 'sample.png' %}" class="image-fluid" alt="" />
+                        {% endif %}
+                        <span class="text-xs bg-fuchsia-700 px-2 rounded-r-full p-1 font-semibold text-white ktg-translate" id="ktg-${index_res}">
+                            {% if a.tipe %}
+                                {{ a.tipe.nama }}
+                            {% else %}
+                                Untype
+                            {% endif %}
+                        </span>
+                        <div class="flex flex-col p-2 w-full gap-1">
+                            <p class="text-xs text-slate-600 text-[9px] toko-r" id="toko-r-${index_res}">Toko <strong>
+                                {{ a.store.nama }}
+                            </strong></p>
+                            <h4 class="text-sm produk-nama" id="produk-nama-${index_res}">{{ a.nama }}</h4>
+                            <p class="font-bold text-xs text-orange-400 produk-coin" id="produk-coin-${index_res}">Coin: {{ a.harga }} π</p>
+                            <hr />
+                            <p class="text-xs text-slate-600 produk-stok" id="produk-stok-${index_res}">Stock :{{ a.stok_produk }}</p>
+                            <div class="rating">
+                                <input type="radio" value="0" name="rating-{{ forloop.counter }}" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star is None %} checked {% endif %}/>
+                                <input type="radio" value="1" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 1 %} checked {% endif %} />
+                                <input type="radio" value="2" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 2 %} checked {% endif %} />
+                                <input type="radio" value="3" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 3 %} checked {% endif %} />
+                                <input type="radio" value="4" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 4 %} checked {% endif %} />
+                                <input type="radio" value="5" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 5 %} checked {% endif %} />
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

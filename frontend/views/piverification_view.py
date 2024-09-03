@@ -1,7 +1,6 @@
-from django.shortcuts import render, HttpResponse
-
-from frontend.views.base_view import FrontPage
+from django.shortcuts import HttpResponse
 from django.views import View
+
 from master.models import ConfigurationWebsite
 
 
