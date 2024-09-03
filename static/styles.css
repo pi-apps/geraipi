@@ -1,0 +1,9 @@
+body {
+    background-color: whitesmoke;
+}
+.layoutmobile {
+    max-width: 450px;
+    background-color: white;
+    margin-right: auto;
+    margin-left: auto;
+}
