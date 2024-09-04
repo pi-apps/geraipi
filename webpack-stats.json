@@ -1,33 +1,33 @@
 {
   "status": "done",
   "assets": {
-    "main.58ccfe4e344c036d8850.js": {
-      "name": "main.58ccfe4e344c036d8850.js",
-      "path": "D:\\Project\\Upload\\geraipi_test\\static\\webpack_bundles\\main.58ccfe4e344c036d8850.js",
+    "main.js": {
+      "name": "main.js",
+      "path": "D:\\Project\\Upload\\geraipi_test\\static\\webpack_bundles\\main.js",
       "publicPath": "auto"
     },
-    "main.58ccfe4e344c036d8850.js.LICENSE.txt": {
-      "name": "main.58ccfe4e344c036d8850.js.LICENSE.txt",
-      "path": "D:\\Project\\Upload\\geraipi_test\\static\\webpack_bundles\\main.58ccfe4e344c036d8850.js.LICENSE.txt",
+    "main.js.LICENSE.txt": {
+      "name": "main.js.LICENSE.txt",
+      "path": "D:\\Project\\Upload\\geraipi_test\\static\\webpack_bundles\\main.js.LICENSE.txt",
       "publicPath": "auto"
     },
-    "other.5225d7677410f2f6fe2f.js": {
-      "name": "other.5225d7677410f2f6fe2f.js",
-      "path": "D:\\Project\\Upload\\geraipi_test\\static\\webpack_bundles\\other.5225d7677410f2f6fe2f.js",
+    "other.js": {
+      "name": "other.js",
+      "path": "D:\\Project\\Upload\\geraipi_test\\static\\webpack_bundles\\other.js",
       "publicPath": "auto"
     },
-    "other.5225d7677410f2f6fe2f.js.LICENSE.txt": {
-      "name": "other.5225d7677410f2f6fe2f.js.LICENSE.txt",
-      "path": "D:\\Project\\Upload\\geraipi_test\\static\\webpack_bundles\\other.5225d7677410f2f6fe2f.js.LICENSE.txt",
+    "other.js.LICENSE.txt": {
+      "name": "other.js.LICENSE.txt",
+      "path": "D:\\Project\\Upload\\geraipi_test\\static\\webpack_bundles\\other.js.LICENSE.txt",
       "publicPath": "auto"
     }
   },
   "chunks": {
     "main": [
-      "main.58ccfe4e344c036d8850.js"
+      "main.js"
     ],
     "other": [
-      "other.5225d7677410f2f6fe2f.js"
+      "other.js"
     ]
   },
   "publicPath": "auto"

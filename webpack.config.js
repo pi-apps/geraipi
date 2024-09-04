@@ -11,7 +11,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "static/webpack_bundles/"),
     publicPath: "auto",
-    filename: "[name].[contenthash].js",
+    filename: "[name].js",
   },
 
   plugins: [
