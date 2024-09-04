@@ -1,4 +1,5 @@
 {% load static tailwind_tags %}
+{% load render_bundle from webpack_loader %}
 {% load i18n translater %}
 <!DOCTYPE html>
 <html data-theme="bumblebee" lang="en">
@@ -59,6 +60,7 @@
                 display: none;
             }
         </style>
+        {% render_bundle 'main' 'css' %}
         {% block styles %}{% endblock %}
         <link rel="stylesheet" href="{% static 'loading/loading-bar.css' %}">
         
@@ -202,7 +204,7 @@
                 alert(error);
             });
         </script> -->
-        <script type="module">
+        <!-- <script type="module">
             import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
 
             // If you enabled Analytics in your project, add the Firebase SDK for Google Analytics
@@ -241,7 +243,7 @@
             }else{
 
             }
-        </script>
+        </script> -->
         <script>
         </script>
         <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
@@ -257,21 +259,6 @@
                 });
             }
 
-            async function scMe() {
-                // const {accessToken} = await JSON.parse(window.localStorage.getItem('user'))
-                // console.log(accessToken)
-                // fetch(`${url_social}api/me`,{
-                //     mode:'cors',
-                //     headers: {
-                //         "Access-Control-Allow-Origin" :'*',
-                //         'Authorization':`Bearer ${accessToken}`,
-                //         "Access-Control-Allow-Methods":'GET'
-                //     }
-                // }).then(function(e){
-                //     console.log("rrr",e)
-                // })
-            }
-
             async function loginDJ(auth) {
                 const data = auth;
                 if (data) {
@@ -285,6 +272,7 @@
             }
         </script>
         {% endblock %}
+        {% render_bundle 'main' 'js' %}
         
     </body>
 </html>
