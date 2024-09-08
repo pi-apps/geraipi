@@ -1,6 +1,7 @@
 from django.db.models import Avg
 from django.urls import reverse
 from rest_framework import serializers
+from rest_framework.response import Response
 
 from frontend.view_helper import translater
 from produk.models import (
@@ -14,6 +15,7 @@ from produk.models import (
 from store.models import UserStore
 
 from .stores_serializer import UserStoreSerializer
+from .ulasan_serializer import UlasanSerializer
 
 
 class KategoriSerializer(serializers.HyperlinkedModelSerializer):
@@ -97,6 +99,7 @@ class ProdukSerializer(serializers.HyperlinkedModelSerializer):
     gambar = serializers.SerializerMethodField()
     count_star = serializers.SerializerMethodField()
     produk_detail_url = serializers.SerializerMethodField()
+    terjual = serializers.SerializerMethodField()
 
     nama = serializers.SerializerMethodField()
 
@@ -122,6 +125,7 @@ class ProdukSerializer(serializers.HyperlinkedModelSerializer):
             "store",
             "count_star",
             "produk_detail_url",
+            "terjual"
         ]
 
     def get_nama(self, obj):
@@ -147,7 +151,7 @@ class ProdukSerializer(serializers.HyperlinkedModelSerializer):
         return countstar
 
     def get_produk_detail_url(self, obj):
-        urldetail = reverse("detail_produk", kwargs={"slug": obj.slug})
+        urldetail = reverse("produk_detail", kwargs={"slug": obj.slug})
         return urldetail
 
     def get_gambar(self, obj):
@@ -161,3 +165,8 @@ class ProdukSerializer(serializers.HyperlinkedModelSerializer):
         if stores.exists():
             stores = stores.first()
         return UserStoreSerializer(stores).data
+
+    def get_terjual(self, obj):
+        terjual = 0
+        terjual = UlasanCart.objects.filter(produkitem_id=obj.id).count()
+        return terjual

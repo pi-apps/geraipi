@@ -1,16 +1,16 @@
 from django.core.paginator import Paginator
-from django.db.models import Avg
+from django.db.models import Avg, Count
 from django.shortcuts import render
 
 from frontend.models import Pengumuman
 from produk.models import Kategori, Produk
 
-from .base_view import FrontPage
+from frontend.views.base_view import FrontPage
 
 
 class Produks(FrontPage):
     def get(self, request):
-        produk = Produk.objects.annotate(count_star=Avg("ulasancart__produk"))
+        produk = Produk.objects.annotate(count_star=Avg("ulasancart__produk"), terjual=Count('ulasancart__produk')).order_by("?")
         pengumuman = Pengumuman.objects.filter(is_active=True)
         pengumuman = pengumuman.first()
 
@@ -23,7 +23,7 @@ class Produks(FrontPage):
         produk_page = produk_paginator.page(page_number)
         return render(
             request,
-            "home/produk.html",
+            "produk/produk.html",
             {
                 "produk": produk_page,
                 "produk_paginator": produk_paginator,

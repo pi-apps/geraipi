@@ -14,6 +14,6 @@ def translater(to, page, value):
     return data
 
 
-@register.simple_tag
+@register.filter
 def env(key):
     return os.environ.get(key, False)

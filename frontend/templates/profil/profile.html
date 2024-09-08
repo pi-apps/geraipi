@@ -1,7 +1,7 @@
 {% extends 'layout.html' %} 
 {% load static translater %} 
 {% block content %}
-<div class="mt-3 mb-28 h-screen mx-5">
+<div class="mt-3 mb-28 min-h-screen mx-5">
     {% if user.is_authenticated %}
     <div class="flex flex-col justify-around p-1 gap-6">
         <div class="flex justify-between items-center my-5 border shadow-lg rounded-lg px-2 py-4">
@@ -64,7 +64,6 @@
             <a href="{% url 'transaksi_users' %}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "profile_menu_transaksi_saya" "Transaksi" %}</a>
             <a href="/faq/" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">FAQ</a>
             {% if registered %}
-            <a href="/member/quota" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">Quota Member </a>
             {% else %}
             <a href="/member/" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">Register Membership</a>
             {% endif %}

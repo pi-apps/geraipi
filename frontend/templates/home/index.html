@@ -63,7 +63,7 @@
             <div class="grid grid-cols-2 flex-wrap gap-6 overflow-auto">
                 {% for a in produk.object_list %}
                 <div class="min-w-[112px] rounded-xl">
-                    <a href="{% url 'detail_produk' a.slug  %}">
+                    <a href="{% url 'produk_detail' a.slug  %}">
                         {% if a.gambarutama %}
                         <img src="/media/{{ a.gambarutama.gambar }}" class="object-cover max-h-40 w-full" alt="" />
                         {% else %}
@@ -77,13 +77,16 @@
                             {% endif %}
                         </span>
                         <div class="flex flex-col p-2 w-full gap-1">
-                            <p class="text-xs text-slate-600 text-[9px] toko-r" id="toko-r-${index_res}">Toko <strong>
+                            <p class="text-xs text-slate-600 text-[9px] toko-r" id="toko-r-${index_res}">{% translater user.languages.code "Toko" "Toko" %} <strong>
                                 {{ a.store.nama }}
                             </strong></p>
-                            <h4 class="text-sm produk-nama" id="produk-nama-${index_res}">{{ a.nama }}</h4>
+                            <h4 class="text-sm produk-nama" id="produk-nama-${index_res}">{% translater user.languages.code a.nama a.nama %}</h4>
                             <p class="font-bold text-xs text-orange-400 produk-coin" id="produk-coin-${index_res}">Coin: {{ a.harga }} π</p>
                             <hr />
-                            <p class="text-xs text-slate-600 produk-stok" id="produk-stok-${index_res}">Stock :{{ a.stok_produk }}</p>
+                            <div class="flex flex-row justify-between mx-3">
+                                <p class="text-xs text-slate-600 produk-stok" id="produk-stok-${index_res}">{% translater user.languages.code "Stock" "Stock" %} :{{ a.stok_produk }}</p>
+                                <p class="text-xs text-slate-600 produk-stok" id="produk-stok-${index_res}">{% translater user.languages.code "Terjual" "Terjual" %} :{{ a.terjual }}</p>
+                            </div>
                             <div class="rating">
                                 <input type="radio" value="0" name="rating-{{ forloop.counter }}" style="display: none;" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star is None %} checked {% endif %}/>
                                 <input type="radio" value="1" name="rating-{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" disabled {% if a.count_star == 1 %} checked {% endif %} />
@@ -183,8 +186,14 @@
         }
         var splide = new Splide(".splide");
         $(function () {
-            getProduk()
+            // getProduk()
             splide.mount();
+            // Pi.Ads.isAdReady("rewarded").then(e => {
+            //     console.log("====",e)
+            // })
+            // Pi.Ads.showAd("rewarded").then(e => {
+            //     console.log("-=-=-=",e)
+            // })
         });
 
         const redirect_kategori = (kategori) => {

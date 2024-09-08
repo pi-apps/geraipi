@@ -5,7 +5,7 @@
     <div class="grid grid-cols-2 gap-1">
         {% for pro in produk %}
         <div class="min-w-[112px] border rounded-xl overflow-hidden">
-            <a href='{% url "detail_produk" pro.slug %}'>
+            <a href='{% url "produk_detail" pro.slug %}'>
                 {% if pro.gambarutama %}
                 <img src="{% get_media_prefix %}{{pro.gambarutama.gambar}}" class="object-cover max-h-40 w-full" alt="" />
                 {% else %}

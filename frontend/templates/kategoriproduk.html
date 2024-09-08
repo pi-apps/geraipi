@@ -5,7 +5,7 @@
     <div class="grid grid-cols-3 gap-1">
         {% for pro in produk %}
         <div class="card">
-            <a href='{% url "detail_produk" pro.slug %}'>
+            <a href='{% url "produk_detail" pro.slug %}'>
                 <img src="{% static 'sample.png' %}" class="image-fluid" alt="" />
                 <span class="text-xs">Promos</span>
                 <div class="flex flex-col p-2 w-full gap-1">
@@ -16,7 +16,7 @@
             </a>
         </div>
         <div class="card">
-            <a href='{% url "detail_produk" pro.slug %}'>
+            <a href='{% url "produk_detail" pro.slug %}'>
                 <img src="{% static 'sample.png' %}" class="image-fluid" alt="" />
                 <span class="text-xs">Promos</span>
                 <div class="flex flex-col p-2 w-full gap-1">
@@ -27,7 +27,7 @@
             </a>
         </div>
         <div class="card">
-            <a href='{% url "detail_produk" pro.slug %}'>
+            <a href='{% url "produk_detail" pro.slug %}'>
                 <img src="{% static 'sample.png' %}" class="image-fluid" alt="" />
                 <span class="text-xs">Promos</span>
                 <div class="flex flex-col p-2 w-full gap-1">

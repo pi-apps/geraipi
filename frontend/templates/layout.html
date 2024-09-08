@@ -1,5 +1,4 @@
 {% load static tailwind_tags %}
-{% load render_bundle from webpack_loader %}
 {% load i18n translater %}
 <!DOCTYPE html>
 <html data-theme="bumblebee" lang="en">
@@ -60,7 +59,6 @@
                 display: none;
             }
         </style>
-        {% render_bundle 'main' 'css' %}
         {% block styles %}{% endblock %}
         <link rel="stylesheet" href="{% static 'loading/loading-bar.css' %}">
         
@@ -109,7 +107,24 @@
         <script src="{% static 'splide/dist/js/splide.min.js' %}"></script>
         <script src="{% static 'loading/loading-bar.js' %}"></script>
         <script>
-            Pi.init({ version: "2.0", sandbox: false });
+            // you usually would check the ads support ahead of time and store the information
+            (async () => {
+                const is_active = {% if 'ENV_SANDBOX'|env %}true{% else %}false{% endif %}
+                await Pi.init({ version: "2.0", sandbox: is_active });
+                const nativeFeaturesList = await Pi.nativeFeaturesList();
+                const adNetworkSupported = nativeFeaturesList.includes("ad_network");
+
+                // const showAdResponse = await Pi.Ads.showAd("rewarded");
+                // if (showAdResponse.result === "AD_REWARDED") {
+                //     // delegate rewarding user to your backend
+                //     // e.g.:
+                //     const result = await rewardUserForWatchingRewardedAd(showAdResponse.adId);
+                //     if (result.rewarded === true) {
+                //         grantUserAdditionalLive();
+                //     }
+                // }
+                // store adNetworkSupported for later use
+            })();
         </script>
 
         <!--Start of Tawk.to Script-->
@@ -204,7 +219,7 @@
                 alert(error);
             });
         </script> -->
-        <!-- <script type="module">
+        <script type="module">
             import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
 
             // If you enabled Analytics in your project, add the Firebase SDK for Google Analytics
@@ -243,7 +258,7 @@
             }else{
 
             }
-        </script> -->
+        </script>
         <script>
         </script>
         <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
@@ -259,6 +274,21 @@
                 });
             }
 
+            async function scMe() {
+                // const {accessToken} = await JSON.parse(window.localStorage.getItem('user'))
+                // console.log(accessToken)
+                // fetch(`${url_social}api/me`,{
+                //     mode:'cors',
+                //     headers: {
+                //         "Access-Control-Allow-Origin" :'*',
+                //         'Authorization':`Bearer ${accessToken}`,
+                //         "Access-Control-Allow-Methods":'GET'
+                //     }
+                // }).then(function(e){
+                //     console.log("rrr",e)
+                // })
+            }
+
             async function loginDJ(auth) {
                 const data = auth;
                 if (data) {
@@ -272,7 +302,6 @@
             }
         </script>
         {% endblock %}
-        {% render_bundle 'main' 'js' %}
         
     </body>
 </html>

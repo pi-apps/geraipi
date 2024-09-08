@@ -110,17 +110,23 @@
                 </div>
                 <div class="border rounded-lg mb-2 p-2">
                     <label for="">{%translater user.languages.code "Pilih Bahasa Deskripsi" "Pilih Bahasa Deskripsi"%}</label>
-                    <select name="language" id="" class="w-full">
-                        {% for language in produk.deskripsiproduk_set.all %}
-                        <option value="{{ language.languange.code }}">{{ language.languange.alias }}</option>
-                        {% endfor %}
-                    </select>
+                    <form action="" method="get" id="formsubmitlang">
+                        <select name="language" id="" class="w-full" onchange="">
+                            {% for language in languages %}
+                            <option value="{{ language.code }}" 
+                                {% if deflang == language.code %}
+                                selected
+                                {% elif request.GET.language == language.code %}
+                                selected
+                                {% endif %}
+                            >{{ language.alias }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
                 </div>
-                {% for language in produk.deskripsiproduk_set.all %}
-                <div class="text-justify p-4 border rounded-lg hidden data-deskripsi" data-language="{{ language.languange.code }}">
-                    {{language.deskripsi|safe}}
+                <div class="text-justify p-4 border rounded-lg data-deskripsi">
+                    {{ deskripsi.deskripsi|safe }}
                 </div>
-                {% endfor %}
             </div>
         </div>
         <div class="shadow-lg w-full rounded-lg p-2 border">
@@ -152,12 +158,12 @@
             </div>
             <div class="flex flex-row justify-between">
                 {% if ulasan.has_previous %}
-                <a href="{% url 'detail_produk' slug=produk.slug %}?page={{ ulasan.previous_page_number }}" class="btn btn-neutral  btn-sm" id="prev-button">{%translater user.languages.code "Sebelumnya" "Sebelumnya"%}</a>
+                <a href="{% url 'produk_detail' slug=produk.slug %}?page={{ ulasan.previous_page_number }}" class="btn btn-neutral  btn-sm" id="prev-button">{%translater user.languages.code "Sebelumnya" "Sebelumnya"%}</a>
                 {% else %}
                 <a href="#" class="btn btn-neutral btn-disabled btn-sm" id="prev-button">{%translater user.languages.code "Sebelumnya" "Sebelumnya"%}</a>
                 {% endif %}
                 {% if ulasan.has_next %}
-                <a href="{% url 'detail_produk' slug=produk.slug %}?page={{ ulasan.next_page_number }}" class="btn btn-neutral  btn-sm" id="prev-button">{%translater user.languages.code "Selanjutnya" "Selanjutnya"%}{{ request.GET.slug }}</a>
+                <a href="{% url 'produk_detail' slug=produk.slug %}?page={{ ulasan.next_page_number }}" class="btn btn-neutral  btn-sm" id="prev-button">{%translater user.languages.code "Selanjutnya" "Selanjutnya"%}{{ request.GET.slug }}</a>
                 {% else %}
                 <a href="#" class="btn btn-neutral btn-disabled btn-sm" id="prev-button">{%translater user.languages.code "Selanjutnya" "Selanjutnya"%}{{ request.GET.slug }}</a>
                 {% endif %}
@@ -188,13 +194,8 @@
         $("#back-navigation").on("click", function () {
             window.history.back();
         });
-
-        let vallang = $('[name="language"]').val()
-        $(`div[data-language="${vallang}"]`).removeClass("hidden")
-
-        $('[name="language"]').on("change",function(){
-            $(`data-deskripsi`).addClass("hidden")
-            $(`div[data-language="${$(this).val()}"]`).removeClass("hidden")
+        $('select[name="language"]').on("change", function(){
+            $('#formsubmitlang').submit()
         })
     });
 </script>

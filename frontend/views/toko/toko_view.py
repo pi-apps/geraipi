@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from store.models import UserStore
 
-from .base_view import FrontPage
+from frontend.views.base_view import FrontPage
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -19,7 +19,7 @@ class Toko(FrontPage):
             else:
                 user.aggrement = False
             user.save()
-        return render(request, "toko/toko_profile.html", {"user_toko": user})
+        return render(request, "toko/toko.html", {"user_toko": user})
 
     def post(self, request, id):
         user = UserStore.objects.filter(users_id=id).first()

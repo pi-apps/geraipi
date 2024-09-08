@@ -39,9 +39,8 @@ class ProdukViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["kategori", "negara"]
+    filterset_fields = ["kategori", "negara", "slug"]
     queryset = Produk.objects.all()
     serializer_class = ProdukSerializer
     http_method_names = ["get", "head", "option"]
