@@ -5,14 +5,23 @@
     {% if user.is_authenticated %}
     <div class="flex flex-col justify-around p-1 gap-6">
         <div class="flex justify-between items-center my-5 border shadow-lg rounded-lg px-2 py-4">
-            <div class="w-10 h-10 bg-slate-300 rounded-full mx-auto"></div>
+            <div class="w-10 h-10 bg-slate-300 rounded-full mx-auto">
+                {% if user.image_profile %}
+                <img src="{% get_media_prefix %}{{ user.image_profile }}" alt="" class="w-full h-full rounded-full" id="profile-image">
+                {% else %}
+                <img src="{% static 'logo_atas.jpg' %}" alt="" class="w-full h-full rounded-full" id="profile-image">
+                {% endif %}
+            </div>
             <div class="flex flex-col px-2 w-64 text-wrap">
                 <p id="nama" class="text-lg font-medium">@{{ settings.user.username }}</p>
                 <div class="flex flex-row justify-between">
                     <div class="flex flex-wrap items-center gap-2 flex-row w-full">
                         <p id="pendapatan" class="text-slate-600 text-sm">{% translater user.languages.code "profile" "Pendapatan User:" %} {{ settings.user.coin }} Pi</p>
-                        <a href="/user/withdrawl" class="bg-orange-400 flex items-center uppercase font-bold hover:bg-orange-600 hover:shadow-sm text-white text-xs rounded-full py-1 px-2"><span>{% translater user.languages.code "profile_withdraw" "Withdraw" %}</span></a>
                     </div>
+                </div>
+                <div class="flex flex-row gap-1">
+                    <a href="/user/withdrawl" class="bg-orange-400 flex items-center uppercase font-bold hover:bg-orange-600 hover:shadow-sm text-white text-xs rounded-full py-1 px-2"><span>{% translater user.languages.code "profile_withdraw" "Withdraw" %}</span></a>
+                    <a href="#" class="btn btn-sm btn-success rounded-full text-white btn-disabled"><span>{% translater user.languages.code "Topup" "Topup" %}</span></a>
                 </div>
             </div>
         </div>
