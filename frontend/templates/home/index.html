@@ -54,7 +54,7 @@
         </div> {% endcomment %}
     </div>
 
-    <div class="container p-4">
+    <div class="p-4">
         <div class="container my-3">
             <div class="flex justify-between my-4 items-baseline">
                 <h1 class="font-bold">{% translater user.languages.code "Product" "Produk" %}</h1>
@@ -108,7 +108,7 @@
         $(function(){
             $("#language").on("change", function(e){
                 let languages = $(this).val()
-                getProduk(languages)
+                // getProduk(languages)
             })
         })
         async function translate(obj, id){
