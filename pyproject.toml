@@ -32,4 +32,5 @@ dev-dependencies = [
     "django-extensions>=3.2.3",
     "django-webpack-loader>=3.1.1",
     "flake8>=7.1.1",
+    "isort>=5.13.2",
 ]

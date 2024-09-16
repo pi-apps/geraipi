@@ -8,6 +8,7 @@ from frontend.views.alamt_toko_tambah_view import AlamatTokoTambah
 from frontend.views.approve_view import Approve
 from frontend.views.archive_barang_view import ArchiveBarang
 from frontend.views.beli_view import Beli
+from frontend.views.beranda.home import Home
 from frontend.views.cancel_view import Cancel
 from frontend.views.cart_json_view import CartJson
 from frontend.views.completepayment_view import CompletePayment
@@ -15,16 +16,11 @@ from frontend.views.coreteam_view import CoreTeam
 from frontend.views.detail_transaksi_json_view import DetailTransaksiJson
 from frontend.views.detail_transaksi_usulan_view import DetailTransaksiUlasan
 from frontend.views.detail_transaksi_view import DetailTransaksi
-#produk
-from frontend.views.produk.produk_view import Produks
-from frontend.views.produk.produk_detail_view import ProdukDetail
-
 from frontend.views.dropzone_upload_view import UploadDropzone
 from frontend.views.edit_barang_view import EditBarang
 from frontend.views.faq_view import Faq
 from frontend.views.fcm_save_token import FcmSaveTokenView
 from frontend.views.getdata_view import GetData
-from frontend.views.beranda.home import Home
 from frontend.views.jual_view import Jual
 from frontend.views.keranjang_add_view import KeranjangAdd
 from frontend.views.koleksi_view import Koleksi
@@ -35,6 +31,10 @@ from frontend.views.minus_plus_view import MinusPluss
 from frontend.views.payments_cart_view import PaymentsCart
 from frontend.views.piverification_view import VerificationCode
 from frontend.views.privacyandpolicy_view import PrivacyAndPolicy
+from frontend.views.produk.produk_detail_view import ProdukDetail
+
+# produk
+from frontend.views.produk.produk_view import Produks
 from frontend.views.profile.alamat_user_view import AlamatUser
 from frontend.views.profile.profile_alamat_view import ProfileAlamat
 from frontend.views.profile.profile_edit_view import ProfileEdit
@@ -52,9 +52,9 @@ from frontend.views.settings_view import Settings
 from frontend.views.splash import Splash
 from frontend.views.tentang_view import Tentang
 from frontend.views.termofservice_view import TermOfService
+from frontend.views.toko.toko_view import Toko
 from frontend.views.toko_edit_view import TokoEdit
 from frontend.views.toko_transaksi_view import TransaksiToko
-from frontend.views.toko.toko_view import Toko
 from frontend.views.transaksi_selesai_view import TransaksiUserSelesaiJson
 from frontend.views.transaksi_user_count_json_view import TransaksiUserCountJson
 from frontend.views.transaksi_user_json_view import TransaksiUserJson

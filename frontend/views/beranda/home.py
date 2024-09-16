@@ -2,17 +2,17 @@ from django.core.paginator import Paginator
 from django.db.models import Avg, Count
 from django.shortcuts import render
 
-from frontend.models import Pengumuman
+from frontend.models import Banner, Pengumuman
+from frontend.views.base_view import FrontPage
 from master.models import Negara
 from produk.models import Kategori, Produk
-
-from frontend.models import Banner
-from frontend.views.base_view import FrontPage
 
 
 class Home(FrontPage):
     def get(self, request):
-        produk = Produk.objects.annotate(count_star=Avg("ulasancart__produk"), terjual=Count("ulasancart__produk")).order_by("?")
+        produk = Produk.objects.annotate(
+            count_star=Avg("ulasancart__produk"), terjual=Count("ulasancart__produk")
+        ).order_by("?")
         produk_paginator = Paginator(produk, 10)
         page_number = request.GET.get("page", 1)
         produk_page = produk_paginator.page(page_number)

@@ -2,9 +2,8 @@ from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-from store.models import UserStore
-
 from frontend.views.base_view import FrontPage
+from store.models import UserStore
 
 
 @method_decorator(csrf_exempt, name="dispatch")

@@ -3,14 +3,15 @@ from django.db.models import Avg, Count
 from django.shortcuts import render
 
 from frontend.models import Pengumuman
-from produk.models import Kategori, Produk
-
 from frontend.views.base_view import FrontPage
+from produk.models import Kategori, Produk
 
 
 class Produks(FrontPage):
     def get(self, request):
-        produk = Produk.objects.annotate(count_star=Avg("ulasancart__produk"), terjual=Count('ulasancart__produk')).order_by("?")
+        produk = Produk.objects.annotate(
+            count_star=Avg("ulasancart__produk"), terjual=Count("ulasancart__produk")
+        ).order_by("?")
         pengumuman = Pengumuman.objects.filter(is_active=True)
         pengumuman = pengumuman.first()
 

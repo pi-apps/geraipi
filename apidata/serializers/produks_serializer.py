@@ -125,7 +125,7 @@ class ProdukSerializer(serializers.HyperlinkedModelSerializer):
             "store",
             "count_star",
             "produk_detail_url",
-            "terjual"
+            "terjual",
         ]
 
     def get_nama(self, obj):

@@ -138,6 +138,8 @@ mysqlclient==2.2.4
     # via geraipi (pyproject.toml)
 pillow==10.4.0
     # via geraipi (pyproject.toml)
+pip==24.2
+    # via geraipi (pyproject.toml)
 prompt-toolkit==3.0.31
     # via click-repl
 proto-plus==1.23.0
