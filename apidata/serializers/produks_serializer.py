@@ -1,7 +1,6 @@
 from django.db.models import Avg
 from django.urls import reverse
 from rest_framework import serializers
-from rest_framework.response import Response
 
 from frontend.view_helper import translater
 from produk.models import (
@@ -15,7 +14,9 @@ from produk.models import (
 from store.models import UserStore
 
 from .stores_serializer import UserStoreSerializer
-from .ulasan_serializer import UlasanSerializer
+
+# from rest_framework.response import Response
+# from .ulasan_serializer import UlasanSerializer
 
 
 class KategoriSerializer(serializers.HyperlinkedModelSerializer):

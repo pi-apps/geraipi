@@ -31,7 +31,7 @@ class ProdukDetail(FrontPage):
                 produk__id=produk.id, languange__code=user_lang
             )
         except Exception as e:
-            deskripsi = {"deskripsi": ""}
+            deskripsi = {"deskripsi": f"{str(e)}"}
         return render(
             request,
             "produk/detail.html",
