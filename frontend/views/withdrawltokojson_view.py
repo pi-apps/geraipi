@@ -10,7 +10,7 @@ class WithdrawlTokoJson(FrontPage):
         usersetting = UserSettingsMember.objects.get(user_id=request.user.id)
         toko = UserStore.objects.get(users_id=id)
         user = request.user
-        # from firebase_admin import messaging
+        from firebase_admin import messaging
 
         jumlah = request.GET.get("jumlah", 0)
         if jumlah:
@@ -38,16 +38,15 @@ class WithdrawlTokoJson(FrontPage):
                     if usersetting.kuota < usersetting.tier.kuota_withdrawl:
                         usersetting.kuota = usersetting.kuota + 1
                         usersetting.save()
-                # if user.fcm_token:
-                #     message = messaging.Message(
-                #         notification=messaging.Notification(
-                #             title="notification",
-                #             body="test notification",
-                #         ),
-                #         token=str(user.fcm_token),
-                #     )
-                #     messa = messaging.send(message)
-                #     print(type(user.fcm_token), messa)
+                if user.fcm_token:
+                    message = messaging.Message(
+                        notification=messaging.Notification(
+                            title="Withdrawl",
+                            body="User telah withdraw",
+                        ),
+                        token=str(user.fcm_token),
+                    )
+                    messaging.send(message)
 
                 return JsonResponse({"success": True})
         return JsonResponse({"success": False})

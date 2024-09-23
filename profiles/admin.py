@@ -1,5 +1,6 @@
 from typing import Any
 
+import firebase_admin
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.db.models.query import QuerySet
@@ -10,7 +11,9 @@ from django.urls import path, reverse
 from django.urls.resolvers import URLPattern
 from django.utils.html import format_html
 from django.views.decorators.csrf import csrf_exempt
+from firebase_admin import credentials, messaging
 
+from master.models import ConfigurationWebsite
 from profiles.models import (
     LangSupport,
     Tier,
@@ -181,6 +184,10 @@ class UserWithdrawlRequestAdmin(admin.ModelAdmin):
 
     @csrf_exempt
     def json_request_action(self, request):
+        config = ConfigurationWebsite.get_solo()
+        if not firebase_admin._apps:
+            cred = credentials.Certificate(config.konfigurasi_firebase.path)
+            firebase_admin.initialize_app(cred)
         modelresponse = UserwithdrawlTransactionRequest.objects.filter(
             id=request.GET.get("id")
         ).first()
@@ -197,6 +204,24 @@ class UserWithdrawlRequestAdmin(admin.ModelAdmin):
                 float_jumlah = float(modelresponse.jumlah)
                 userprofile.coin = float_coin - float_jumlah
                 userprofile.save()
+                if request.user.fcm_token:
+                    try:
+                        print(request.user.fcm_token)
+                        message = messaging.Message(
+                            notification=messaging.Notification(
+                                title="Withdrawl",
+                                body="User telah withdrawl",
+                            ),
+                            data={
+                                "data": "withdrawl",
+                            },
+                            token=request.user.fcm_token,
+                        )
+                        messaging.send(message)
+                    except Exception as e:
+                        print(e)
+                else:
+                    print("masuk")
         return redirect(
             reverse("admin:profiles_userwithdrawltransactionrequest_changelist")
         )

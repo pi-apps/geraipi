@@ -72,6 +72,8 @@
             <a href="/profile/alamat" class="no-underline p-2 hover:bg-slate-200 rounded color-black bg-slate-100">{% translater user.languages.code "profile_menu_alamat_saya" "Alamat Saya" %}</a>
             <a href="{% url 'transaksi_users' %}" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">{% translater user.languages.code "profile_menu_transaksi_saya" "Transaksi" %}</a>
             <a href="/faq/" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">FAQ</a>
+            <input type="text" value="{{ url_data }}" id="copinput" style="display: none;">
+            <!-- <a href="javascript:void(0)" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200" onclick="myFunction()">Copy to Chrome</a> -->
             {% if registered %}
             {% else %}
             <a href="/member/" class="no-underline p-2 rounded color-black bg-slate-100 hover:bg-slate-200">Register Membership</a>
@@ -89,8 +91,8 @@
     </div>
     {% else %}
     <div class="flex flex-col justify-center gap-6">
-        <span class="bg-red-400/20 text-red-800 text-sm p-2 font-light">Anda belum login silahkan Login terlebih Dahulu</span>
-        <button id="loginn" class="bg-orange-400 text-white py-3 rounded-full" onclick="redirect_nologin()">Login</button>
+        <span class="bg-red-400/20 text-red-800 text-sm p-2 font-light">Silahkan buka pibrowser untuk lo</span>
+        <button id="loginn" class="bg-orange-400 text-white py-3 rounded-full" onclick="redirect_nologin()">Goto PiBrowser</button>
     </div>
     {% endif %}
 </div>
@@ -107,8 +109,22 @@
         })
 
         function redirect_nologin(){
-
             window.open("pi://geraipi.id")
+        }
+
+        function myFunction() {
+            // Get the text field
+            var copyText = document.getElementById("copinput");
+
+            // Select the text field
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copyText.value);
+
+            // Alert the copied text
+            alert("Copied the text: " + copyText.value);
         }
         
 

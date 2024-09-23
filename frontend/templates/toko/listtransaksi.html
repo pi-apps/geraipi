@@ -140,7 +140,7 @@
                                 <label for="">{{transaksi.cart.expedisi}}</label>
                             {% endif %}
                             {% if tr.cart.status_toko == 2 %}
-                            <form method="post" class="flex flex-row gap-2 py-4" id="transaksi">
+                            <form method="post" class="flex flex-row gap-2 py-4" id="transaksi-{{tr.cart.id}}">
                                 <input type="hidden" value="{{ tr.cart.id }}" name="cart_id" class="rounded-full"/>
 
                                 <select id="expedisi" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 w-full" required>
@@ -153,7 +153,7 @@
                                 <input type="text" placeholder="Type here" class="input input-bordered input-primary w-full max-w-xs h-[2rem] max-h-[2rem]" value="{% if tr.cart.nomor_resi %}{{ tr.cart.nomor_resi }}{% endif %}" name="nomor_resi" />
 
                                 <input type="hidden" value="" name="expedisi" required/>
-                                <button type="submit" class="btn btn-warning btn-sm">Send</button>
+                                
                             </form>
                             {% endif %}
                         </div>
@@ -167,6 +167,11 @@
                         {% endif %}
                         
                         <form method="dialog">
+                            {% if tr.cart.status_toko == 2 %}
+                            <button class="btn btn-sm btn-success" type="button" onclick="sendKurir('transaksi-{{tr.cart.id}}')">Kirim</button>
+                            {% elif transaksi.cart.status_toko >= 3 %}
+                            <a class="btn btn-sm btn-success" href="">Laporkan</a>
+                            {% endif %}
                             <!-- if there is a button in form, it will close the modal -->
                             <button class="btn btn-sm" type="submit">Close</button>
                         </form>
@@ -181,6 +186,9 @@
 {% endblock %}
 {% block script %}
 <script>
+    async function sendKurir(id){
+        $(`#${id}`).submit()
+    }
     function show_modals(ids) {
         document.getElementById(ids).showModal();
     }

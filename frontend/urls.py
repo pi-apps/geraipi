@@ -1,16 +1,18 @@
 from django.urls import path
 
+# One Login
+from sesame.views import LoginView
+
 from frontend.views.aboutapp_view import AboutApp
-from frontend.views.add_to_cart_view import AddToCart
-from frontend.views.alamat_toko_delete_view import DeleteAlamatToko
-from frontend.views.alamat_toko_view import AlamatToko
-from frontend.views.alamt_toko_tambah_view import AlamatTokoTambah
-from frontend.views.approve_view import Approve
-from frontend.views.archive_barang_view import ArchiveBarang
 from frontend.views.beli_view import Beli
 from frontend.views.beranda.home import Home
 from frontend.views.cancel_view import Cancel
-from frontend.views.cart_json_view import CartJson
+
+# Checkout
+from frontend.views.cart.add_to_cart_view import AddToCart
+from frontend.views.cart.approve_view import Approve
+from frontend.views.cart.cart_json_view import CartJson
+from frontend.views.cart.toko_transaksi_view import TransaksiToko
 from frontend.views.completepayment_view import CompletePayment
 from frontend.views.coreteam_view import CoreTeam
 from frontend.views.detail_transaksi_json_view import DetailTransaksiJson
@@ -21,7 +23,6 @@ from frontend.views.edit_barang_view import EditBarang
 from frontend.views.faq_view import Faq
 from frontend.views.fcm_save_token import FcmSaveTokenView
 from frontend.views.getdata_view import GetData
-from frontend.views.jual_view import Jual
 from frontend.views.keranjang_add_view import KeranjangAdd
 from frontend.views.koleksi_view import Koleksi
 from frontend.views.list_produk_toko_view import ListProdukToko
@@ -35,6 +36,8 @@ from frontend.views.produk.produk_detail_view import ProdukDetail
 
 # produk
 from frontend.views.produk.produk_view import Produks
+
+# User
 from frontend.views.profile.alamat_user_view import AlamatUser
 from frontend.views.profile.profile_alamat_view import ProfileAlamat
 from frontend.views.profile.profile_edit_view import ProfileEdit
@@ -49,12 +52,20 @@ from frontend.views.search_produk_view import SearchProduct
 from frontend.views.service_worker import ServiceWorkerView
 from frontend.views.setcomplete_view import SetComplete
 from frontend.views.settings_view import Settings
-from frontend.views.splash import Splash
+
+# Splash
+from frontend.views.splash.splash import Splash
 from frontend.views.tentang_view import Tentang
 from frontend.views.termofservice_view import TermOfService
+from frontend.views.toko.alamat_toko_delete_view import DeleteAlamatToko
+from frontend.views.toko.alamat_toko_view import AlamatToko
+from frontend.views.toko.alamt_toko_tambah_view import AlamatTokoTambah
+from frontend.views.toko.archive_barang_view import ArchiveBarang
+
+# toko
+from frontend.views.toko.jual_view import Jual
 from frontend.views.toko.toko_view import Toko
 from frontend.views.toko_edit_view import TokoEdit
-from frontend.views.toko_transaksi_view import TransaksiToko
 from frontend.views.transaksi_selesai_view import TransaksiUserSelesaiJson
 from frontend.views.transaksi_user_count_json_view import TransaksiUserCountJson
 from frontend.views.transaksi_user_json_view import TransaksiUserJson
@@ -202,4 +213,5 @@ urlpatterns = [
     ),
     path("fcm-token", FcmSaveTokenView.as_view(), name="fcm_token"),
     path("validation-key.txt", VerificationCode.as_view(), name="verification"),
+    path("sess/login", LoginView.as_view(), name="log_less"),
 ]

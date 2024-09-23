@@ -5,20 +5,16 @@
   "main": "index.js",
   "author": "Roni Ahmadi",
   "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "devDependencies": {
-    "@babel/core": "^7.24.7",
-    "@babel/preset-env": "^7.24.7",
-    "@babel/preset-react": "^7.24.7",
-    "babel-loader": "^9.1.3",
-    "filemanager-webpack-plugin": "^8.0.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "webpack": "^5.92.0",
-    "webpack-bundle-tracker": "3.1.1",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
+    "django-vite-plugin": "^4.0.2",
     "firebase": "^10.13.1"
   }
 }

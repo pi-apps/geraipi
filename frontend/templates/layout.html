@@ -1,6 +1,5 @@
-{% load static tailwind_tags %}
-{% load i18n translater %}
 <!DOCTYPE html>
+{% load static tailwind_tags i18n translater %}
 <html data-theme="bumblebee" lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -221,31 +220,31 @@
         </script> -->
         <script type="module">
             import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
-
             // If you enabled Analytics in your project, add the Firebase SDK for Google Analytics
             import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js'
-
             import {getMessaging, getToken} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js'
 
             // Your web app's Firebase configuration
             // For Firebase JS SDK v7.20.0 and later, measurementId is optional
             const permission = await Notification.requestPermission();
             const firebaseConfig = {
-              apiKey: "AIzaSyCsEEl7bhST8VHrK3ovbEfMxCUcHZngKg0",
-              authDomain: "geraipi.firebaseapp.com",
-              projectId: "geraipi",
-              storageBucket: "geraipi.appspot.com",
-              messagingSenderId: "1071852496864",
-              appId: "1:1071852496864:web:c5e8338dc67fa12d9bad85",
-              measurementId: "G-SW3CZ09N71"
+                apiKey: "AIzaSyC0lUXHwQdTFXz8KkC5D7zy-t47RrkIvsY",
+                authDomain: "geraipi-indonesia.firebaseapp.com",
+                projectId: "geraipi-indonesia",
+                storageBucket: "geraipi-indonesia.appspot.com",
+                messagingSenderId: "981139646267",
+                appId: "1:981139646267:web:53cc230affb50210a5391e",
+                measurementId: "G-F368X3MB4J"
             };
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
             const messaging = getMessaging(app);
             // Add the public key generated from the console here.
-            let token = await getToken(messaging, {vapidKey: "BFN7KQFtuiq9l_tkSE3GcS66hqmsG7ddDjL5wrpSlegQY5_YGzp1LD5F3vn74RP4skldx5A_7k9DQuswI5zYUEs"})
+            let token = await getToken(messaging, {vapidKey: "BFNEyQSIq15u8X4bGCqLOtU_CLe3RzF_eZ5Vx5mPA0UKqeMNi3GCJTGuMquBuc2CpIxvsTKD3Xb-twq2CnFzNyA"})
             if(token){
+                {% if user.is_authenticated %}
+                console.log("token", token)
                 $.ajax({
                     url: '{% url "fcm_token" %}',
                     method: "post",
@@ -254,12 +253,11 @@
                         console.log("success")
                     }
                 })
+                {% endif %}
 
             }else{
 
             }
-        </script>
-        <script>
         </script>
         <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
         <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
