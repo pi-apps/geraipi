@@ -59,7 +59,16 @@
             </div>
             <div class="p-2 break-words">
                 <h3 class="text-[20px] font-bold">{{ tr.produk.nama }}</h3>
-                <p class="text-[12px]">Tanggal diambil: {{ tr.cart.tanggal }}</p>
+                {% if tr.cart.status == 1 %}
+                <p class="text-[12px]">
+                    Tanggal order: {{ tr.cart.tanggal }}
+                </p>
+                {% endif %}
+                {% if tr.cart.status >= 3 %}
+                <p class="text-[12px]">
+                    Tanggal dikirim: {{ tr.cart.tanggal_dikirim }}
+                </p>
+                {% endif %}
                 <p class="text-[13px]">{{ tr.produk.harga }} Pi</p>
                 <p class="text-[12px] break-all">{% if tr.cart.catatan %} {{ tr.cart.catatan | truncatewords:5 }} {% else %} - {% endif %} </p>
             </div>

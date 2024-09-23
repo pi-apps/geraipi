@@ -50,7 +50,21 @@
                 </div>
                 <div class="p-2 break-words">
                     <h3 class="text-sm font-bold">{{ tr.produk.nama }}</h3>
-                    <p class="text-[10px]">Tanggal diambil: {{ tr.cart.tanggal }}</p>
+                    {% if tr.cart.status == 1 %}
+                    <p class="text-[10px]">
+                        Tanggal order: {{ tr.cart.tanggal }}
+                    </p>
+                    {% endif %}
+                    {% if tr.cart.status == 3 %}
+                    <p class="text-[10px]">
+                        Tanggal dikirim: {{ tr.cart.tanggal_dikirim }}
+                    </p>
+                    {% endif %}
+                    {% if tr.cart.status > 3 %}
+                    <p class="text-[10px]">
+                        Tanggal dikirim: {{ tr.cart.tanggal_selesai }}
+                    </p>
+                    {% endif %}
                     <p class="text-[13px]">{{ tr.produk.harga }} Pi</p>
                     <p class="text-[12px] break-all">{% if tr.cart.catatan %} {{ tr.cart.catatan | truncatewords:5 }} {% else %} - {% endif %}</p>
                 </div>
@@ -84,9 +98,19 @@
                                     <td><p class="text-[12px]">{{ tr.produk.nama }}</p></td>
                                 </tr>
                                 <tr>
-                                    <td class="w-[110px] align-top"><p class="text-[12px]">Tanggal diambil: </p></td>
+                                    <td class="w-[110px] align-top"><p class="text-[12px]">Tanggal order: </p></td>
                                     <td class="w-[1px] align-top">:</td>
                                     <td><p class="text-[12px]">{{ tr.cart.tanggal | date:'d M Y' }}</p></td>
+                                </tr>
+                                <tr></tr>
+                                    <td class="w-[110px] align-top"><p class="text-[12px]">Tanggal dikirim: </p></td>
+                                    <td class="w-[1px] align-top">:</td>
+                                    <td><p class="text-[12px]">{{ tr.cart.tanggal_dikirim | date:'d M Y' }}</p></td>
+                                </tr>
+                                <tr></tr>
+                                    <td class="w-[110px] align-top"><p class="text-[12px]">Tanggal selesai: </p></td>
+                                    <td class="w-[1px] align-top">:</td>
+                                    <td><p class="text-[12px]">{{ tr.cart.tanggal_selesai | date:'d M Y' }}</p></td>
                                 </tr>
                                 {% for t in tr.user_chart.addressuserchartitem_set.all %}
                                 <tr>
@@ -169,8 +193,8 @@
                         <form method="dialog">
                             {% if tr.cart.status_toko == 2 %}
                             <button class="btn btn-sm btn-success" type="button" onclick="sendKurir('transaksi-{{tr.cart.id}}')">Kirim</button>
-                            {% elif transaksi.cart.status_toko >= 3 %}
-                            <a class="btn btn-sm btn-success" href="">Laporkan</a>
+                            {% elif tr.cart.status_toko == 3 %}
+                            <a class="btn btn-sm btn-success" href="#">Laporkan</a>
                             {% endif %}
                             <!-- if there is a button in form, it will close the modal -->
                             <button class="btn btn-sm" type="submit">Close</button>
