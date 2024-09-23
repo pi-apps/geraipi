@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_htmx",
     "django.forms",
     "corsheaders",
     "django_filters",
@@ -62,7 +63,8 @@ INSTALLED_APPS = [
     "ckeditor",
     "apidata",
     "django_extensions",
-    "webpack_loader",
+    "sesame",
+    "django_vite_plugin"
 ]
 
 MIDDLEWARE = [
@@ -74,7 +76,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # "django_htmx.middleware.HtmxMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
     # "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
@@ -273,4 +275,20 @@ WEBPACK_LOADER = {
         'IGNORE': [r'.+\.hot-update.js', r'.+\.map'],
         'LOADER_CLASS': 'webpack_loader.loader.WebpackLoader',
     }
+}
+
+SESAME_ONE_TIME=True
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "sesame.backends.ModelBackend",
+]
+
+LOGIN_REDIRECT_URL = '/profile'
+DJANGO_VITE_DEV_MODE = True
+
+DJANGO_VITE_PLUGIN = {
+    "BUILD_DIR": "static/buildvite",
+    "BUILD_URL_PREFIX": "/" + STATIC_URL + "buildvite",
+    "DEV_MODE": False   ,
 }
