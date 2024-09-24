@@ -13,11 +13,8 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: | 
-          cd /opt/geraipi
-          git pull origin2 main
+          cd $HOME/Projek/geraipi_test
+          source $HOME/virtualenv/Projek/geraipi_test/3.10/bin/activate
+          git pull origin main
           export $(grep -v '^#' .env | xargs)
-          /opt/geraienv/bin/python /opt/geraipi/manage.py makemigrations
-          /opt/geraienv/bin/python /opt/geraipi/manage.py migrate
-          echo yes | /opt/geraienv/bin/python /opt/geraipi/manage.py collectstatic
-          service uwsgi restart
-          service nginx restart
+          touch tmp/restart.txt

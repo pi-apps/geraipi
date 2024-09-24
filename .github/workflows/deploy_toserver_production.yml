@@ -14,10 +14,3 @@ jobs:
         port: ${{ secrets.PORT }}
         script: | 
           cd /opt/GPMain
-          git pull origin main
-          export $(grep -v '^#' .env | xargs)
-          /opt/geraienv/bin/python /opt/GPMain/manage.py makemigrations
-          /opt/geraienv/bin/python /opt/GPMain/manage.py migrate
-          echo yes | /opt/geraienv/bin/python /opt/GPMain/manage.py collectstatic
-          service uwsgi restart
-          service nginx restart
