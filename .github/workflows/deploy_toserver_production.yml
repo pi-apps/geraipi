@@ -1,5 +1,9 @@
 name: Deploy to server production
-on: [workflow_dispatch]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 jobs:
   build:
     name: build-apps
@@ -13,4 +17,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: | 
-          cd /opt/GPMain
+          cd $HOME/Projek/geraipi_main
+          source $HOME/virtualenv/Projek/geraipi_main/3.10/bin/activate
+          git pull origin main
+          touch tmp/restart.txt
