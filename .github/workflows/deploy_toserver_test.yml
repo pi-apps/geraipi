@@ -16,5 +16,4 @@ jobs:
           cd $HOME/Projek/geraipi_test
           source $HOME/virtualenv/Projek/geraipi_test/3.10/bin/activate
           git pull origin main
-          export $(grep -v '^#' .env | xargs)
           touch tmp/restart.txt
