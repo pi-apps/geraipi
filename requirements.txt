@@ -185,6 +185,9 @@ django-ckeditor==6.7.1 \
 django-cors-headers==4.4.0 \
     --hash=sha256:92cf4633e22af67a230a1456cb1b7a02bb213d6536d2dcb2a4a24092ea9cebc2 \
     --hash=sha256:5c6e3b7fe870876a1efdfeb4f433782c3524078fa0dc9e0195f6706ce7a242f6
+django-db-logger==0.1.13 \
+    --hash=sha256:a299a08638a741eb0b1d192f2a27eae57ed5118673c2aa916467f2e060c24e72 \
+    --hash=sha256:7a1741468c4dc5e7f7cb6f06e1981b16cedff81d3d04d8d926c82b814a247133
 django-filter==24.3 \
     --hash=sha256:d8ccaf6732afd21ca0542f6733b11591030fa98669f8d15599b358e24a2cd9c3 \
     --hash=sha256:c4852822928ce17fb699bcfccd644b3574f1a2d80aeb2b4ff4f16b02dd49dc64
