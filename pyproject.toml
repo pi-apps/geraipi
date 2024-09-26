@@ -30,7 +30,7 @@ dependencies = [
     "pip>=24.2",
     "python-dotenv>=1.0.1",
     "redis>=5.0.8",
-    "stellar-sdk>=11.0.0",
+    "stellar-sdk>=11.0.0"
 ]
 
 [tool.uv]
@@ -40,11 +40,10 @@ dev-dependencies = [
     "django-webpack-loader>=3.1.1",
     "flake8>=7.1.1",
     "isort>=5.13.2",
-    "ruff>=0.6.7",
+    "ruff>=0.6.7"
 ]
 
 [tool.ruff]
-# Maximum allowed line length
 exclude = [
     "migrations",
     "__pycache__",
@@ -52,14 +51,7 @@ exclude = [
     "settings.py",
     "env",
     ".env",
-    ".venv",
+    ".venv"
 ]
 line-length = 120
 ignore = ["E501"]
-
-[tool.ruff.isort]
-multi-line = "vertical"  # Similar to multi_line_output = 3 (vertical grid)
-include-trailing-comma = true
-force-grid-wrap = 0
-use-parentheses = true
-ensure-newline-before-comments = true
