@@ -9,6 +9,7 @@ dependencies = [
     "deep-translator>=1.11.4",
     "django-ckeditor>=6.7.1",
     "django-cors-headers>=4.4.0",
+    "django-db-logger>=0.1.13",
     "django-filter>=24.3",
     "django-htmx>=1.19.0",
     "django-import-export>=4.1.1",
@@ -39,4 +40,26 @@ dev-dependencies = [
     "django-webpack-loader>=3.1.1",
     "flake8>=7.1.1",
     "isort>=5.13.2",
+    "ruff>=0.6.7",
 ]
+
+[tool.ruff]
+# Maximum allowed line length
+exclude = [
+    "migrations",
+    "__pycache__",
+    "manage.py",
+    "settings.py",
+    "env",
+    ".env",
+    ".venv",
+]
+line-length = 120
+ignore = ["E501"]
+
+[tool.ruff.isort]
+multi-line = "vertical"  # Similar to multi_line_output = 3 (vertical grid)
+include-trailing-comma = true
+force-grid-wrap = 0
+use-parentheses = true
+ensure-newline-before-comments = true

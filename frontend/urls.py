@@ -10,7 +10,7 @@ from frontend.views.cancel_view import Cancel
 
 # Checkout
 from frontend.views.cart.add_to_cart_view import AddToCart
-from frontend.views.cart.approve_view import Approve
+from frontend.views.proccess.approve_view import Approve
 from frontend.views.cart.cart_json_view import CartJson
 from frontend.views.cart.toko_transaksi_view import TransaksiToko
 from frontend.views.completepayment_view import CompletePayment
