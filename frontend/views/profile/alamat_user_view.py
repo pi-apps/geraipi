@@ -34,9 +34,7 @@ class AlamatUser(FrontPage):
             if userprofile.languages.code != "id":
                 indo = False
 
-        userprofileaddress = UserProfileAddress.objects.filter(
-            userprofile_id=request.user.id
-        )
+        userprofileaddress = UserProfileAddress.objects.filter(userprofile_id=request.user.id)
         return render(
             request,
             "profil/profile_alamat.html",

@@ -5,9 +5,14 @@ from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django_resized import ResizedImageField
 
-from master.models import Country, Distric, Provinsi, Regency, Village
+from master.models.country import Country
+from master.models.distric import Distric
+from master.models.expedisi import Expedisi
+from master.models.provinsi import Provinsi
+from master.models.regency import Regency
+from master.models.village import Village
 from profiles.models import LangSupport, UserProfile
-from store.models import Expedisi, UserStore
+from store.models import UserStore
 
 
 # Create your models here.
@@ -42,9 +47,7 @@ class Produk(models.Model):
     kategori = models.ManyToManyField(Kategori)
     detail = models.TextField(null=True, blank=True)
 
-    tipe = models.ForeignKey(
-        TipeProduk, blank=True, null=True, on_delete=models.CASCADE
-    )
+    tipe = models.ForeignKey(TipeProduk, blank=True, null=True, on_delete=models.CASCADE)
     warna = models.ManyToManyField(WarnaProduk, blank=True)
     stok_produk = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
@@ -78,9 +81,7 @@ class Produk(models.Model):
 class GambarProduk(models.Model):
     sortings = models.IntegerField(default=0)
     produk = models.ForeignKey(Produk, null=True, on_delete=models.CASCADE)
-    gambar = ResizedImageField(
-        force_format="WEBP", quality=75, upload_to="produk_image/"
-    )
+    gambar = ResizedImageField(force_format="WEBP", quality=75, upload_to="produk_image/")
     nama = models.CharField(null=True, blank=True, max_length=255)
 
     def __str__(self):
@@ -119,14 +120,10 @@ class Cart(models.Model):
     tanggal_dikirim = models.DateTimeField(null=True, blank=True)
     tanggal_selesai = models.DateTimeField(null=True, blank=True)
     status_pembayaran = models.IntegerField(default=1, choices=STATUS)
-    status_toko = models.IntegerField(
-        default=0, choices=STATUS_TOKO, blank=True, null=True
-    )
+    status_toko = models.IntegerField(default=0, choices=STATUS_TOKO, blank=True, null=True)
     nomor_resi = models.CharField(blank=True, null=True, max_length=255)
     catatan = models.TextField(blank=True, null=True, max_length=255)
-    expedisi = models.ForeignKey(
-        Expedisi, blank=True, null=True, on_delete=models.CASCADE
-    )
+    expedisi = models.ForeignKey(Expedisi, blank=True, null=True, on_delete=models.CASCADE)
     tanggal = models.DateTimeField(auto_created=True, blank=True, null=True)
 
     def __str__(self):
@@ -145,9 +142,7 @@ class Cart(models.Model):
 
 class UlasanCart(models.Model):
     cart = models.ForeignKey(Cart, blank=True, on_delete=models.CASCADE)
-    produkitem = models.ForeignKey(
-        Produk, blank=True, null=True, on_delete=models.CASCADE
-    )
+    produkitem = models.ForeignKey(Produk, blank=True, null=True, on_delete=models.CASCADE)
     pengiriman = models.FloatField(default=0)
     produk = models.FloatField(default=0)
     catatan = models.TextField(null=True, blank=True)
@@ -163,9 +158,7 @@ class ProdukChartItem(models.Model):
     harga = models.FloatField(null=True, blank=True)
     kategori = models.ManyToManyField(Kategori)
     detail = models.TextField(null=True, blank=True)
-    tipe = models.ForeignKey(
-        TipeProduk, blank=True, null=True, on_delete=models.CASCADE
-    )
+    tipe = models.ForeignKey(TipeProduk, blank=True, null=True, on_delete=models.CASCADE)
     warna = models.ManyToManyField(WarnaProduk, blank=True)
     stok_produk = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
@@ -195,9 +188,7 @@ class AddressUserChartItem(models.Model):
         (1, "Domestic"),
         (2, "Overseas"),
     ]
-    userprofile = models.ForeignKey(
-        UserCartItem, on_delete=models.CASCADE, null=True, blank=True
-    )
+    userprofile = models.ForeignKey(UserCartItem, on_delete=models.CASCADE, null=True, blank=True)
     typeaddress = models.IntegerField(choices=TYPE, default=1)
 
     name = models.CharField(max_length=255)
@@ -224,9 +215,7 @@ class StoreCartItem(models.Model):
 
 
 class StoreAddressCartItem(models.Model):
-    userstore = models.ForeignKey(
-        UserStore, blank=True, null=True, on_delete=models.CASCADE
-    )
+    userstore = models.ForeignKey(UserStore, blank=True, null=True, on_delete=models.CASCADE)
     address = models.TextField(blank=True, null=True)
     rt = models.CharField(max_length=10, blank=True, null=True)
     rw = models.CharField(max_length=10, blank=True, null=True)
@@ -243,15 +232,9 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     jumlah = models.IntegerField(default=1)
     produk = models.ForeignKey(Produk, on_delete=models.CASCADE)
-    produk_chart = models.ForeignKey(
-        ProdukChartItem, blank=True, null=True, on_delete=models.CASCADE
-    )
-    user_chart = models.ForeignKey(
-        UserCartItem, blank=True, null=True, on_delete=models.CASCADE
-    )
-    store_chart = models.ForeignKey(
-        StoreCartItem, blank=True, null=True, on_delete=models.CASCADE
-    )
+    produk_chart = models.ForeignKey(ProdukChartItem, blank=True, null=True, on_delete=models.CASCADE)
+    user_chart = models.ForeignKey(UserCartItem, blank=True, null=True, on_delete=models.CASCADE)
+    store_chart = models.ForeignKey(StoreCartItem, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return " cart " + self.unique_cart

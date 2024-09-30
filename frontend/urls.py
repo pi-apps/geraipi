@@ -10,7 +10,6 @@ from frontend.views.cancel_view import Cancel
 
 # Checkout
 from frontend.views.cart.add_to_cart_view import AddToCart
-from frontend.views.proccess.approve_view import Approve
 from frontend.views.cart.cart_json_view import CartJson
 from frontend.views.cart.toko_transaksi_view import TransaksiToko
 from frontend.views.completepayment_view import CompletePayment
@@ -32,6 +31,7 @@ from frontend.views.minus_plus_view import MinusPluss
 from frontend.views.payments_cart_view import PaymentsCart
 from frontend.views.piverification_view import VerificationCode
 from frontend.views.privacyandpolicy_view import PrivacyAndPolicy
+from frontend.views.proccess.approve_view import Approve
 from frontend.views.produk.produk_detail_view import ProdukDetail
 
 # produk
@@ -63,7 +63,7 @@ from frontend.views.toko.alamt_toko_tambah_view import AlamatTokoTambah
 from frontend.views.toko.archive_barang_view import ArchiveBarang
 
 # toko
-from frontend.views.toko.jual_view import Jual
+from frontend.views.toko.jual import Jual
 from frontend.views.toko.toko_view import Toko
 from frontend.views.toko_edit_view import TokoEdit
 from frontend.views.transaksi_selesai_view import TransaksiUserSelesaiJson
@@ -108,9 +108,7 @@ urlpatterns = [
     # toko
     path("toko/<int:id>/", Toko.as_view(), name="toko"),
     path("toko/<int:id>/profile/edit", TokoEdit.as_view(), name="toko_profile_edit"),
-    path(
-        "toko/<int:id>/list_produk/", ListProdukToko.as_view(), name="list_produk_toko"
-    ),
+    path("toko/<int:id>/list_produk/", ListProdukToko.as_view(), name="list_produk_toko"),
     path(
         "toko/<int:id>/produk/<int:produk_id>/edit",
         EditBarang.as_view(),
@@ -208,9 +206,7 @@ urlpatterns = [
     ),
     path("translate/json", TranslatedApi.as_view(), name="translated_json"),
     # firebase
-    path(
-        "firebase-messaging-sw.js", ServiceWorkerView.as_view(), name="service_worker"
-    ),
+    path("firebase-messaging-sw.js", ServiceWorkerView.as_view(), name="service_worker"),
     path("fcm-token", FcmSaveTokenView.as_view(), name="fcm_token"),
     path("validation-key.txt", VerificationCode.as_view(), name="verification"),
     path("sess/login", LoginView.as_view(), name="log_less"),

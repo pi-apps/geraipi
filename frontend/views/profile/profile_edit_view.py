@@ -18,9 +18,7 @@ class ProfileEdit(FrontPage):
         data.no_telepon = data.no_telepon or ""
         data.email = data.email or ""
         languages = LangSupport.objects.filter(is_active=True)
-        return render(
-            request, "profil/profiles_edit.html", {"data": data, "languages": languages}
-        )
+        return render(request, "profil/profiles_edit.html", {"data": data, "languages": languages})
 
     def post(self, request):
         models = request.user
@@ -32,8 +30,6 @@ class ProfileEdit(FrontPage):
         models.image_profile = request.FILES.get("gambars")
         models.save()
         languagescode = request.user.languages.code if request.user.languages else "en"
-        message = translater(
-            languagescode, "Sukses Menyimpan Profil", "Sukses Menyimpan Profil"
-        )
+        message = translater(languagescode, "Sukses Menyimpan Profil", "Sukses Menyimpan Profil")
         messages.success(request, message)
         return redirect("/profiles/edit")

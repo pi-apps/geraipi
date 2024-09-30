@@ -13,9 +13,7 @@ class WithdrawlRequestJson(FrontPage):
     def post(self, request):
         data = {"success": False}
         gettype = request.POST.get("jumlah", 0)
-        userwd = UserwithdrawlTransactionRequest.objects.filter(
-            user_id=request.user.id, status=1
-        )
+        userwd = UserwithdrawlTransactionRequest.objects.filter(user_id=request.user.id, status=1)
         userwd = userwd.aggregate(total=Sum("jumlah"))
         userwd = userwd["total"] or 0
 
@@ -26,7 +24,6 @@ class WithdrawlRequestJson(FrontPage):
                 usercoin = user.coin - userwd
                 if usercoin > gettype:
                     try:
-
                         UserwithdrawlTransactionRequest.objects.create(
                             user_id=request.user.id, jumlah=gettype, status=1
                         )

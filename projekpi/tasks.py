@@ -4,15 +4,13 @@ import time
 
 from celery import shared_task
 
-from master.models import (
-    Country,
-    Distric,
-    Provinsi,
-    Regency,
-    Region,
-    SubRegion,
-    Village,
-)
+from master.models.country import Country
+from master.models.distric import Distric
+from master.models.provinsi import Provinsi
+from master.models.regency import Regency
+from master.models.region import Region
+from master.models.subregion import SubRegion
+from master.models.village import Village
 
 
 @shared_task(name="api_check_availability")
@@ -70,9 +68,7 @@ def import_region():
 
 @shared_task(name="import_subregion")
 def import_subregion():
-    with open(
-        "data/subregions.json", encoding="utf-8", errors="ignore"
-    ) as read_subregion:
+    with open("data/subregions.json", encoding="utf-8", errors="ignore") as read_subregion:
         data_subregion = json.load(read_subregion)
         for subregion in data_subregion:
             subregion_model = SubRegion.objects.filter(
@@ -95,17 +91,13 @@ def import_subregion():
 
 @shared_task(name="import_country")
 def import_country():
-    with open(
-        "data/countries.json", encoding="utf-8", errors="ignore"
-    ) as read_countries:
+    with open("data/countries.json", encoding="utf-8", errors="ignore") as read_countries:
         data_countries = json.load(read_countries)
         for countries in data_countries:
             region = countries.get("region_id", None)
             subregion = countries.get("subregion_id", None)
             name = countries.get("name")
-            countries_model = Country.objects.filter(
-                region_id_id=region, subregion_id_id=subregion, name=name
-            ).first()
+            countries_model = Country.objects.filter(region_id_id=region, subregion_id_id=subregion, name=name).first()
             if countries_model:
                 print("is exist countri")
             else:
@@ -137,9 +129,7 @@ def import_provinsi():
         for row in spamreader:
             code = row[0]
             name = row[1]
-            province_model = Provinsi.objects.filter(
-                id=code, code=code, nama=name
-            ).first()
+            province_model = Provinsi.objects.filter(id=code, code=code, nama=name).first()
             if province_model:
                 print("Province exists")
             else:
@@ -161,9 +151,7 @@ def import_regency():
             if province_model:
                 print("regency exist")
             else:
-                province_model = Regency.objects.create(
-                    id=code, code=code, province_code_id=province_code, name=name
-                )
+                province_model = Regency.objects.create(id=code, code=code, province_code_id=province_code, name=name)
                 print("regency saved")
 
 
@@ -175,15 +163,11 @@ def import_district():
             code = row.get("code")
             regency_code = row.get("regency")
             name = row.get("name")
-            province_model = Distric.objects.filter(
-                id=code, code=code, regency_code_id=regency_code, name=name
-            ).first()
+            province_model = Distric.objects.filter(id=code, code=code, regency_code_id=regency_code, name=name).first()
             if province_model:
                 print("District exist")
             else:
-                province_model = Distric.objects.create(
-                    id=code, code=code, regency_code_id=regency_code, name=name
-                )
+                province_model = Distric.objects.create(id=code, code=code, regency_code_id=regency_code, name=name)
                 print("District saved")
 
 
@@ -195,13 +179,9 @@ def import_village():
             code = row.get("code")
             district_code = row.get("distric")
             name = row.get("name")
-            village_model = Village.objects.filter(
-                code=code, district_code_id=district_code, name=name
-            ).first()
+            village_model = Village.objects.filter(code=code, district_code_id=district_code, name=name).first()
             if village_model:
                 print("Village Exists")
             else:
-                Village.objects.create(
-                    code=code, district_code_id=district_code, name=name
-                )
+                Village.objects.create(code=code, district_code_id=district_code, name=name)
                 print("Village saved")

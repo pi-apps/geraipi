@@ -12,9 +12,7 @@ class MinusPluss(FrontPage):
     def get(self, request):
         data = None
         try:
-            cart_data = CartItem.objects.filter(
-                cart__user_id=request.user.id, cart__status=1
-            ).first()
+            cart_data = CartItem.objects.filter(cart__user_id=request.user.id, cart__status=1).first()
             typerequest = request.GET.get("type_request")
             if typerequest == "plus":
                 cart_data.jumlah = cart_data.jumlah + 1

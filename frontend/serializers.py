@@ -1,6 +1,9 @@
 from rest_framework import serializers
 
-from master.models import Distric, Provinsi, Regency, Village
+from master.models.distric import Distric
+from master.models.provinsi import Provinsi
+from master.models.regency import Regency
+from master.models.village import Village
 from produk.models import GambarProduk, Kategori, Produk
 from profiles.models import UserProfile, UserProfileAddress
 

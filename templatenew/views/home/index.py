@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from frontend.models import Banner, Pengumuman
-from master.models import Negara
+from master.models.negara import Negara
 from produk.models import Kategori
 from templatenew.views.base_view import BaseView
 

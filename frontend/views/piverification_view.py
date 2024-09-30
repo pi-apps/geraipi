@@ -1,7 +1,7 @@
 from django.shortcuts import HttpResponse
 from django.views import View
 
-from master.models import ConfigurationWebsite
+from master.models.configuration_website import ConfigurationWebsite
 
 
 class VerificationCode(View):

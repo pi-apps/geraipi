@@ -13,9 +13,7 @@ from .base_view import FrontPage
 @method_decorator(login_required, name="dispatch")
 class ListProdukToko(FrontPage):
     def get(self, request, id):
-        produk = Produk.objects.filter(
-            store__users_id=request.user.id, is_archive=False
-        )
+        produk = Produk.objects.filter(store__users_id=request.user.id, is_archive=False)
         store = UserStore.objects.filter(pk=id)
         data = {"produk": produk, "store": store}
         return render(request, "toko/listproduk.html", data)

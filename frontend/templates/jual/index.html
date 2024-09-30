@@ -21,9 +21,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="px-3 mt-3 mb-[60px] flex flex-col gap-2">
+<div class="px-8 pb-8 mt-3 flex flex-col gap-2">
     {% if messages %}
     <div class="bg-green-400 px-1 rounded-lg">
+        
         {% for message in messages %}
             {{ message }}
         {% endfor %}
@@ -43,7 +44,7 @@
         </div>
         <div class="mb-6">
             <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Bahasa Deskripsi" "Bahasa Deskripsi" %}</label>
-            <select id="bahasa" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="bahasa" required>
+            <select id="bahasa" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 select-adder" name="bahasa" required>
                 {% for k in languages %}
                 <option value="{{ k.code }}">{{ k.alias }}</option>
                 {% endfor %}
@@ -58,7 +59,7 @@
         </div>
         <div class="mb-6">
             <label class="block mb-2 font-medium text-slate-900">{% translater user.languages.code "Negara" "Negara" %}</label>
-            <select id="negara" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1" name="negara" required>
+            <select id="negara" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 select-adder" name="negara" required>
                 {% for k in country %}
                 <option value="{{ k.id }}">{{ k.name }}</option>
                 {% endfor %}
@@ -84,12 +85,12 @@
             </div>
         </div>
         <div class="mb-6">
-            <label class="block mb-2 font-medium text-slate-900" for="harga">{% translater user.languages.code "Harga" "Harge" %}</label>
+            <label class="block mb-2 font-medium text-slate-900" for="harga">{% translater user.languages.code "Harga" "Harga" %}</label>
             <div class="relative w-full">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                     <span class="text-slate-500 font-medium">𝛑</span>
                 </div>
-                <input name="harga" type="text" id="email-address-icon" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full focus:ring-blue-500 focus:border-blue-500 block pl-10 p-1" placeholder="Masukkan harga produk" />
+                <input name="harga" type="text" id="email-address-icon" class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full focus:ring-blue-500 focus:border-blue-500 block pl-10 p-1" placeholder="Masukkan harga produk" required/>
             </div>
         </div>
 
@@ -240,6 +241,9 @@
         if(vv){
             ck.setData(vv)
         }
+    })
+    $(document).ready(function(){
+        $(".select-adder").select2()
     })
 </script>
 {% endblock %}

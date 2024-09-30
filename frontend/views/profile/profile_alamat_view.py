@@ -25,15 +25,11 @@ class ProfileAlamat(FrontPage):
     def post(self, request):
         userss = request.user
         try:
-            usernames = UserProfileAddress.objects.filter(
-                userprofile_id=userss.id, pk=request.POST.get("id")
-            ).first()
+            usernames = UserProfileAddress.objects.filter(userprofile_id=userss.id, pk=request.POST.get("id")).first()
             usernames.is_primary = True
             usernames.save()
 
-            usernames = UserProfileAddress.objects.filter(
-                userprofile_id=userss.id
-            ).exclude(pk=request.POST.get("id"))
+            usernames = UserProfileAddress.objects.filter(userprofile_id=userss.id).exclude(pk=request.POST.get("id"))
             for a in usernames:
                 a.is_primary = False
                 a.save()

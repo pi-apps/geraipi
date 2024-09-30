@@ -7,8 +7,6 @@ from frontend.views.base_view import FrontPage
 
 class Approve(FrontPage):
     def get(self, request, id):
-        # settingweb = SettingWebsite.objects.filter(nama_pengaturan=1).first()
-        print(self.configuration.api_key_pi)
         settingweb = self.configuration.api_key_pi
         header = {"Authorization": "Key " + settingweb}
         postdata = requests.post(

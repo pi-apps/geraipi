@@ -13,7 +13,7 @@ from django.utils.html import format_html
 from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import credentials, messaging
 
-from master.models import ConfigurationWebsite
+from master.models.configuration_website import ConfigurationWebsite
 from profiles.models import (
     LangSupport,
     Tier,
@@ -170,13 +170,9 @@ class UserWithdrawlRequestAdmin(admin.ModelAdmin):
     def list_action(self, obj):
         objs = "Selesai"
         if obj.status == 1:
-            reverse_url = reverse(
-                "admin:user_withdrawl_request_admin_json_request_action"
-            )
+            reverse_url = reverse("admin:user_withdrawl_request_admin_json_request_action")
             objs = format_html(
-                '<a href="{}" class="btn btn-success btn-sm">Selesai</a>'.format(
-                    reverse_url + "?id=" + str(obj.pk)
-                )
+                '<a href="{}" class="btn btn-success btn-sm">Selesai</a>'.format(reverse_url + "?id=" + str(obj.pk))
             )
         return objs
 
@@ -188,17 +184,13 @@ class UserWithdrawlRequestAdmin(admin.ModelAdmin):
         if not firebase_admin._apps:
             cred = credentials.Certificate(config.konfigurasi_firebase.path)
             firebase_admin.initialize_app(cred)
-        modelresponse = UserwithdrawlTransactionRequest.objects.filter(
-            id=request.GET.get("id")
-        ).first()
+        modelresponse = UserwithdrawlTransactionRequest.objects.filter(id=request.GET.get("id")).first()
         if modelresponse:
             modelresponse.status = 2
             modelresponse.save()
 
             if modelresponse.status == 2:
-                UserWithdrawlTransaction.objects.create(
-                    user=request.user, jumlah=modelresponse.jumlah
-                )
+                UserWithdrawlTransaction.objects.create(user=request.user, jumlah=modelresponse.jumlah)
                 userprofile = request.user
                 float_coin = float(userprofile.coin)
                 float_jumlah = float(modelresponse.jumlah)
@@ -222,9 +214,7 @@ class UserWithdrawlRequestAdmin(admin.ModelAdmin):
                         print(e)
                 else:
                     print("masuk")
-        return redirect(
-            reverse("admin:profiles_userwithdrawltransactionrequest_changelist")
-        )
+        return redirect(reverse("admin:profiles_userwithdrawltransactionrequest_changelist"))
 
     def get_urls(self) -> list[URLPattern]:
         super_url = super().get_urls()

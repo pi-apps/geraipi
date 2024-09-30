@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from frontend.models import Banner, Pengumuman
 from frontend.views.base_view import FrontPage
-from master.models import Negara
+from master.models.negara import Negara
 from produk.models import Kategori, Produk
 
 

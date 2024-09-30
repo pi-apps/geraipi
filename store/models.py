@@ -1,6 +1,9 @@
 from django.db import models
 
-from master.models import Distric, Provinsi, Regency, Village
+from master.models.distric import Distric
+from master.models.provinsi import Provinsi
+from master.models.regency import Regency
+from master.models.village import Village
 
 # from django.contrib.auth.models import User
 from profiles.models import UserProfile
@@ -23,9 +26,7 @@ class UserStore(models.Model):
 
 
 class UserStoreAddress(models.Model):
-    userstore = models.ForeignKey(
-        UserStore, blank=True, null=True, on_delete=models.CASCADE
-    )
+    userstore = models.ForeignKey(UserStore, blank=True, null=True, on_delete=models.CASCADE)
     address = models.TextField(blank=True, null=True)
     rt = models.CharField(max_length=10, blank=True, null=True)
     rw = models.CharField(max_length=10, blank=True, null=True)
@@ -50,9 +51,7 @@ class UserStoreWdHistory(models.Model):
 
 
 class UserNotification(models.Model):
-    notificationfor = models.ForeignKey(
-        UserProfile, null=True, on_delete=models.CASCADE
-    )
+    notificationfor = models.ForeignKey(UserProfile, null=True, on_delete=models.CASCADE)
     notificationfrom = models.CharField(null=True, blank=True, max_length=255)
 
     def __str__(self) -> str:

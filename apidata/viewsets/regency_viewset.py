@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
 from apidata.serializers.regency_serializer import RegencySerializer
-from master.models import Regency
+from master.models.regency import Regency
 
 
 class RegencyViewSet(viewsets.ModelViewSet):

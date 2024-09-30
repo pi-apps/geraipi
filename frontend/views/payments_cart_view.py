@@ -51,9 +51,7 @@ class PaymentsCart(FrontPage):
         api_key = self.configuration.api_key_pi
 
         data_url = "https://api.minepi.com/v2/payments/" + param
-        requestdata = requests.get(
-            data_url, headers={"Authorization": "Key " + api_key}, timeout=500000
-        )
+        requestdata = requests.get(data_url, headers={"Authorization": "Key " + api_key}, timeout=500000)
 
         cart_id = request.GET.get("cart_id")
         requestjson = requestdata.json()

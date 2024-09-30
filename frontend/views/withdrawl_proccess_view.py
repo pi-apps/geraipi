@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from master.models import HistoriTampung
+from master.models.history_tampung import HistoriTampung
 from profiles.models import UserWithdrawlTransaction
 from projekpi.pi_network import PiNetwork
 
@@ -31,9 +31,7 @@ class WithdrawlProcess(FrontPage):
                     txid = pi.submit_payment(payment_id, False)
                     pi.complete_payment(payment_id, txid)
 
-                    UserWithdrawlTransaction.objects.create(
-                        user=request.user, jumlah=jumlah
-                    )
+                    UserWithdrawlTransaction.objects.create(user=request.user, jumlah=jumlah)
 
                     pajaks = HistoriTampung(jumlah=jumlah)
                     pajaks.save()

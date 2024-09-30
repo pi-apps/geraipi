@@ -18,9 +18,7 @@ class Profile(FrontPage):
                 profile = None
             else:
                 url_data = url_data + get_query_string(profile)
-            profile_setting = UserSettingsMember.objects.filter(
-                user_id=profile.id
-            ).last()
+            profile_setting = UserSettingsMember.objects.filter(user_id=profile.id).last()
             stores = UserStore.objects.filter(users_id=profile.id).first()
             is_registered = False
             if profile_setting.tier:

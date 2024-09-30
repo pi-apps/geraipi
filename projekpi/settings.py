@@ -64,7 +64,9 @@ INSTALLED_APPS = [
     "apidata",
     "django_extensions",
     "sesame",
-    "django_vite_plugin"
+    "django_vite_plugin",
+    'django_db_logger',
+    "transaction"
 ]
 
 MIDDLEWARE = [
@@ -291,4 +293,34 @@ DJANGO_VITE_PLUGIN = {
     "BUILD_DIR": "static/buildvite",
     "BUILD_URL_PREFIX": "/" + STATIC_URL + "buildvite",
     "DEV_MODE": False   ,
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'handlers': {
+        'db_log': {
+            'level': 'DEBUG',
+            'class': 'django_db_logger.db_log_handler.DatabaseLogHandler'
+        },
+    },
+    'loggers': {
+        'db': {
+            'handlers': ['db_log'],
+            'level': 'DEBUG'
+        },
+        'django.request': { # logging 500 errors to database
+            'handlers': ['db_log'],
+            'level': 'ERROR',
+            'propagate': False,
+        }
+    }
 }

@@ -9,8 +9,9 @@ from django.views.decorators.csrf import csrf_exempt
 from firebase_admin import messaging
 
 from frontend.views.base_view import FrontPage
+from master.models.expedisi import Expedisi
 from produk.models import Cart, CartItem
-from store.models import Expedisi, UserStore
+from store.models import UserStore
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -42,21 +43,15 @@ class TransaksiToko(FrontPage):
                         )
                         return redirect(f"{urls_redirect}?status={str(status)}")
                     from apidata.resi_check import ResiCheck
-                    from master.models import ConfigurationWebsite
+                    from master.models.configuration_website import ConfigurationWebsite
 
                     konfigurasi = ConfigurationWebsite.get_solo()
-                    cekinit = ResiCheck(
-                        url=konfigurasi.url_check_resi, api=konfigurasi.api_check_resi
-                    )
-                    code_expedisi = Expedisi.objects.get(
-                        id=request.POST.get("expedisi")
-                    )
+                    cekinit = ResiCheck(url=konfigurasi.url_check_resi, api=konfigurasi.api_check_resi)
+                    code_expedisi = Expedisi.objects.get(id=request.POST.get("expedisi"))
                     status_posisi = "dikirim"
                     if not konfigurasi.bypass_expedisi:
                         if code_expedisi.source_request == 1:
-                            cekresi = cekinit.check_resi(
-                                resi=resi, courier=code_expedisi.code
-                            )
+                            cekresi = cekinit.check_resi(resi=resi, courier=code_expedisi.code)
                             if cekresi.status_code != 200:
                                 url_redirect = reverse(
                                     "transaksi_toko",
@@ -73,9 +68,7 @@ class TransaksiToko(FrontPage):
                                 return redirect(f"{url_redirect}?status={str(status)}")
                         elif code_expedisi.source_request == 2:
                             cekinit.api = konfigurasi.api_biteship
-                            cekresi = cekinit.check_resi_bitesip(
-                                resi=resi, courier=code_expedisi.code
-                            )
+                            cekresi = cekinit.check_resi_bitesip(resi=resi, courier=code_expedisi.code)
                             if cekresi.status_code != 200:
                                 cart.save()
                                 messages.success(request, "Nomor resi valid")
@@ -153,9 +146,7 @@ class TransaksiToko(FrontPage):
                 to = [
                     request.user.email,
                 ]
-                sendd = EmailMessage(
-                    subject, html, from_email, to, connection=connection
-                )
+                sendd = EmailMessage(subject, html, from_email, to, connection=connection)
                 sendd.content_subtype = "html"
                 sendd.send()
         except SMTPException as e:

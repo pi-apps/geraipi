@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
 from frontend.serializers import DistricSerializer
-from master.models import Distric
+from master.models.distric import Distric
 
 
 class DistricViewset(viewsets.ModelViewSet):

@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, viewsets
 
 from frontend.serializers import ProvinsiSerializer
-from master.models import Provinsi
+from master.models.provinsi import Provinsi
 
 
 class ProvinsiViewset(viewsets.ModelViewSet):

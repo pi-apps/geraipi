@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from frontend.views.base_view import FrontPage
-from master.models import Country
+from master.models.country import Country
 from produk.models import (
     DeskripsiProduk,
     GambarProduk,
@@ -75,9 +75,7 @@ class EditBarang(FrontPage):
             produk.harga = harga
             produk.berat = berat
             produk.lebar = lebar
-            produk.cross_boarder = (
-                True if request.POST.get("cross_boarder", None) else False
-            )
+            produk.cross_boarder = True if request.POST.get("cross_boarder", None) else False
             produk.tipe_id = tipe_post
             produk.save()
 
@@ -106,48 +104,34 @@ class EditBarang(FrontPage):
             filess3 = request.FILES.get("gambar3")
 
             if filess1:
-                gproduk = GambarProduk.objects.filter(
-                    sortings=1, produk_id=produk.pk
-                ).first()
+                gproduk = GambarProduk.objects.filter(sortings=1, produk_id=produk.pk).first()
                 if not gproduk:
-                    GambarProduk.objects.create(
-                        sortings=1, produk=produk, nama=nama, gambar=filess1
-                    )
+                    GambarProduk.objects.create(sortings=1, produk=produk, nama=nama, gambar=filess1)
                 else:
                     gproduk.nama = nama
                     gproduk.gambar = filess1
                     gproduk.save()
 
             if filess2:
-                gproduk = GambarProduk.objects.filter(
-                    sortings=2, produk_id=produk.pk
-                ).first()
+                gproduk = GambarProduk.objects.filter(sortings=2, produk_id=produk.pk).first()
                 if not gproduk:
-                    GambarProduk.objects.create(
-                        sortings=2, produk=produk, nama=nama, gambar=filess2
-                    )
+                    GambarProduk.objects.create(sortings=2, produk=produk, nama=nama, gambar=filess2)
                 else:
                     gproduk.nama = nama
                     gproduk.gambar = filess2
                     gproduk.save()
 
             if filess3:
-                gproduk = GambarProduk.objects.filter(
-                    sortings=3, produk_id=produk.pk
-                ).first()
+                gproduk = GambarProduk.objects.filter(sortings=3, produk_id=produk.pk).first()
                 if not gproduk:
-                    GambarProduk.objects.create(
-                        sortings=3, produk=produk, nama=nama, gambar=filess3
-                    )
+                    GambarProduk.objects.create(sortings=3, produk=produk, nama=nama, gambar=filess3)
                 else:
                     gproduk.nama = nama
                     gproduk.gambar = filess3
                     gproduk.save()
             lang = LangSupport.objects.get(code=request.POST.get("bahasa", "id"))
             input_data = request.POST.get("deskripsi|" + lang.code)
-            DeskripsiProduk.objects.create(
-                produk=produk, languange=lang, deskripsi=input_data
-            )
+            DeskripsiProduk.objects.create(produk=produk, languange=lang, deskripsi=input_data)
         except Exception as e:
             messages.error(request, f"Produk Tidak ada : {e.getMessage()}")
         return redirect(reverse("list_produk_toko", kwargs={"id": str(id)}))

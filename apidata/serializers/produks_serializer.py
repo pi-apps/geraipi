@@ -35,9 +35,7 @@ class KategoriSerializer(serializers.HyperlinkedModelSerializer):
             user = None
         else:
             languanges_code = user.languages.code if user.languages else "id"
-        translate_text = translater(
-            translate_to=languanges_code, page=obj.nama, values=obj.nama
-        )
+        translate_text = translater(translate_to=languanges_code, page=obj.nama, values=obj.nama)
         return translate_text
 
 
@@ -57,9 +55,7 @@ class TipeProdukSerializer(serializers.HyperlinkedModelSerializer):
             user = None
         else:
             languanges_code = user.languages.code if user.languages else "id"
-        translate_text = translater(
-            translate_to=languanges_code, page=obj.nama, values=obj.nama
-        )
+        translate_text = translater(translate_to=languanges_code, page=obj.nama, values=obj.nama)
         return translate_text
 
 
@@ -79,14 +75,11 @@ class WarnaProdukSerializer(serializers.HyperlinkedModelSerializer):
             user = None
         else:
             languanges_code = user.languages.code if user.languages else "id"
-        translate_text = translater(
-            translate_to=languanges_code, page=obj.nama, values=obj.nama
-        )
+        translate_text = translater(translate_to=languanges_code, page=obj.nama, values=obj.nama)
         return translate_text
 
 
 class GambarProdukSerializer(serializers.HyperlinkedModelSerializer):
-
     class Meta:
         model = GambarProduk
         fields = ["gambar", "nama"]
@@ -144,10 +137,7 @@ class ProdukSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_count_star(self, obj):
         countstar = (
-            UlasanCart.objects.filter(produkitem_id=obj.id).aggregate(Avg("produk"))[
-                "produk__avg"
-            ]
-            or 0  # noqa: W503
+            UlasanCart.objects.filter(produkitem_id=obj.id).aggregate(Avg("produk"))["produk__avg"] or 0  # noqa: W503
         )
         return countstar
 
@@ -156,9 +146,7 @@ class ProdukSerializer(serializers.HyperlinkedModelSerializer):
         return urldetail
 
     def get_gambar(self, obj):
-        gambars = GambarProduk.objects.filter(
-            produk__pk=obj.pk, gambar__isnull=False
-        ).order_by("-pk")
+        gambars = GambarProduk.objects.filter(produk__pk=obj.pk, gambar__isnull=False).order_by("-pk")
         return GambarProdukSerializer(gambars, many=True).data
 
     def get_store(self, obj):

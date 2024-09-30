@@ -18,9 +18,7 @@ class TransaksiUserSelesaiJson(FrontPage):
                 carts.save()
 
                 userprofile = UserStore.objects.get(pk=cartitem.produk.store.id)
-                userprofile.coin += float(cartitem.jumlah) * float(
-                    cartitem.produk.harga
-                )
+                userprofile.coin += float(cartitem.jumlah) * float(cartitem.produk.harga)
                 userprofile.save()
         except Exception as e:
             print(e)

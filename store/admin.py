@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from store.models import Expedisi, UserStore, UserStoreAddress
+from master.models.expedisi import Expedisi
+from store.models import UserStore, UserStoreAddress
 
 from .forms import UserStoreForm
 

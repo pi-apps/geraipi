@@ -18,9 +18,7 @@ class TelegramService:
 
             sent_code = self.app.send_code(self.nomor_telepon)
 
-            signed_in = self.app.sign_in(
-                self.nomor_telepon, sent_code.phone_code_hash, code
-            )
+            signed_in = self.app.sign_in(self.nomor_telepon, sent_code.phone_code_hash, code)
 
             if isinstance(signed_in, User):
                 return signed_in

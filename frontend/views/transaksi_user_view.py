@@ -16,9 +16,9 @@ class TransaksiUsers(FrontPage):
             "diproses": cart.filter(status=2).count(),
             "dikirim": cart.filter(status=3).count(),
         }
-        transaksi_data = CartItem.objects.filter(
-            cart__user_id=request.user.id, cart__status_pembayaran__gte=2
-        ).filter(cart__status=request.GET.get("status", 1))
+        transaksi_data = CartItem.objects.filter(cart__user_id=request.user.id, cart__status_pembayaran__gte=2).filter(
+            cart__status=request.GET.get("status", 1)
+        )
         data = {
             "transaksi": transaksi_status,
             "transaksi_data": transaksi_data,
@@ -26,17 +26,13 @@ class TransaksiUsers(FrontPage):
         return render(request, "profil/transaksi_user.html", data)
 
     def post(self, request):
-        userstore = Cart.objects.filter(
-            user_id=request.user.id, status_pembayaran__gte=2
-        )
+        userstore = Cart.objects.filter(user_id=request.user.id, status_pembayaran__gte=2)
         userstore = userstore.filter(pk=request.POST.get("id")).first()
         userstore.status = 4
         userstore.status_toko = 4
         userstore.save()
         userstore_item = CartItem.objects.filter(cart_id=userstore.id).first()
         userstore_store = userstore_item.produk_chart.store
-        userstore_store.coin = float(userstore_store.coin) + float(
-            userstore_item.produk.harga
-        )
+        userstore_store.coin = float(userstore_store.coin) + float(userstore_item.produk.harga)
         userstore_store.save()
         return redirect("/transaksi/users/list?status=" + request.GET.get("status"))

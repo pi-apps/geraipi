@@ -3,7 +3,10 @@ from django.db import models
 from django.urls import reverse
 from django_resized import ResizedImageField
 
-from master.models import Distric, Provinsi, Regency, Village
+from master.models.distric import Distric
+from master.models.provinsi import Provinsi
+from master.models.regency import Regency
+from master.models.village import Village
 from profiles.helper import get_random
 
 from .managers import UserManager
@@ -29,16 +32,12 @@ class LangSupport(models.Model):
 
 
 class UserProfile(AbstractUser):
-    image_profile = ResizedImageField(
-        force_format="WEBP", quality=75, upload_to="profile_img/", blank=True, null=True
-    )
+    image_profile = ResizedImageField(force_format="WEBP", quality=75, upload_to="profile_img/", blank=True, null=True)
     wallet = models.CharField(max_length=255, null=True, blank=True)
     no_telepon = models.CharField(max_length=255, null=True, blank=True)
     nama = models.CharField(max_length=255, blank=True, null=True)
     language = models.CharField(max_length=4, blank=True, null=True, default="ID")
-    languages = models.ForeignKey(
-        LangSupport, blank=True, null=True, on_delete=models.SET_NULL
-    )
+    languages = models.ForeignKey(LangSupport, blank=True, null=True, on_delete=models.SET_NULL)
     typeuser = models.IntegerField(choices=TYPE, default=1)
     coin = models.FloatField(default=0)
     fcm_token = models.TextField(null=True, blank=True)
@@ -56,9 +55,7 @@ class UserProfile(AbstractUser):
     def is_stores(self):
         from store.models import UserStore
 
-        user_stores = UserStore.objects.filter(
-            users_id=self.id, is_active_store=True
-        ).first()
+        user_stores = UserStore.objects.filter(users_id=self.id, is_active_store=True).first()
         return user_stores or None
 
     @property
@@ -78,18 +75,10 @@ class UserProfileAddress(models.Model):
     zipcode = models.CharField(max_length=255, default="-")
     is_primary = models.BooleanField(default=False)
 
-    province = models.ForeignKey(
-        Provinsi, on_delete=models.CASCADE, null=True, blank=True
-    )
-    regency = models.ForeignKey(
-        Regency, on_delete=models.CASCADE, null=True, blank=True
-    )
-    distric = models.ForeignKey(
-        Distric, on_delete=models.CASCADE, null=True, blank=True
-    )
-    village = models.ForeignKey(
-        Village, on_delete=models.CASCADE, null=True, blank=True
-    )
+    province = models.ForeignKey(Provinsi, on_delete=models.CASCADE, null=True, blank=True)
+    regency = models.ForeignKey(Regency, on_delete=models.CASCADE, null=True, blank=True)
+    distric = models.ForeignKey(Distric, on_delete=models.CASCADE, null=True, blank=True)
+    village = models.ForeignKey(Village, on_delete=models.CASCADE, null=True, blank=True)
     rt = models.CharField(max_length=5, blank=True, null=True)
     rw = models.CharField(max_length=5, blank=True, null=True)
 
@@ -105,9 +94,7 @@ class UserProfileAddress(models.Model):
 
 
 class UserWithdrawlTransaction(models.Model):
-    user = models.ForeignKey(
-        UserProfile, on_delete=models.SET_NULL, blank=True, null=True
-    )
+    user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, blank=True, null=True)
     jumlah = models.FloatField(default=0)
     tanggal = models.DateTimeField(auto_now=True, auto_created=True)
 
@@ -118,9 +105,7 @@ class UserWithdrawlTransaction(models.Model):
 class UserwithdrawlTransactionRequest(models.Model):
     REQUEST_STATUS = ((1, "Request User"), (2, "Selesai Diproses"))
     kode = models.CharField(max_length=255, default=get_random())
-    user = models.ForeignKey(
-        UserProfile, on_delete=models.SET_NULL, blank=True, null=True
-    )
+    user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, blank=True, null=True)
     jumlah = models.FloatField(default=0.0)
     tanggal = models.DateTimeField(auto_now=True, auto_created=True)
     status = models.IntegerField(choices=REQUEST_STATUS, blank=True, null=True)
@@ -130,9 +115,7 @@ class UserwithdrawlTransactionRequest(models.Model):
 
 
 class UserAppliedMember(models.Model):
-    user = models.ForeignKey(
-        UserProfile, on_delete=models.SET_NULL, blank=True, null=True
-    )
+    user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, blank=True, null=True)
     name = models.CharField(blank=False, max_length=255)
     email = models.EmailField(blank=True, null=True)
     nomor = models.CharField(blank=True, null=True, max_length=255)
@@ -143,9 +126,7 @@ class UserAppliedMember(models.Model):
     def save(self, *args, **kwargs):
         if self.is_accept:
             self.create_generator()
-        super(UserAppliedMember, self).save(
-            *args, **kwargs
-        )  # Call the real save() method
+        super(UserAppliedMember, self).save(*args, **kwargs)  # Call the real save() method
 
     def create_generator(self):
         usergenerator = UserCodeGenerator()
@@ -160,9 +141,7 @@ class UserAppliedMember(models.Model):
 
 
 class UserCodeGenerator(models.Model):
-    user_apply = models.ForeignKey(
-        UserAppliedMember, on_delete=models.SET_NULL, blank=True, null=True
-    )
+    user_apply = models.ForeignKey(UserAppliedMember, on_delete=models.SET_NULL, blank=True, null=True)
     code = models.CharField(max_length=50)
     quota_withdrawl = models.IntegerField(default=0)
     bypass_waiting = models.BooleanField(default=False)
@@ -187,9 +166,7 @@ class Tier(models.Model):
 
 class UserSettingsMember(models.Model):
     code = models.CharField(blank=True, null=True, max_length=50)
-    user = models.ForeignKey(
-        UserProfile, on_delete=models.CASCADE, blank=True, null=True
-    )
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True, null=True)
     kuota = models.IntegerField(default=0)
     is_active_store = models.BooleanField(default=False)
     tier = models.ForeignKey(Tier, blank=True, null=True, on_delete=models.SET_NULL)

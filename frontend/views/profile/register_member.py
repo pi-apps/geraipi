@@ -37,16 +37,12 @@ class RegisterMember(FrontPage):
         return redirect(reverse("register_member"))
 
     def get(self, request):
-        applied = UserAppliedMember.objects.filter(
-            user_id=request.user.id, is_accept=False
-        )
+        applied = UserAppliedMember.objects.filter(user_id=request.user.id, is_accept=False)
         accept = False
         if applied.exists():
             applied = applied.last()
             accept = True
-        applied_true = UserAppliedMember.objects.filter(
-            user_id=request.user.id, is_accept=True
-        )
+        applied_true = UserAppliedMember.objects.filter(user_id=request.user.id, is_accept=True)
         if applied_true.exists():
             applied_true = applied_true.last()
             code = UserCodeGenerator.objects.filter(user_apply_id=applied_true.id)

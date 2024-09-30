@@ -13,27 +13,17 @@ from store.models import UserStore, UserStoreAddress
 class AlamatToko(FrontPage):
     def get(self, request, id):
         userprofile = UserStore.objects.get(users_id=request.user.id)
-        userprofileaddress = UserStoreAddress.objects.filter(
-            userstore_id=userprofile.id
-        )
-        return render(
-            request, "toko/alamat.html", {"address": userprofileaddress, "id": id}
-        )
+        userprofileaddress = UserStoreAddress.objects.filter(userstore_id=userprofile.id)
+        return render(request, "toko/alamat.html", {"address": userprofileaddress, "id": id})
 
     def post(self, request, id):
         userprofile = UserStore.objects.get(users_id=request.user.id)
-        userprofileaddress = UserStoreAddress.objects.filter(
-            userstore_id=userprofile.id
-        )
-        userprofileaddress = userprofileaddress.filter(
-            pk=request.POST.get("id")
-        ).first()
+        userprofileaddress = UserStoreAddress.objects.filter(userstore_id=userprofile.id)
+        userprofileaddress = userprofileaddress.filter(pk=request.POST.get("id")).first()
         userprofileaddress.is_primary = True
         userprofileaddress.save()
 
-        userprofileaddress = UserStoreAddress.objects.filter(
-            userstore_id=userprofile.id
-        )
+        userprofileaddress = UserStoreAddress.objects.filter(userstore_id=userprofile.id)
         userprofileaddress = userprofileaddress.exclude(pk=request.POST.get("id"))
         for p in userprofileaddress:
             p.is_primary = False

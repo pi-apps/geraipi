@@ -81,9 +81,7 @@ class AddToCart(FrontPage):
         user_cart.save()
         user_cart = UserCartItem.objects.get(pk=user_cart.id)
 
-        addr_user = UserProfileAddress.objects.filter(
-            userprofile_id=request.user.pk, is_primary=True
-        ).first()
+        addr_user = UserProfileAddress.objects.filter(userprofile_id=request.user.pk, is_primary=True).first()
         user_cart_address = AddressUserChartItem()
         user_cart_address.address = addr_user.address
         user_cart_address.province = addr_user.province

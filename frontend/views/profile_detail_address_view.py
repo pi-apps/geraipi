@@ -16,9 +16,7 @@ class DetailProfileAddressMain(FrontPage):
             usernames = UserProfileAddress.objects.get(userprofile_id=userss.pk, pk=id)
             usernames.is_primary = True
             usernames.save()
-            useraddress2 = UserProfileAddress.objects.filter(
-                userprofile_id=userss.pk
-            ).exclude(id=id)
+            useraddress2 = UserProfileAddress.objects.filter(userprofile_id=userss.pk).exclude(id=id)
             for useraddresss in useraddress2:
                 useraddresss.is_primary = False
                 useraddresss.save()

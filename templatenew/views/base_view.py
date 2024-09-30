@@ -4,7 +4,7 @@ import firebase_admin
 from django.views import View
 from firebase_admin import credentials
 
-from master.models import ConfigurationWebsite
+from master.models.configuration_website import ConfigurationWebsite
 
 
 class BaseView(View):

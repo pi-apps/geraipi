@@ -12,9 +12,7 @@ from .base_view import FrontPage
 class Beli(FrontPage):
     def get(self, request, id):
         profile = request.user
-        alamat = UserProfileAddress.objects.filter(
-            userprofile_id=profile.pk, is_primary=True
-        )
+        alamat = UserProfileAddress.objects.filter(userprofile_id=profile.pk, is_primary=True)
         alamat = alamat.first()
         # pajak = SettingWebsite.objects.filter(nama_pengaturan=3).first()
         pajak = self.configuration.pajak_beli
@@ -22,9 +20,7 @@ class Beli(FrontPage):
         cart_data = None
         try:
             cart = Cart.objects.get(user_id=request.user.id, status_pembayaran=1, pk=id)
-            cart_data = CartItem.objects.filter(
-                cart__user=request.user, cart__status_pembayaran=1
-            ).latest("pk")
+            cart_data = CartItem.objects.filter(cart__user=request.user, cart__status_pembayaran=1).latest("pk")
             jumlah = 0
             harga = cart_data.jumlah * cart_data.produk.harga
             jumlah = jumlah + harga

@@ -33,11 +33,7 @@ class PiNetwork:
 
     def get_balance(self):
         try:
-            balances = (
-                self.server.accounts()
-                .account_id(self.keypair.public_key)
-                .call()["balances"]
-            )
+            balances = self.server.accounts().account_id(self.keypair.public_key).call()["balances"]
             # balance_found = False
             for i in balances:
                 if i["asset_type"] == "native":
@@ -57,19 +53,13 @@ class PiNetwork:
             if not self.validate_payment_data(payment_data):
                 if __debug__:
                     print("No valid payments found. Creating a new one...")
-            balances = (
-                self.server.accounts()
-                .account_id(self.keypair.public_key)
-                .call()["balances"]
-            )
+            balances = self.server.accounts().account_id(self.keypair.public_key).call()["balances"]
             balance_found = False
             for i in balances:
                 if i["asset_type"] == "native":
                     balance_found = True
                     payment_data_float = float(payment_data["amount"])
-                    if (payment_data_float + (float(self.fee) / 10000000)) > float(
-                        i["balance"]
-                    ):
+                    if (payment_data_float + (float(self.fee) / 10000000)) > float(i["balance"]):
                         return ""
                     break
 
@@ -82,9 +72,7 @@ class PiNetwork:
 
             obj = json.dumps(obj)
             url = self.base_url + "/v2/payments"
-            re = requests.post(
-                url, data=obj, json=obj, headers=self.get_http_headers(), timeout=500000
-            )
+            re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers(), timeout=500000)
             parsed_response = self.handle_http_response(re)
 
             identifier = parsed_response["identifier"]
@@ -102,11 +90,7 @@ class PiNetwork:
         else:
             payment = pending_payment
 
-        balances = (
-            self.server.accounts()
-            .account_id(self.keypair.public_key)
-            .call()["balances"]
-        )
+        balances = self.server.accounts().account_id(self.keypair.public_key).call()["balances"]
         balance_found = False
         for i in balances:
             if i["asset_type"] == "native":
@@ -151,18 +135,14 @@ class PiNetwork:
 
         obj = json.dumps(obj)
         url = self.base_url + "/v2/payments/" + identifier + "/complete"
-        re = requests.post(
-            url, data=obj, json=obj, headers=self.get_http_headers(), timeout=500000
-        )
+        re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers(), timeout=500000)
         self.handle_http_response(re)
 
     def cancel_payment(self, identifier):
         obj = {}
         obj = json.dumps(obj)
         url = self.base_url + "/v2/payments/" + identifier + "/cancel"
-        re = requests.post(
-            url, data=obj, json=obj, headers=self.get_http_headers(), timeout=500000
-        )
+        re = requests.post(url, data=obj, json=obj, headers=self.get_http_headers(), timeout=500000)
         self.handle_http_response(re)
 
     def cancel_payment_user(self, identifier):
