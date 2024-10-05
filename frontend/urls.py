@@ -77,6 +77,7 @@ from frontend.views.withdrawl_request_json_view import WithdrawlRequestJson
 from frontend.views.withdrawl_toko_view import WithdrawlToko
 from frontend.views.withdrawl_view import Withdrawl
 from frontend.views.withdrawltokojson_view import WithdrawlTokoJson
+from frontend.views.toko.report import ReportToko
 
 urlpatterns = [
     path("", Splash.as_view(), name="splash"),
@@ -137,6 +138,8 @@ urlpatterns = [
         name="withdrawl_toko_json",
     ),
     path("toko/<int:id>/transaksi/", TransaksiToko.as_view(), name="transaksi_toko"),
+    path("toko/transaksi/<int:id>/report", ReportToko.as_view(), name="toko_laporkan"),
+
     # user
     path("user/withdrawl/", Withdrawl.as_view(), name="withdrawl"),
     path(

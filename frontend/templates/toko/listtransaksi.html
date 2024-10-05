@@ -194,7 +194,7 @@
                             {% if tr.cart.status_toko == 2 %}
                             <button class="btn btn-sm btn-success" type="button" onclick="sendKurir('transaksi-{{tr.cart.id}}')">Kirim</button>
                             {% elif tr.cart.status_toko == 3 %}
-                            <a class="btn btn-sm btn-success" href="#">Laporkan</a>
+                            <a class="btn btn-sm btn-success" href="{% url 'toko_laporkan' id=tr.cart.id %}">Laporkan</a>
                             {% endif %}
                             <!-- if there is a button in form, it will close the modal -->
                             <button class="btn btn-sm" type="submit">Close</button>

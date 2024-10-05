@@ -1,0 +1,30 @@
+{% extends 'layout.html' %} 
+{% load static translater%} 
+{% load i18n %}
+{% block content %}
+<div class="mt-3 mb-4 min-h-screen mx-5">
+    <div class="card max-w-full">
+        <div class="card-body p-[1rem]">
+            <div class="">
+                Laporan Toko <b>{{ user_toko }}</b>
+            </div>
+            <div>
+                <table class="w-full">
+                    <tr>
+                        <td class="w-[1rem]" >Pembeli</td>
+                        <td class="px-1 w-[.1rem]">:</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="w-[1rem]">Catatan</td>
+                        <td class="px-1 w-[.1rem]">:</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block bottom_nav %}
+{% endblock %}
