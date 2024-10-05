@@ -20,4 +20,3 @@ class DistricResource(resources.ModelResource):
 
 class DistricAdmin(ImportExportModelAdmin):
     resource_classes = [DistricResource]
-

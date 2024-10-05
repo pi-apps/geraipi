@@ -139,7 +139,6 @@ urlpatterns = [
     ),
     path("toko/<int:id>/transaksi/", TransaksiToko.as_view(), name="transaksi_toko"),
     path("toko/transaksi/<int:id>/report", ReportToko.as_view(), name="toko_laporkan"),
-
     # user
     path("user/withdrawl/", Withdrawl.as_view(), name="withdrawl"),
     path(

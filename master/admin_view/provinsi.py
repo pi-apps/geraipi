@@ -12,4 +12,3 @@ class ProvinsiResource(resources.ModelResource):
 
 class ProvinsiAdmin(ImportExportModelAdmin):
     resource_classes = [ProvinsiResource]
-

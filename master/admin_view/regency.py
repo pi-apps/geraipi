@@ -20,4 +20,3 @@ class RegencyResource(resources.ModelResource):
 
 class RegencyAdmin(ImportExportModelAdmin):
     resource_classes = [RegencyResource]
-

@@ -13,9 +13,12 @@ from django.utils import timezone
 from transaction.utils import TYPE, TYPE_CART_ITEM, STATUS, STATUS_TOKO
 from master.utils import SOURCE_REQUEST
 
+
 # Creating Backup User
 class TransactionUser(models.Model):
-    user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL, related_name="transaction_origin_user_cart")
+    user = models.ForeignKey(
+        UserProfile, null=True, on_delete=models.SET_NULL, related_name="transaction_origin_user_cart"
+    )
     first_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
     image_profile = models.ImageField(upload_to="transaction_profile_img/", blank=True, null=True)
@@ -32,8 +35,12 @@ class TransactionUser(models.Model):
 
 # Creating Backup Store
 class TransactionUserStore(models.Model):
-    store = models.ForeignKey(UserStore, on_delete=models.SET_NULL, null=True, related_name="transaction_transactionuserstore_store")
-    users = models.ForeignKey(TransactionUser, on_delete=models.SET_NULL, null=True, related_name="transaction_user_store")
+    store = models.ForeignKey(
+        UserStore, on_delete=models.SET_NULL, null=True, related_name="transaction_transactionuserstore_store"
+    )
+    users = models.ForeignKey(
+        TransactionUser, on_delete=models.SET_NULL, null=True, related_name="transaction_user_store"
+    )
     nama = models.TextField(null=False, blank=False)
     coin = models.FloatField(default=0)
     deskripsi = models.TextField(null=True, blank=True)
@@ -49,7 +56,13 @@ class TransactionUserStore(models.Model):
 
 # Creating Addres for user
 class AddressUserChart(models.Model):
-    user = models.ForeignKey(TransactionUser, on_delete=models.CASCADE, null=True, blank=True, related_name="transaction_addressuserchart_user")
+    user = models.ForeignKey(
+        TransactionUser,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="transaction_addressuserchart_user",
+    )
     typeaddress = models.IntegerField(choices=TYPE_CART_ITEM, default=1)
 
     name = models.CharField(max_length=255)
@@ -66,7 +79,7 @@ class AddressUserChart(models.Model):
 
     def __str__(self):
         return self.address
-    
+
 
 # Creating Backup Produk Katgori
 class CartProdukKategori(models.Model):
@@ -76,7 +89,7 @@ class CartProdukKategori(models.Model):
 
     def __str__(self) -> str:
         return self.kode
-    
+
 
 class CartProdukTipe(models.Model):
     nama = models.CharField(blank=True, null=True, max_length=255)
@@ -93,15 +106,21 @@ class CartProdukWarna(models.Model):
 
 
 class CartProduk(models.Model):
-    store = models.ForeignKey(TransactionUserStore, null=True, on_delete=models.SET_NULL, related_name="transaction_cartproduk_store")
-    produk = models.ForeignKey(Produk, null=True, on_delete=models.SET_NULL, related_name="transaction_cartproduk_produk")
+    store = models.ForeignKey(
+        TransactionUserStore, null=True, on_delete=models.SET_NULL, related_name="transaction_cartproduk_store"
+    )
+    produk = models.ForeignKey(
+        Produk, null=True, on_delete=models.SET_NULL, related_name="transaction_cartproduk_produk"
+    )
 
     nama = models.TextField(null=True, blank=True)
     harga = models.FloatField(null=True, blank=True)
     kategori = models.ManyToManyField(CartProdukKategori)
     detail = models.TextField(null=True, blank=True)
 
-    tipe = models.ForeignKey(CartProdukTipe, blank=True, null=True, on_delete=models.SET_NULL, related_name="transaction_cartproduk_tipe")
+    tipe = models.ForeignKey(
+        CartProdukTipe, blank=True, null=True, on_delete=models.SET_NULL, related_name="transaction_cartproduk_tipe"
+    )
     warna = models.ManyToManyField(CartProdukWarna, blank=True, null=True, related_name="transaction_cartproduk_warna")
     stok_produk = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
@@ -169,9 +188,23 @@ class CartItem(models.Model):
     unique_cart = models.CharField(max_length=50, blank=True, null=True)
     cart = models.ForeignKey(Cart, on_delete=models.SET_NULL, null=True, related_name="transaction_cartitem_cart")
     jumlah = models.IntegerField(default=1)
-    produk = models.ForeignKey(CartProduk, null=True, on_delete=models.SET_NULL, related_name="transaction_cartitem_produk")
-    user_chart = models.ForeignKey(TransactionUser, blank=True, null=True, on_delete=models.SET_NULL, related_name="transaction_cartitem_user_chart")
-    store_chart = models.ForeignKey(TransactionUserStore, blank=True, null=True, on_delete=models.SET_NULL, related_name="transaction_cartitem_store_chart")
+    produk = models.ForeignKey(
+        CartProduk, null=True, on_delete=models.SET_NULL, related_name="transaction_cartitem_produk"
+    )
+    user_chart = models.ForeignKey(
+        TransactionUser,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="transaction_cartitem_user_chart",
+    )
+    store_chart = models.ForeignKey(
+        TransactionUserStore,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="transaction_cartitem_store_chart",
+    )
 
     def __str__(self):
         return " cart " + self.unique_cart
