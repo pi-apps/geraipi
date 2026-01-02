@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Pi</title>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+</head>
+<body>
+
+<button onclick="piLogin()">Login dengan Pi</button>
+
+<script>
+Pi.init({ version: "2.0" });
+
+async function piLogin() {
+  try {
+    const scopes = ["username", "payments"];
+
+    const auth = await Pi.authenticate(scopes, () => {});
+
+    const res = await fetch("/api/auth/pi/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accessToken: auth.accessToken })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("Login sukses: " + data.user.pi_username);
+      location.reload();
+    } else {
+      alert("Login gagal");
+    }
+
+  } catch (e) {
+    console.error(e);
+    alert("Pi Auth error");
+  }
+}
+</script>
+
+</body>
+</html>
